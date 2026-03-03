@@ -9,6 +9,7 @@ import streamlit as st
 
 
 DATA_FILE = Path(__file__).resolve().parent / "nflis_state_year_drug_counts_2017_2022.csv"
+LIGHT_TO_DARK_SCALE = ["#fff7bc", "#fec44f", "#fe9929", "#d95f0e", "#8c2d04"]
 
 
 @st.cache_data(show_spinner=False)
@@ -107,7 +108,7 @@ def main() -> None:
         scope="usa",
         hover_name="state_name",
         hover_data={"state_abbr": True, "metric_value": ":,.2f" if aggregation.startswith("Average annual") else ":,.0f"},
-        color_continuous_scale="YlOrRd",
+        color_continuous_scale=LIGHT_TO_DARK_SCALE,
         labels={"metric_value": metric_label},
     )
     fig.update_layout(

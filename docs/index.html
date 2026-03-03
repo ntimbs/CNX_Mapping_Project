@@ -337,6 +337,13 @@
 
     <script>
       const DATA_FILE = "./nflis_state_year_drug_counts_2017_2022.csv";
+      const LIGHT_TO_DARK_SCALE = [
+        [0.0, "#fff7bc"],
+        [0.25, "#fec44f"],
+        [0.5, "#fe9929"],
+        [0.75, "#d95f0e"],
+        [1.0, "#8c2d04"],
+      ];
 
       const allRows = [];
       const allYears = [];
@@ -446,7 +453,8 @@
               locations: locations,
               z: values,
               text: texts,
-              colorscale: "YlOrRd",
+              colorscale: LIGHT_TO_DARK_SCALE,
+              reversescale: false,
               marker: {
                 line: { color: "#ffffff", width: 0.7 },
               },
