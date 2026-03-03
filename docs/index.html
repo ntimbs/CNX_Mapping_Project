@@ -404,7 +404,7 @@
     </div>
 
     <script>
-      const NFLIS_DATA_FILE = "./nflis_state_year_drug_counts_2017_2022.csv";
+      const NFLIS_DATA_FILE = "./NFLIS_Drug_DQS_2026_03_03_13_26_55.csv";
       const CBP_DATA_FILE = "./cbp_fentanyl_aor_monthly_2019_2026_dec.csv";
 
       const LIGHT_TO_DARK_SCALE = [
@@ -555,26 +555,45 @@
       }
 
       function normalizeNflisRows(rawRows) {
-        const rows = [];
+        const grouped = new Map();
         const stateMap = new Map();
         const yearSet = new Set();
         const drugSet = new Set();
 
         for (const row of rawRows) {
-          const state_abbr = String(row.state_abbr || "").trim();
-          const state_name = String(row.state_name || "").trim();
-          const drug_name = String(row.drug_name || "").trim();
-          const year = Number(row.year);
+          // Support both the normalized NFLIS schema and DQS export schema.
+          const hasNormalized =
+            row.state_abbr !== undefined &&
+            row.state_name !== undefined &&
+            row.drug_name !== undefined &&
+            row.year !== undefined;
+
+          const state_abbr = hasNormalized
+            ? String(row.state_abbr || "").trim()
+            : String(row.STATE || "").trim();
+          const state_name = hasNormalized
+            ? String(row.state_name || "").trim()
+            : String(row.STATE_LONG_NAME || "").trim();
+          const drug_name = hasNormalized
+            ? String(row.drug_name || "").trim()
+            : String(row.BASE_DESCRIPTION || row.SUBSTANCE_DESCRIPTION || "").trim();
+          const year = hasNormalized ? Number(row.year) : Number(row.YYYY);
+          const reports_count = hasNormalized ? toNumber(row.reports_count) : toNumber(row.DRUG_REPORTS);
+
           if (!state_abbr || !state_name || !drug_name || !Number.isFinite(year)) continue;
 
-          const normalized = {
-            state_abbr,
-            state_name,
-            drug_name,
-            year,
-            reports_count: toNumber(row.reports_count),
-          };
-          rows.push(normalized);
+          const key = `${state_abbr}|${state_name}|${year}|${drug_name}`;
+          if (!grouped.has(key)) {
+            grouped.set(key, {
+              state_abbr,
+              state_name,
+              drug_name,
+              year,
+              reports_count: 0,
+            });
+          }
+          grouped.get(key).reports_count += reports_count;
+
           yearSet.add(year);
           drugSet.add(drug_name);
           if (!stateMap.has(state_abbr)) {
@@ -582,6 +601,7 @@
           }
         }
 
+        const rows = [...grouped.values()];
         store.nflisRows = rows;
         store.nflisMeta.years = [...yearSet].sort((a, b) => a - b);
         store.nflisMeta.drugs = [...drugSet].sort((a, b) => a.localeCompare(b));
@@ -863,7 +883,7 @@
 
         currentDownloadRows = rows.map((r) => ({ ...r, metric_mode: mode }));
         currentDownloadFilename = "nflis_filtered_state_totals.csv";
-        footerNote.innerHTML = "Data files: <code>docs/nflis_state_year_drug_counts_2017_2022.csv</code>";
+        footerNote.innerHTML = "Data files: <code>docs/NFLIS_Drug_DQS_2026_03_03_13_26_55.csv</code>";
       }
 
       function renderCbp() {

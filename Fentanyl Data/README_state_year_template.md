@@ -42,7 +42,7 @@ Dashboard features:
 This repo now includes a static dashboard in `docs/` so it can run directly from GitHub Pages:
 
 - `docs/index.html`
-- `docs/nflis_state_year_drug_counts_2017_2022.csv`
+- `docs/NFLIS_Drug_DQS_2026_03_03_13_26_55.csv`
 - `docs/cbp_fentanyl_aor_monthly_2019_2026_dec.csv`
 - `.github/workflows/deploy-pages.yml`
 

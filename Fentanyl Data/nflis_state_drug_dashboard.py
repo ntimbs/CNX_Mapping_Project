@@ -8,7 +8,10 @@ import plotly.express as px
 import streamlit as st
 
 
-NFLIS_DATA_FILE = Path(__file__).resolve().parent / "nflis_state_year_drug_counts_2017_2022.csv"
+NFLIS_DATA_FILE = (
+    Path(__file__).resolve().parent.parent
+    / "NFLIS_Drug_DQS_2026_03_03_13_26_55.csv"
+)
 CBP_DATA_FILE = (
     Path(__file__).resolve().parent.parent
     / "Drug Border Seizures"
@@ -64,19 +67,55 @@ AOR_COORDS = {
 @st.cache_data(show_spinner=False)
 def load_nflis_data(path: Path) -> pd.DataFrame:
     df = pd.read_csv(path)
-    required = {"state_name", "state_abbr", "year", "drug_name", "reports_count"}
-    missing = required - set(df.columns)
-    if missing:
-        raise ValueError(f"Missing required columns: {sorted(missing)}")
+    # Supported NFLIS schemas:
+    # 1) normalized local schema: state_abbr, state_name, year, drug_name, reports_count
+    # 2) DQS export schema: STATE, STATE_LONG_NAME, YYYY, BASE_DESCRIPTION, DRUG_REPORTS
+    normalized_required = {"state_name", "state_abbr", "year", "drug_name", "reports_count"}
+    dqs_required = {"STATE", "STATE_LONG_NAME", "YYYY", "DRUG_REPORTS"}
 
-    df["year"] = pd.to_numeric(df["year"], errors="coerce").astype("Int64")
-    df["reports_count"] = pd.to_numeric(df["reports_count"], errors="coerce").fillna(0)
-    df["state_abbr"] = df["state_abbr"].astype(str).str.strip()
-    df["state_name"] = df["state_name"].astype(str).str.strip()
-    df["drug_name"] = df["drug_name"].astype(str).str.strip()
-    df = df.dropna(subset=["year"])
-    df["year"] = df["year"].astype(int)
-    return df
+    if normalized_required.issubset(df.columns):
+        out = df.copy()
+        out["year"] = pd.to_numeric(out["year"], errors="coerce").astype("Int64")
+        out["reports_count"] = pd.to_numeric(out["reports_count"], errors="coerce").fillna(0)
+        out["state_abbr"] = out["state_abbr"].astype(str).str.strip()
+        out["state_name"] = out["state_name"].astype(str).str.strip()
+        out["drug_name"] = out["drug_name"].astype(str).str.strip()
+        out = out.dropna(subset=["year"])
+        out["year"] = out["year"].astype(int)
+        return out
+
+    if dqs_required.issubset(df.columns):
+        out = pd.DataFrame()
+        out["state_abbr"] = df["STATE"].astype(str).str.strip()
+        out["state_name"] = df["STATE_LONG_NAME"].astype(str).str.strip()
+        out["year"] = pd.to_numeric(df["YYYY"], errors="coerce").astype("Int64")
+        if "BASE_DESCRIPTION" in df.columns:
+            out["drug_name"] = df["BASE_DESCRIPTION"].astype(str).str.strip()
+        elif "SUBSTANCE_DESCRIPTION" in df.columns:
+            out["drug_name"] = df["SUBSTANCE_DESCRIPTION"].astype(str).str.strip()
+        else:
+            raise ValueError("DQS schema missing BASE_DESCRIPTION/SUBSTANCE_DESCRIPTION")
+        out["reports_count"] = pd.to_numeric(df["DRUG_REPORTS"], errors="coerce").fillna(0)
+
+        out = out.dropna(subset=["year"])
+        out = out[
+            (out["state_abbr"] != "")
+            & (out["state_name"] != "")
+            & (out["drug_name"] != "")
+        ].copy()
+        out["year"] = out["year"].astype(int)
+
+        # DQS exports can include multiple periods per year; aggregate to annual state-drug totals.
+        out = (
+            out.groupby(["state_abbr", "state_name", "year", "drug_name"], as_index=False)["reports_count"]
+            .sum()
+        )
+        return out
+
+    raise ValueError(
+        "Unsupported NFLIS schema. Expected either normalized columns "
+        f"{sorted(normalized_required)} or DQS columns {sorted(dqs_required)}."
+    )
 
 
 @st.cache_data(show_spinner=False)
