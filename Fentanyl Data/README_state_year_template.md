@@ -37,6 +37,18 @@ Dashboard features:
 - Toggle between total and average annual reports
 - Download filtered state-level totals as CSV
 
+## GitHub Pages dashboard
+
+This repo now includes a static dashboard in `docs/` so it can run directly from GitHub Pages:
+
+- `docs/index.html`
+- `docs/nflis_state_year_drug_counts_2017_2022.csv`
+- `.github/workflows/deploy-pages.yml`
+
+After GitHub Pages is enabled for this repository, your URL will be:
+
+`https://ntimbs.github.io/CNX_Mapping_Project/`
+
 ## Key columns in `us_state_year_fentanyl_template_2017_2023.csv`
 
 - `nflis_fentanyl_reports`: count where `drug_name == Fentanyl`

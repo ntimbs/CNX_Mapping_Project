@@ -1,0 +1,667 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NFLIS State Drug Map</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+    <style>
+      :root {
+        --ink: #17202c;
+        --muted: #52637a;
+        --paper: #f8f6f2;
+        --card: #ffffff;
+        --line: #dde5ef;
+        --accent: #cf5d17;
+        --accent-soft: #f8dccb;
+        --shadow: 0 8px 28px rgba(19, 33, 53, 0.1);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Space Grotesk", sans-serif;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at 10% 10%, #fff5df 0%, rgba(255, 245, 223, 0) 45%),
+          radial-gradient(circle at 90% 0%, #dceeff 0%, rgba(220, 238, 255, 0) 35%),
+          linear-gradient(170deg, #f7fafc 0%, #f5f2ee 100%);
+        min-height: 100vh;
+      }
+
+      .shell {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 24px 18px 28px;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(1.6rem, 2.3vw, 2.2rem);
+      }
+
+      .subtitle {
+        margin-top: 8px;
+        color: var(--muted);
+        font-size: 0.98rem;
+      }
+
+      .grid {
+        margin-top: 18px;
+        display: grid;
+        grid-template-columns: 340px 1fr;
+        gap: 16px;
+      }
+
+      .card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        box-shadow: var(--shadow);
+      }
+
+      .controls {
+        padding: 16px;
+      }
+
+      .section {
+        margin-bottom: 16px;
+      }
+
+      .section:last-child {
+        margin-bottom: 0;
+      }
+
+      .label {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: #243247;
+      }
+
+      .hint {
+        margin-top: 8px;
+        color: var(--muted);
+        font-size: 0.8rem;
+      }
+
+      select[multiple] {
+        width: 100%;
+        min-height: 176px;
+        padding: 8px;
+        border-radius: 10px;
+        border: 1px solid #cbd9e8;
+        background: #fbfdff;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.84rem;
+      }
+
+      .years-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .year-chip {
+        border: 1px solid #cfd8e5;
+        border-radius: 999px;
+        padding: 5px 10px;
+        background: #f8fbff;
+        font-size: 0.82rem;
+      }
+
+      .year-chip input {
+        margin-right: 4px;
+      }
+
+      .btn-row {
+        margin-top: 8px;
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      button {
+        border: 1px solid #b9c7d7;
+        border-radius: 10px;
+        padding: 6px 10px;
+        cursor: pointer;
+        background: #fff;
+        font-family: "Space Grotesk", sans-serif;
+      }
+
+      button.primary {
+        border-color: #ce611f;
+        background: var(--accent);
+        color: #fff;
+      }
+
+      .toggle-row {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+
+      .panel {
+        padding: 16px;
+      }
+
+      .kpis {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .kpi {
+        background: linear-gradient(140deg, #f9fcff 0%, #eff5fb 100%);
+        border: 1px solid #dce7f4;
+        border-radius: 12px;
+        padding: 10px;
+      }
+
+      .kpi .name {
+        color: #5a6b84;
+        font-size: 0.79rem;
+      }
+
+      .kpi .value {
+        margin-top: 4px;
+        font-size: 1.1rem;
+        font-weight: 700;
+      }
+
+      #map {
+        width: 100%;
+        height: 560px;
+      }
+
+      .table-wrap {
+        margin-top: 12px;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        overflow: auto;
+        max-height: 320px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.88rem;
+      }
+
+      th,
+      td {
+        text-align: left;
+        border-bottom: 1px solid #e8eef5;
+        padding: 8px 10px;
+      }
+
+      th {
+        position: sticky;
+        top: 0;
+        background: #f8fbff;
+      }
+
+      .footer {
+        margin-top: 10px;
+        color: var(--muted);
+        font-size: 0.81rem;
+      }
+
+      .status {
+        margin-top: 10px;
+        color: #a03407;
+        font-size: 0.9rem;
+      }
+
+      @media (max-width: 980px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+
+        #map {
+          height: 420px;
+        }
+
+        .kpis {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <h1>US NFLIS Drug Reports Map</h1>
+      <div class="subtitle">
+        Interactive GitHub Pages dashboard using <code>nflis_state_year_drug_counts_2017_2022.csv</code>.
+      </div>
+
+      <div class="grid">
+        <aside class="card controls">
+          <div class="section">
+            <span class="label">Years</span>
+            <div class="years-row" id="yearsContainer"></div>
+            <div class="btn-row">
+              <button type="button" id="yearsAll">All Years</button>
+              <button type="button" id="yearsNone">Clear Years</button>
+            </div>
+          </div>
+
+          <div class="section">
+            <label class="label" for="drugSelect">Drugs (multi-select)</label>
+            <select id="drugSelect" multiple></select>
+            <div class="btn-row">
+              <button type="button" id="drugAll">All Drugs</button>
+              <button type="button" id="drugNone">Clear Drugs</button>
+              <button type="button" id="drugFentanyl">Fentanyl Only</button>
+            </div>
+            <div class="hint">Tip: use Cmd/Ctrl+Click to select multiple compounds.</div>
+          </div>
+
+          <div class="section">
+            <span class="label">Metric</span>
+            <div class="toggle-row">
+              <label>
+                <input type="radio" name="metricMode" value="sum" checked />
+                Total reports
+              </label>
+              <label>
+                <input type="radio" name="metricMode" value="avg" />
+                Average annual reports
+              </label>
+            </div>
+          </div>
+
+          <div class="section">
+            <label>
+              <input type="checkbox" id="hideZero" />
+              Hide states with zero values
+            </label>
+          </div>
+
+          <div class="section">
+            <button type="button" class="primary" id="downloadCsv">Download filtered state totals</button>
+          </div>
+
+          <div id="status" class="status"></div>
+        </aside>
+
+        <main class="card panel">
+          <div class="kpis">
+            <div class="kpi">
+              <div class="name">Selected Drugs</div>
+              <div class="value" id="kpiDrugs">0</div>
+            </div>
+            <div class="kpi">
+              <div class="name">Selected Years</div>
+              <div class="value" id="kpiYears">0</div>
+            </div>
+            <div class="kpi">
+              <div class="name" id="kpiValueLabel">Total Reports</div>
+              <div class="value" id="kpiValue">0</div>
+            </div>
+          </div>
+
+          <div id="map"></div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>State</th>
+                  <th>Abbr</th>
+                  <th id="tableMetricHeader">Metric</th>
+                </tr>
+              </thead>
+              <tbody id="tableBody"></tbody>
+            </table>
+          </div>
+
+          <div class="footer">
+            Data file: <code>docs/nflis_state_year_drug_counts_2017_2022.csv</code>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <script>
+      const DATA_FILE = "./nflis_state_year_drug_counts_2017_2022.csv";
+
+      const allRows = [];
+      const allYears = [];
+      const allDrugs = [];
+      const allStates = [];
+
+      const yearsContainer = document.getElementById("yearsContainer");
+      const drugSelect = document.getElementById("drugSelect");
+      const hideZero = document.getElementById("hideZero");
+      const statusEl = document.getElementById("status");
+
+      const kpiDrugs = document.getElementById("kpiDrugs");
+      const kpiYears = document.getElementById("kpiYears");
+      const kpiValue = document.getElementById("kpiValue");
+      const kpiValueLabel = document.getElementById("kpiValueLabel");
+      const tableBody = document.getElementById("tableBody");
+      const tableMetricHeader = document.getElementById("tableMetricHeader");
+
+      function toNumber(value) {
+        const n = Number(String(value || "").replace(/,/g, ""));
+        return Number.isFinite(n) ? n : 0;
+      }
+
+      function selectedYears() {
+        return [...yearsContainer.querySelectorAll("input[type='checkbox']:checked")].map((el) =>
+          Number(el.value)
+        );
+      }
+
+      function selectedDrugs() {
+        return [...drugSelect.options].filter((opt) => opt.selected).map((opt) => opt.value);
+      }
+
+      function setStatus(text) {
+        statusEl.textContent = text || "";
+      }
+
+      function formatMetric(value, mode) {
+        if (mode === "avg") {
+          return value.toLocaleString(undefined, { maximumFractionDigits: 2 });
+        }
+        return Math.round(value).toLocaleString();
+      }
+
+      function currentMetricMode() {
+        return document.querySelector("input[name='metricMode']:checked").value;
+      }
+
+      function aggregateStateValues(years, drugs, mode) {
+        const yearsSet = new Set(years);
+        const drugsSet = new Set(drugs);
+        const totals = new Map();
+
+        for (const state of allStates) {
+          totals.set(state.state_abbr, {
+            state_abbr: state.state_abbr,
+            state_name: state.state_name,
+            metric_value: 0,
+          });
+        }
+
+        for (const row of allRows) {
+          if (!yearsSet.has(row.year) || !drugsSet.has(row.drug_name)) continue;
+          const rec = totals.get(row.state_abbr);
+          if (rec) rec.metric_value += row.reports_count;
+        }
+
+        const out = [...totals.values()];
+        if (mode === "avg") {
+          const divisor = years.length || 1;
+          for (const rec of out) {
+            rec.metric_value = rec.metric_value / divisor;
+          }
+        }
+        return out;
+      }
+
+      function renderTable(rows, mode) {
+        tableBody.innerHTML = "";
+        const sorted = [...rows].sort((a, b) => b.metric_value - a.metric_value);
+        const header = mode === "avg" ? "Average Annual Reports" : "Total Reports";
+        tableMetricHeader.textContent = header;
+
+        for (const row of sorted) {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td>${row.state_name}</td>
+            <td>${row.state_abbr}</td>
+            <td>${formatMetric(row.metric_value, mode)}</td>
+          `;
+          tableBody.appendChild(tr);
+        }
+      }
+
+      function renderMap(rows, mode) {
+        const locations = rows.map((r) => r.state_abbr);
+        const values = rows.map((r) => r.metric_value);
+        const texts = rows.map((r) => r.state_name);
+        const title = mode === "avg" ? "Average annual reports" : "Total reports";
+
+        Plotly.newPlot(
+          "map",
+          [
+            {
+              type: "choropleth",
+              locationmode: "USA-states",
+              locations: locations,
+              z: values,
+              text: texts,
+              colorscale: "YlOrRd",
+              marker: {
+                line: { color: "#ffffff", width: 0.7 },
+              },
+              colorbar: { title: title },
+              hovertemplate: "%{text} (%{location})<br>" + title + ": %{z:,.2f}<extra></extra>",
+            },
+          ],
+          {
+            geo: { scope: "usa", bgcolor: "rgba(0,0,0,0)" },
+            margin: { l: 0, r: 0, t: 12, b: 0 },
+            paper_bgcolor: "rgba(0,0,0,0)",
+            plot_bgcolor: "rgba(0,0,0,0)",
+          },
+          { responsive: true, displayModeBar: false }
+        );
+      }
+
+      function refresh() {
+        const years = selectedYears();
+        const drugs = selectedDrugs();
+        const mode = currentMetricMode();
+        const zeroFiltered = hideZero.checked;
+
+        if (years.length === 0 || drugs.length === 0) {
+          setStatus("Select at least one year and one drug.");
+          renderTable([], mode);
+          renderMap([], mode);
+          kpiDrugs.textContent = String(drugs.length);
+          kpiYears.textContent = String(years.length);
+          kpiValue.textContent = "0";
+          return;
+        }
+
+        setStatus("");
+        let rows = aggregateStateValues(years, drugs, mode);
+        if (zeroFiltered) {
+          rows = rows.filter((r) => r.metric_value > 0);
+        }
+
+        const total = rows.reduce((sum, row) => sum + row.metric_value, 0);
+
+        kpiDrugs.textContent = String(drugs.length);
+        kpiYears.textContent = String(years.length);
+        kpiValueLabel.textContent = mode === "avg" ? "Average Annual Reports" : "Total Reports";
+        kpiValue.textContent = formatMetric(total, mode);
+
+        renderTable(rows, mode);
+        renderMap(rows, mode);
+      }
+
+      function selectAllYears(flag) {
+        yearsContainer.querySelectorAll("input[type='checkbox']").forEach((el) => {
+          el.checked = flag;
+        });
+        refresh();
+      }
+
+      function selectAllDrugs(flag) {
+        [...drugSelect.options].forEach((opt) => {
+          opt.selected = flag;
+        });
+        refresh();
+      }
+
+      function selectFentanylOnly() {
+        const hasFentanyl = [...drugSelect.options].some((opt) => opt.value === "Fentanyl");
+        [...drugSelect.options].forEach((opt) => {
+          opt.selected = hasFentanyl ? opt.value === "Fentanyl" : false;
+        });
+        refresh();
+      }
+
+      function downloadFiltered() {
+        const years = selectedYears();
+        const drugs = selectedDrugs();
+        const mode = currentMetricMode();
+        if (years.length === 0 || drugs.length === 0) return;
+
+        let rows = aggregateStateValues(years, drugs, mode);
+        if (hideZero.checked) rows = rows.filter((r) => r.metric_value > 0);
+        rows.sort((a, b) => b.metric_value - a.metric_value);
+
+        const header = ["state_abbr", "state_name", "metric_value", "metric_mode", "years", "drugs"];
+        const lines = [header.join(",")];
+        for (const row of rows) {
+          lines.push(
+            [
+              row.state_abbr,
+              `"${row.state_name}"`,
+              row.metric_value,
+              mode,
+              `"${years.join(";")}"`,
+              `"${drugs.join(";").replace(/\"/g, '""')}"`,
+            ].join(",")
+          );
+        }
+
+        const blob = new Blob([lines.join("\n")], { type: "text/csv;charset=utf-8;" });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "nflis_filtered_state_totals.csv";
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+      }
+
+      function bindControls() {
+        yearsContainer.addEventListener("change", refresh);
+        drugSelect.addEventListener("change", refresh);
+        hideZero.addEventListener("change", refresh);
+        document.querySelectorAll("input[name='metricMode']").forEach((el) =>
+          el.addEventListener("change", refresh)
+        );
+        document.getElementById("yearsAll").addEventListener("click", () => selectAllYears(true));
+        document.getElementById("yearsNone").addEventListener("click", () => selectAllYears(false));
+        document.getElementById("drugAll").addEventListener("click", () => selectAllDrugs(true));
+        document.getElementById("drugNone").addEventListener("click", () => selectAllDrugs(false));
+        document.getElementById("drugFentanyl").addEventListener("click", selectFentanylOnly);
+        document.getElementById("downloadCsv").addEventListener("click", downloadFiltered);
+      }
+
+      function initControls() {
+        yearsContainer.innerHTML = "";
+        for (const year of allYears) {
+          const label = document.createElement("label");
+          label.className = "year-chip";
+          label.innerHTML = `<input type="checkbox" value="${year}"> ${year}`;
+          yearsContainer.appendChild(label);
+        }
+
+        const maxYear = Math.max(...allYears);
+        yearsContainer.querySelectorAll("input[type='checkbox']").forEach((el) => {
+          el.checked = Number(el.value) === maxYear;
+        });
+
+        drugSelect.innerHTML = "";
+        for (const drug of allDrugs) {
+          const opt = document.createElement("option");
+          opt.value = drug;
+          opt.textContent = drug;
+          drugSelect.appendChild(opt);
+        }
+
+        if (allDrugs.includes("Fentanyl")) {
+          [...drugSelect.options].forEach((opt) => {
+            opt.selected = opt.value === "Fentanyl";
+          });
+        } else if (drugSelect.options.length > 0) {
+          drugSelect.options[0].selected = true;
+        }
+      }
+
+      function normalizeRows(rawRows) {
+        const normalized = [];
+        for (const row of rawRows) {
+          const state_abbr = String(row.state_abbr || "").trim();
+          const state_name = String(row.state_name || "").trim();
+          const drug_name = String(row.drug_name || "").trim();
+          const year = Number(row.year);
+          if (!state_abbr || !state_name || !drug_name || !Number.isFinite(year)) continue;
+
+          normalized.push({
+            state_abbr,
+            state_name,
+            drug_name,
+            year,
+            reports_count: toNumber(row.reports_count),
+          });
+        }
+        return normalized;
+      }
+
+      function boot() {
+        setStatus("Loading data...");
+        Papa.parse(DATA_FILE, {
+          download: true,
+          header: true,
+          skipEmptyLines: true,
+          complete: (results) => {
+            const rows = normalizeRows(results.data || []);
+            if (rows.length === 0) {
+              setStatus("No rows were loaded from CSV.");
+              return;
+            }
+
+            allRows.push(...rows);
+
+            const yearSet = new Set(rows.map((r) => r.year));
+            const drugSet = new Set(rows.map((r) => r.drug_name));
+            const stateMap = new Map();
+            for (const row of rows) {
+              if (!stateMap.has(row.state_abbr)) {
+                stateMap.set(row.state_abbr, {
+                  state_abbr: row.state_abbr,
+                  state_name: row.state_name,
+                });
+              }
+            }
+
+            allYears.push(...[...yearSet].sort((a, b) => a - b));
+            allDrugs.push(...[...drugSet].sort((a, b) => a.localeCompare(b)));
+            allStates.push(...[...stateMap.values()].sort((a, b) => a.state_abbr.localeCompare(b.state_abbr)));
+
+            initControls();
+            bindControls();
+            setStatus("");
+            refresh();
+          },
+          error: (error) => {
+            setStatus("Failed to load CSV: " + error.message);
+          },
+        });
+      }
+
+      boot();
+    </script>
+  </body>
+</html>
