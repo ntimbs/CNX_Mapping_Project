@@ -1,0 +1,533 @@
+fiscal_year_label,fiscal_year,fiscal_year_is_partial,month_abbr,month_num,calendar_year,calendar_month_label,calendar_month_start,component,region,land_filter,branch,branch_type,drug_type,count_of_event,sum_qty_lbs,source_file
+2019,2019,false,OCT,10,2018,2018-10,2018-10-01,Air and Marine Operations,Northern Border,Land,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,6,13.909999999999998,amo-drug-seizures-fy19-fy22.csv
+2019,2019,false,OCT,10,2018,2018-10,2018-10-01,Air and Marine Operations,Northern Border,Other,Manassas Air Branch,Air Branch,Fentanyl,2,3.2,amo-drug-seizures-fy19-fy22.csv
+2019,2019,false,OCT,10,2018,2018-10,2018-10-01,Air and Marine Operations,Coastal/Interior,Other,NASOC - Albuquerque,NASOC,Fentanyl,2,224.91,amo-drug-seizures-fy19-fy22.csv
+2019,2019,false,NOV,11,2018,2018-11,2018-11-01,Air and Marine Operations,Northern Border,Land,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,2,0.26,amo-drug-seizures-fy19-fy22.csv
+2019,2019,false,NOV,11,2018,2018-11,2018-11-01,Air and Marine Operations,Coastal/Interior,Other,Jacksonville Air And Marine Branch,Marine Branch,Fentanyl,1,4.41,amo-drug-seizures-fy19-fy22.csv
+2019,2019,false,NOV,11,2018,2018-11,2018-11-01,Air and Marine Operations,Northern Border,Other,Manassas Air Branch,Air Branch,Fentanyl,1,11.9,amo-drug-seizures-fy19-fy22.csv
+2019,2019,false,NOV,11,2018,2018-11,2018-11-01,Air and Marine Operations,Coastal/Interior,Other,NASOC - Albuquerque,NASOC,Fentanyl,1,0.66,amo-drug-seizures-fy19-fy22.csv
+2019,2019,false,NOV,11,2018,2018-11,2018-11-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,2,3.05,amo-drug-seizures-fy19-fy22.csv
+2019,2019,false,DEC,12,2018,2018-12,2018-12-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,1,0.93,amo-drug-seizures-fy19-fy22.csv
+2019,2019,false,DEC,12,2018,2018-12,2018-12-01,Air and Marine Operations,Northern Border,Land,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,2,0.0699999999999999,amo-drug-seizures-fy19-fy22.csv
+2019,2019,false,DEC,12,2018,2018-12,2018-12-01,Air and Marine Operations,Southwest Border,Land,Mc Allen Air And Marine Branch,Marine Branch,Fentanyl,1,2.98,amo-drug-seizures-fy19-fy22.csv
+2019,2019,false,JAN,1,2019,2019-01,2019-01-01,Air and Marine Operations,Northern Border,Land,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,3,0.01,amo-drug-seizures-fy19-fy22.csv
+2019,2019,false,JAN,1,2019,2019-01,2019-01-01,Air and Marine Operations,Southwest Border,Other,San Diego Air And Marine Branch,Marine Branch,Fentanyl,1,0.99,amo-drug-seizures-fy19-fy22.csv
+2019,2019,false,FEB,2,2019,2019-02,2019-02-01,Air and Marine Operations,Northern Border,Land,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,3,0.0,amo-drug-seizures-fy19-fy22.csv
+2019,2019,false,FEB,2,2019,2019-02,2019-02-01,Air and Marine Operations,Coastal/Interior,Other,NASOC - Albuquerque,NASOC,Fentanyl,1,17.42,amo-drug-seizures-fy19-fy22.csv
+2019,2019,false,FEB,2,2019,2019-02,2019-02-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,1,8.38,amo-drug-seizures-fy19-fy22.csv
+2019,2019,false,MAR,3,2019,2019-03,2019-03-01,Air and Marine Operations,Northern Border,Land,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,1,0.12,amo-drug-seizures-fy19-fy22.csv
+2019,2019,false,MAR,3,2019,2019-03,2019-03-01,Air and Marine Operations,Coastal/Interior,Other,Jacksonville Air And Marine Branch,Marine Branch,Fentanyl,1,0.07,amo-drug-seizures-fy19-fy22.csv
+2019,2019,false,MAR,3,2019,2019-03,2019-03-01,Air and Marine Operations,Coastal/Interior,Other,NASOC - Albuquerque,NASOC,Fentanyl,1,19.84,amo-drug-seizures-fy19-fy22.csv
+2019,2019,false,MAR,3,2019,2019-03,2019-03-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,1,0.03,amo-drug-seizures-fy19-fy22.csv
+2019,2019,false,APR,4,2019,2019-04,2019-04-01,Air and Marine Operations,Northern Border,Land,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,3,1.34,amo-drug-seizures-fy19-fy22.csv
+2019,2019,false,APR,4,2019,2019-04,2019-04-01,Air and Marine Operations,Northern Border,Other,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,1,0.06,amo-drug-seizures-fy19-fy22.csv
+2019,2019,false,APR,4,2019,2019-04,2019-04-01,Air and Marine Operations,Southwest Border,Other,San Diego Air And Marine Branch,Marine Branch,Fentanyl,1,4.12,amo-drug-seizures-fy19-fy22.csv
+2019,2019,false,APR,4,2019,2019-04,2019-04-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,1,0.51,amo-drug-seizures-fy19-fy22.csv
+2019,2019,false,MAY,5,2019,2019-05,2019-05-01,Air and Marine Operations,Coastal/Interior,Other,Jacksonville Air And Marine Branch,Marine Branch,Fentanyl,1,15.21,amo-drug-seizures-fy19-fy22.csv
+2019,2019,false,MAY,5,2019,2019-05,2019-05-01,Air and Marine Operations,Southwest Border,Other,San Diego Air And Marine Branch,Marine Branch,Fentanyl,1,1.66,amo-drug-seizures-fy19-fy22.csv
+2019,2019,false,MAY,5,2019,2019-05,2019-05-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,2,5.220000000000001,amo-drug-seizures-fy19-fy22.csv
+2019,2019,false,JUN,6,2019,2019-06,2019-06-01,Air and Marine Operations,Northern Border,Land,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,3,0.64,amo-drug-seizures-fy19-fy22.csv
+2019,2019,false,JUN,6,2019,2019-06,2019-06-01,Air and Marine Operations,Coastal/Interior,Other,Jacksonville Air And Marine Branch,Marine Branch,Fentanyl,1,0.07,amo-drug-seizures-fy19-fy22.csv
+2019,2019,false,JUN,6,2019,2019-06,2019-06-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,3,14.89,amo-drug-seizures-fy19-fy22.csv
+2019,2019,false,JUL,7,2019,2019-07,2019-07-01,Air and Marine Operations,Northern Border,Land,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,3,0.94,amo-drug-seizures-fy19-fy22.csv
+2019,2019,false,JUL,7,2019,2019-07,2019-07-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,3,1.71,amo-drug-seizures-fy19-fy22.csv
+2019,2019,false,AUG,8,2019,2019-08,2019-08-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,1,0.03,amo-drug-seizures-fy19-fy22.csv
+2019,2019,false,AUG,8,2019,2019-08,2019-08-01,Air and Marine Operations,Northern Border,Land,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,1,0.0,amo-drug-seizures-fy19-fy22.csv
+2019,2019,false,AUG,8,2019,2019-08,2019-08-01,Air and Marine Operations,Northern Border,Other,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,2,25.35,amo-drug-seizures-fy19-fy22.csv
+2019,2019,false,AUG,8,2019,2019-08,2019-08-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,2,3.8,amo-drug-seizures-fy19-fy22.csv
+2019,2019,false,SEP,9,2019,2019-09,2019-09-01,Air and Marine Operations,Southwest Border,Other,San Diego Air And Marine Branch,Marine Branch,Fentanyl,1,0.26,amo-drug-seizures-fy19-fy22.csv
+2019,2019,false,SEP,9,2019,2019-09,2019-09-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,1,0.06,amo-drug-seizures-fy19-fy22.csv
+2020,2020,false,OCT,10,2019,2019-10,2019-10-01,Air and Marine Operations,Northern Border,Land,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,4,91.5,amo-drug-seizures-fy19-fy22.csv
+2020,2020,false,OCT,10,2019,2019-10,2019-10-01,Air and Marine Operations,Coastal/Interior,Other,Jacksonville Air And Marine Branch,Marine Branch,Fentanyl,1,0.01,amo-drug-seizures-fy19-fy22.csv
+2020,2020,false,OCT,10,2019,2019-10,2019-10-01,Air and Marine Operations,Northern Border,Other,Manassas Air Branch,Air Branch,Fentanyl,2,37.28,amo-drug-seizures-fy19-fy22.csv
+2020,2020,false,OCT,10,2019,2019-10,2019-10-01,Air and Marine Operations,Southwest Border,Other,San Diego Air And Marine Branch,Marine Branch,Fentanyl,3,28.58,amo-drug-seizures-fy19-fy22.csv
+2020,2020,false,OCT,10,2019,2019-10,2019-10-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,3,1.62,amo-drug-seizures-fy19-fy22.csv
+2020,2020,false,NOV,11,2019,2019-11,2019-11-01,Air and Marine Operations,Northern Border,Land,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,5,2.28,amo-drug-seizures-fy19-fy22.csv
+2020,2020,false,NOV,11,2019,2019-11,2019-11-01,Air and Marine Operations,Northern Border,Other,Manassas Air Branch,Air Branch,Fentanyl,2,31.92,amo-drug-seizures-fy19-fy22.csv
+2020,2020,false,NOV,11,2019,2019-11,2019-11-01,Air and Marine Operations,Southwest Border,Other,San Diego Air And Marine Branch,Marine Branch,Fentanyl,3,37.53,amo-drug-seizures-fy19-fy22.csv
+2020,2020,false,NOV,11,2019,2019-11,2019-11-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,3,0.24,amo-drug-seizures-fy19-fy22.csv
+2020,2020,false,DEC,12,2019,2019-12,2019-12-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,2,7.300000000000001,amo-drug-seizures-fy19-fy22.csv
+2020,2020,false,JAN,1,2020,2020-01,2020-01-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,1,0.36,amo-drug-seizures-fy19-fy22.csv
+2020,2020,false,JAN,1,2020,2020-01,2020-01-01,Air and Marine Operations,Coastal/Interior,Other,Miami Air And Marine Branch,Marine Branch,Fentanyl,1,0.33,amo-drug-seizures-fy19-fy22.csv
+2020,2020,false,JAN,1,2020,2020-01,2020-01-01,Air and Marine Operations,Southwest Border,Land,San Diego Air And Marine Branch,Marine Branch,Fentanyl,1,2.2,amo-drug-seizures-fy19-fy22.csv
+2020,2020,false,JAN,1,2020,2020-01,2020-01-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,2,14.32,amo-drug-seizures-fy19-fy22.csv
+2020,2020,false,FEB,2,2020,2020-02,2020-02-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,1,0.0,amo-drug-seizures-fy19-fy22.csv
+2020,2020,false,FEB,2,2020,2020-02,2020-02-01,Air and Marine Operations,Southwest Border,Land,Ground Tactical Air Controller,Other,Fentanyl,1,0.77,amo-drug-seizures-fy19-fy22.csv
+2020,2020,false,FEB,2,2020,2020-02,2020-02-01,Air and Marine Operations,Northern Border,Other,Manassas Air Branch,Air Branch,Fentanyl,1,0.05,amo-drug-seizures-fy19-fy22.csv
+2020,2020,false,FEB,2,2020,2020-02,2020-02-01,Air and Marine Operations,Southwest Border,Other,San Diego Air And Marine Branch,Marine Branch,Fentanyl,1,33.07,amo-drug-seizures-fy19-fy22.csv
+2020,2020,false,FEB,2,2020,2020-02,2020-02-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,2,1.97,amo-drug-seizures-fy19-fy22.csv
+2020,2020,false,MAR,3,2020,2020-03,2020-03-01,Air and Marine Operations,Northern Border,Land,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,1,0.55,amo-drug-seizures-fy19-fy22.csv
+2020,2020,false,MAR,3,2020,2020-03,2020-03-01,Air and Marine Operations,Coastal/Interior,Other,Mexico City IAC,Other,Fentanyl,2,13.23,amo-drug-seizures-fy19-fy22.csv
+2020,2020,false,MAR,3,2020,2020-03,2020-03-01,Air and Marine Operations,Coastal/Interior,Other,Miami Air And Marine Branch,Marine Branch,Fentanyl,1,0.08,amo-drug-seizures-fy19-fy22.csv
+2020,2020,false,MAR,3,2020,2020-03,2020-03-01,Air and Marine Operations,Southwest Border,Other,San Diego Air And Marine Branch,Marine Branch,Fentanyl,1,11.46,amo-drug-seizures-fy19-fy22.csv
+2020,2020,false,MAR,3,2020,2020-03,2020-03-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,2,2.66,amo-drug-seizures-fy19-fy22.csv
+2020,2020,false,APR,4,2020,2020-04,2020-04-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,1,6.97,amo-drug-seizures-fy19-fy22.csv
+2020,2020,false,APR,4,2020,2020-04,2020-04-01,Air and Marine Operations,Coastal/Interior,Other,Jacksonville Air And Marine Branch,Marine Branch,Fentanyl,1,0.0,amo-drug-seizures-fy19-fy22.csv
+2020,2020,false,APR,4,2020,2020-04,2020-04-01,Air and Marine Operations,Coastal/Interior,Other,Mexico City IAC,Other,Fentanyl,2,29.51,amo-drug-seizures-fy19-fy22.csv
+2020,2020,false,APR,4,2020,2020-04,2020-04-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,3,0.4,amo-drug-seizures-fy19-fy22.csv
+2020,2020,false,MAY,5,2020,2020-05,2020-05-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,1,0.09,amo-drug-seizures-fy19-fy22.csv
+2020,2020,false,MAY,5,2020,2020-05,2020-05-01,Air and Marine Operations,Northern Border,Land,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,1,0.03,amo-drug-seizures-fy19-fy22.csv
+2020,2020,false,MAY,5,2020,2020-05,2020-05-01,Air and Marine Operations,Southwest Border,Land,Ground Tactical Air Controller,Other,Fentanyl,1,0.49,amo-drug-seizures-fy19-fy22.csv
+2020,2020,false,MAY,5,2020,2020-05,2020-05-01,Air and Marine Operations,Northern Border,Land,Manassas Air Branch,Air Branch,Fentanyl,4,2.55,amo-drug-seizures-fy19-fy22.csv
+2020,2020,false,MAY,5,2020,2020-05,2020-05-01,Air and Marine Operations,Coastal/Interior,Other,Mexico City IAC,Other,Fentanyl,2,44.1,amo-drug-seizures-fy19-fy22.csv
+2020,2020,false,MAY,5,2020,2020-05,2020-05-01,Air and Marine Operations,Southwest Border,Other,San Diego Air And Marine Branch,Marine Branch,Fentanyl,1,0.01,amo-drug-seizures-fy19-fy22.csv
+2020,2020,false,MAY,5,2020,2020-05,2020-05-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,2,1.25,amo-drug-seizures-fy19-fy22.csv
+2020,2020,false,JUN,6,2020,2020-06,2020-06-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,2,0.02,amo-drug-seizures-fy19-fy22.csv
+2020,2020,false,JUN,6,2020,2020-06,2020-06-01,Air and Marine Operations,Northern Border,Other,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,2,28.23,amo-drug-seizures-fy19-fy22.csv
+2020,2020,false,JUN,6,2020,2020-06,2020-06-01,Air and Marine Operations,Coastal/Interior,Other,NASOC - Albuquerque,NASOC,Fentanyl,5,8.200000000000001,amo-drug-seizures-fy19-fy22.csv
+2020,2020,false,JUN,6,2020,2020-06,2020-06-01,Air and Marine Operations,Southwest Border,Other,San Diego Air And Marine Branch,Marine Branch,Fentanyl,1,0.0,amo-drug-seizures-fy19-fy22.csv
+2020,2020,false,JUN,6,2020,2020-06,2020-06-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,4,2.6100000000000003,amo-drug-seizures-fy19-fy22.csv
+2020,2020,false,JUN,6,2020,2020-06,2020-06-01,Air and Marine Operations,Southwest Border,Land,Yuma Air Branch,Air Branch,Fentanyl,1,0.39,amo-drug-seizures-fy19-fy22.csv
+2020,2020,false,JUL,7,2020,2020-07,2020-07-01,Air and Marine Operations,Coastal/Interior,Other,AMOC Air And Marine Operations Center,Center,Fentanyl,1,0.06,amo-drug-seizures-fy19-fy22.csv
+2020,2020,false,JUL,7,2020,2020-07,2020-07-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,1,6.57,amo-drug-seizures-fy19-fy22.csv
+2020,2020,false,JUL,7,2020,2020-07,2020-07-01,Air and Marine Operations,Southwest Border,Land,Ground Tactical Air Controller,Other,Fentanyl,1,0.09,amo-drug-seizures-fy19-fy22.csv
+2020,2020,false,JUL,7,2020,2020-07,2020-07-01,Air and Marine Operations,Southwest Border,Land,San Diego Air And Marine Branch,Marine Branch,Fentanyl,1,12.59,amo-drug-seizures-fy19-fy22.csv
+2020,2020,false,JUL,7,2020,2020-07,2020-07-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,1,5.18,amo-drug-seizures-fy19-fy22.csv
+2020,2020,false,JUL,7,2020,2020-07,2020-07-01,Air and Marine Operations,Southwest Border,Land,Yuma Air Branch,Air Branch,Fentanyl,1,1.21,amo-drug-seizures-fy19-fy22.csv
+2020,2020,false,AUG,8,2020,2020-08,2020-08-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,1,9.87,amo-drug-seizures-fy19-fy22.csv
+2020,2020,false,AUG,8,2020,2020-08,2020-08-01,Air and Marine Operations,Northern Border,Land,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,2,0.25,amo-drug-seizures-fy19-fy22.csv
+2020,2020,false,AUG,8,2020,2020-08,2020-08-01,Air and Marine Operations,Northern Border,Other,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,3,22.98,amo-drug-seizures-fy19-fy22.csv
+2020,2020,false,AUG,8,2020,2020-08,2020-08-01,Air and Marine Operations,Coastal/Interior,Other,Jacksonville Air And Marine Branch,Marine Branch,Fentanyl,1,0.03,amo-drug-seizures-fy19-fy22.csv
+2020,2020,false,AUG,8,2020,2020-08,2020-08-01,Air and Marine Operations,Southwest Border,Other,San Diego Air And Marine Branch,Marine Branch,Fentanyl,2,27.83,amo-drug-seizures-fy19-fy22.csv
+2020,2020,false,AUG,8,2020,2020-08,2020-08-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,5,7.729999999999999,amo-drug-seizures-fy19-fy22.csv
+2020,2020,false,SEP,9,2020,2020-09,2020-09-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,1,0.14,amo-drug-seizures-fy19-fy22.csv
+2020,2020,false,SEP,9,2020,2020-09,2020-09-01,Air and Marine Operations,Northern Border,Land,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,2,6.68,amo-drug-seizures-fy19-fy22.csv
+2020,2020,false,SEP,9,2020,2020-09,2020-09-01,Air and Marine Operations,Northern Border,Other,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,6,12.61,amo-drug-seizures-fy19-fy22.csv
+2020,2020,false,SEP,9,2020,2020-09,2020-09-01,Air and Marine Operations,Coastal/Interior,Other,Jacksonville Air And Marine Branch,Marine Branch,Fentanyl,2,0.0699999999999999,amo-drug-seizures-fy19-fy22.csv
+2020,2020,false,SEP,9,2020,2020-09,2020-09-01,Air and Marine Operations,Coastal/Interior,Other,Miami Air And Marine Branch,Marine Branch,Fentanyl,2,0.01,amo-drug-seizures-fy19-fy22.csv
+2020,2020,false,SEP,9,2020,2020-09,2020-09-01,Air and Marine Operations,Coastal/Interior,Other,National Air Training Center Oklahoma City,Center,Fentanyl,1,0.01,amo-drug-seizures-fy19-fy22.csv
+2020,2020,false,SEP,9,2020,2020-09,2020-09-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,1,0.25,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,OCT,10,2020,2020-10,2020-10-01,Air and Marine Operations,Coastal/Interior,Other,AMOC Air And Marine Operations Center,Center,Fentanyl,1,9.04,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,OCT,10,2020,2020-10,2020-10-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,3,4.41,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,OCT,10,2020,2020-10,2020-10-01,Air and Marine Operations,Northern Border,Other,Manassas Air Branch,Air Branch,Fentanyl,1,17.64,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,OCT,10,2020,2020-10,2020-10-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,3,6.1,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,OCT,10,2020,2020-10,2020-10-01,Air and Marine Operations,Southwest Border,Land,Yuma Air Branch,Air Branch,Fentanyl,1,14.3,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,NOV,11,2020,2020-11,2020-11-01,Air and Marine Operations,Northern Border,Land,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,4,13.39,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,NOV,11,2020,2020-11,2020-11-01,Air and Marine Operations,Southwest Border,Land,Ground Tactical Air Controller,Other,Fentanyl,2,9.34,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,NOV,11,2020,2020-11,2020-11-01,Air and Marine Operations,Coastal/Interior,Other,Miami Air And Marine Branch,Marine Branch,Fentanyl,1,0.22,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,NOV,11,2020,2020-11,2020-11-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,2,8.41,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,DEC,12,2020,2020-12,2020-12-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,1,0.01,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,DEC,12,2020,2020-12,2020-12-01,Air and Marine Operations,Northern Border,Other,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,1,1.72,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,DEC,12,2020,2020-12,2020-12-01,Air and Marine Operations,Southwest Border,Land,Laredo Air Branch,Air Branch,Fentanyl,1,56.22,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,DEC,12,2020,2020-12,2020-12-01,Air and Marine Operations,Northern Border,Other,Manassas Air Branch,Air Branch,Fentanyl,3,17.31,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,DEC,12,2020,2020-12,2020-12-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,1,0.08,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,JAN,1,2021,2021-01,2021-01-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,2,0.3399999999999999,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,JAN,1,2021,2021-01,2021-01-01,Air and Marine Operations,Northern Border,Land,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,1,0.05,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,JAN,1,2021,2021-01,2021-01-01,Air and Marine Operations,Southwest Border,Land,Ground Tactical Air Controller,Other,Fentanyl,1,0.0,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,JAN,1,2021,2021-01,2021-01-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,2,0.09,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,FEB,2,2021,2021-02,2021-02-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,1,1.07,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,FEB,2,2021,2021-02,2021-02-01,Air and Marine Operations,Northern Border,Land,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,1,0.06,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,FEB,2,2021,2021-02,2021-02-01,Air and Marine Operations,Northern Border,Other,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,2,0.31,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,FEB,2,2021,2021-02,2021-02-01,Air and Marine Operations,Northern Border,Other,Manassas Air Branch,Air Branch,Fentanyl,1,0.36,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,FEB,2,2021,2021-02,2021-02-01,Air and Marine Operations,Coastal/Interior,Other,Mexico City IAC,Other,Fentanyl,1,14.64,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,FEB,2,2021,2021-02,2021-02-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,4,32.22,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,MAR,3,2021,2021-03,2021-03-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,3,90.41,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,MAR,3,2021,2021-03,2021-03-01,Air and Marine Operations,Northern Border,Other,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,11,98.7,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,MAR,3,2021,2021-03,2021-03-01,Air and Marine Operations,Coastal/Interior,Other,Jacksonville Air And Marine Branch,Marine Branch,Fentanyl,1,0.01,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,MAR,3,2021,2021-03,2021-03-01,Air and Marine Operations,Coastal/Interior,Other,New Orleans Air And Marine Branch,Marine Branch,Fentanyl,2,4.630000000000001,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,MAR,3,2021,2021-03,2021-03-01,Air and Marine Operations,Southwest Border,Other,San Diego Air And Marine Branch,Marine Branch,Fentanyl,1,2.2,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,MAR,3,2021,2021-03,2021-03-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,6,19.63,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,APR,4,2021,2021-04,2021-04-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,1,0.24,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,APR,4,2021,2021-04,2021-04-01,Air and Marine Operations,Northern Border,Land,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,2,2.18,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,APR,4,2021,2021-04,2021-04-01,Air and Marine Operations,Coastal/Interior,Other,Jacksonville Air And Marine Branch,Marine Branch,Fentanyl,2,0.04,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,APR,4,2021,2021-04,2021-04-01,Air and Marine Operations,Coastal/Interior,Other,NASOC - Albuquerque,NASOC,Fentanyl,2,0.02,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,APR,4,2021,2021-04,2021-04-01,Air and Marine Operations,Southwest Border,Other,San Diego Air And Marine Branch,Marine Branch,Fentanyl,2,3.51,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,APR,4,2021,2021-04,2021-04-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,2,1.19,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,MAY,5,2021,2021-05,2021-05-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,5,1.7200000000000002,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,MAY,5,2021,2021-05,2021-05-01,Air and Marine Operations,Southwest Border,Land,Ground Tactical Air Controller,Other,Fentanyl,1,0.0,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,MAY,5,2021,2021-05,2021-05-01,Air and Marine Operations,Northern Border,Other,Manassas Air Branch,Air Branch,Fentanyl,1,2.2,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,MAY,5,2021,2021-05,2021-05-01,Air and Marine Operations,Coastal/Interior,Other,Mexico City IAC,Other,Fentanyl,1,130.1,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,MAY,5,2021,2021-05,2021-05-01,Air and Marine Operations,Coastal/Interior,Other,NASOC - Albuquerque,NASOC,Fentanyl,4,0.11,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,MAY,5,2021,2021-05,2021-05-01,Air and Marine Operations,Northern Border,Land,NASOC - Grand Forks,NASOC,Fentanyl,1,0.14,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,MAY,5,2021,2021-05,2021-05-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,1,1.25,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,JUN,6,2021,2021-06,2021-06-01,Air and Marine Operations,Coastal/Interior,Other,AMOC Air And Marine Operations Center,Center,Fentanyl,1,0.6,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,JUN,6,2021,2021-06,2021-06-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,3,0.5900000000000001,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,JUN,6,2021,2021-06,2021-06-01,Air and Marine Operations,Coastal/Interior,Other,Jacksonville Air And Marine Branch,Marine Branch,Fentanyl,2,1.77,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,JUN,6,2021,2021-06,2021-06-01,Air and Marine Operations,Northern Border,Land,NASOC - Grand Forks,NASOC,Fentanyl,1,0.71,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,JUN,6,2021,2021-06,2021-06-01,Air and Marine Operations,Coastal/Interior,Other,New Orleans Air And Marine Branch,Marine Branch,Fentanyl,1,0.15,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,JUN,6,2021,2021-06,2021-06-01,Air and Marine Operations,Southwest Border,Land,San Diego Air And Marine Branch,Marine Branch,Fentanyl,1,0.25,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,JUN,6,2021,2021-06,2021-06-01,Air and Marine Operations,Southwest Border,Other,San Diego Air And Marine Branch,Marine Branch,Fentanyl,2,3.8,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,JUL,7,2021,2021-07,2021-07-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,2,0.33,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,JUL,7,2021,2021-07,2021-07-01,Air and Marine Operations,Northern Border,Land,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,2,4.81,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,JUL,7,2021,2021-07,2021-07-01,Air and Marine Operations,Northern Border,Other,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,4,4.41,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,JUL,7,2021,2021-07,2021-07-01,Air and Marine Operations,Northern Border,Other,Manassas Air Branch,Air Branch,Fentanyl,7,31.13,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,JUL,7,2021,2021-07,2021-07-01,Air and Marine Operations,Southwest Border,Other,San Diego Air And Marine Branch,Marine Branch,Fentanyl,2,6.88,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,JUL,7,2021,2021-07,2021-07-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,3,20.48,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,JUL,7,2021,2021-07,2021-07-01,Air and Marine Operations,Southwest Border,Land,Yuma Air Branch,Air Branch,Fentanyl,1,2.21,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,AUG,8,2021,2021-08,2021-08-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,3,0.83,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,AUG,8,2021,2021-08,2021-08-01,Air and Marine Operations,Northern Border,Land,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,2,0.76,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,AUG,8,2021,2021-08,2021-08-01,Air and Marine Operations,Southwest Border,Land,Laredo Air Branch,Air Branch,Fentanyl,1,2.59,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,AUG,8,2021,2021-08,2021-08-01,Air and Marine Operations,Northern Border,Other,Manassas Air Branch,Air Branch,Fentanyl,3,19.73,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,AUG,8,2021,2021-08,2021-08-01,Air and Marine Operations,Southwest Border,Land,NASOC - San Angelo,NASOC,Fentanyl,1,0.0,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,AUG,8,2021,2021-08,2021-08-01,Air and Marine Operations,Southwest Border,Other,San Diego Air And Marine Branch,Marine Branch,Fentanyl,1,12.15,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,AUG,8,2021,2021-08,2021-08-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,10,64.02,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,AUG,8,2021,2021-08,2021-08-01,Air and Marine Operations,Southwest Border,Land,Yuma Air Branch,Air Branch,Fentanyl,1,0.0,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,SEP,9,2021,2021-09,2021-09-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,6,8.94,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,SEP,9,2021,2021-09,2021-09-01,Air and Marine Operations,Northern Border,Land,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,3,2.87,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,SEP,9,2021,2021-09,2021-09-01,Air and Marine Operations,Northern Border,Other,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,2,4.56,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,SEP,9,2021,2021-09,2021-09-01,Air and Marine Operations,Northern Border,Other,Manassas Air Branch,Air Branch,Fentanyl,1,5.69,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,SEP,9,2021,2021-09,2021-09-01,Air and Marine Operations,Southwest Border,Other,San Diego Air And Marine Branch,Marine Branch,Fentanyl,5,12.94,amo-drug-seizures-fy19-fy22.csv
+2021,2021,false,SEP,9,2021,2021-09,2021-09-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,1,7.01,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,OCT,10,2021,2021-10,2021-10-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,2,6.08,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,OCT,10,2021,2021-10,2021-10-01,Air and Marine Operations,Northern Border,Land,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,1,0.0,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,OCT,10,2021,2021-10,2021-10-01,Air and Marine Operations,Coastal/Interior,Other,Jacksonville Air And Marine Branch,Marine Branch,Fentanyl,1,0.03,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,OCT,10,2021,2021-10,2021-10-01,Air and Marine Operations,Northern Border,Other,Manassas Air Branch,Air Branch,Fentanyl,3,30.6,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,OCT,10,2021,2021-10,2021-10-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,5,5.07,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,NOV,11,2021,2021-11,2021-11-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,7,11.57,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,NOV,11,2021,2021-11,2021-11-01,Air and Marine Operations,Northern Border,Land,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,2,0.07,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,NOV,11,2021,2021-11,2021-11-01,Air and Marine Operations,Southwest Border,Land,Ground Tactical Air Controller,Other,Fentanyl,5,29.39,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,NOV,11,2021,2021-11,2021-11-01,Air and Marine Operations,Coastal/Interior,Other,Jacksonville Air And Marine Branch,Marine Branch,Fentanyl,1,0.0,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,NOV,11,2021,2021-11,2021-11-01,Air and Marine Operations,Northern Border,Other,Manassas Air Branch,Air Branch,Fentanyl,1,5.16,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,NOV,11,2021,2021-11,2021-11-01,Air and Marine Operations,Coastal/Interior,Other,Mexico City IAC,Other,Fentanyl,1,89.3,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,NOV,11,2021,2021-11,2021-11-01,Air and Marine Operations,Southwest Border,Other,San Diego Air And Marine Branch,Marine Branch,Fentanyl,5,10.45,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,NOV,11,2021,2021-11,2021-11-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,4,7.5,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,NOV,11,2021,2021-11,2021-11-01,Air and Marine Operations,Southwest Border,Land,Yuma Air Branch,Air Branch,Fentanyl,1,0.36,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,DEC,12,2021,2021-12,2021-12-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,2,0.04,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,DEC,12,2021,2021-12,2021-12-01,Air and Marine Operations,Coastal/Interior,Other,Jacksonville Air And Marine Branch,Marine Branch,Fentanyl,3,0.22,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,DEC,12,2021,2021-12,2021-12-01,Air and Marine Operations,Northern Border,Other,Manassas Air Branch,Air Branch,Fentanyl,6,0.2799999999999999,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,DEC,12,2021,2021-12,2021-12-01,Air and Marine Operations,Southwest Border,Land,NASOC - San Angelo,NASOC,Fentanyl,1,12.13,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,DEC,12,2021,2021-12,2021-12-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,6,2.56,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,JAN,1,2022,2022-01,2022-01-01,Air and Marine Operations,Coastal/Interior,Other,AMOC Air And Marine Operations Center,Center,Fentanyl,1,63.95,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,JAN,1,2022,2022-01,2022-01-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,2,2.12,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,JAN,1,2022,2022-01,2022-01-01,Air and Marine Operations,Northern Border,Other,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,4,14.37,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,JAN,1,2022,2022-01,2022-01-01,Air and Marine Operations,Coastal/Interior,Other,Houston Air And Marine Branch,Marine Branch,Fentanyl,3,0.09,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,JAN,1,2022,2022-01,2022-01-01,Air and Marine Operations,Coastal/Interior,Other,Jacksonville Air And Marine Branch,Marine Branch,Fentanyl,1,0.16,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,JAN,1,2022,2022-01,2022-01-01,Air and Marine Operations,Northern Border,Land,Manassas Air Branch,Air Branch,Fentanyl,2,0.0,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,JAN,1,2022,2022-01,2022-01-01,Air and Marine Operations,Northern Border,Other,Manassas Air Branch,Air Branch,Fentanyl,6,167.77999999999997,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,JAN,1,2022,2022-01,2022-01-01,Air and Marine Operations,Southwest Border,Other,San Diego Air And Marine Branch,Marine Branch,Fentanyl,2,8.72,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,JAN,1,2022,2022-01,2022-01-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,9,21.49,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,FEB,2,2022,2022-02,2022-02-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,15,34.37000000000001,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,FEB,2,2022,2022-02,2022-02-01,Air and Marine Operations,Coastal/Interior,Other,Jacksonville Air And Marine Branch,Marine Branch,Fentanyl,3,0.06,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,FEB,2,2022,2022-02,2022-02-01,Air and Marine Operations,Northern Border,Land,Manassas Air Branch,Air Branch,Fentanyl,3,0.0,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,FEB,2,2022,2022-02,2022-02-01,Air and Marine Operations,Coastal/Interior,Other,NASOC - Albuquerque,NASOC,Fentanyl,1,0.12,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,FEB,2,2022,2022-02,2022-02-01,Air and Marine Operations,Southwest Border,Other,San Diego Air And Marine Branch,Marine Branch,Fentanyl,2,0.36,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,FEB,2,2022,2022-02,2022-02-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,3,37.58,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,MAR,3,2022,2022-03,2022-03-01,Air and Marine Operations,Coastal/Interior,Other,AMOC Air And Marine Operations Center,Center,Fentanyl,1,125.69,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,MAR,3,2022,2022-03,2022-03-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,11,84.36,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,MAR,3,2022,2022-03,2022-03-01,Air and Marine Operations,Northern Border,Land,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,3,0.28,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,MAR,3,2022,2022-03,2022-03-01,Air and Marine Operations,Northern Border,Other,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,2,9.41,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,MAR,3,2022,2022-03,2022-03-01,Air and Marine Operations,Coastal/Interior,Other,Jacksonville Air And Marine Branch,Marine Branch,Fentanyl,4,1.4500000000000002,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,MAR,3,2022,2022-03,2022-03-01,Air and Marine Operations,Northern Border,Land,Manassas Air Branch,Air Branch,Fentanyl,3,0.01,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,MAR,3,2022,2022-03,2022-03-01,Air and Marine Operations,Northern Border,Other,Manassas Air Branch,Air Branch,Fentanyl,2,8.82,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,MAR,3,2022,2022-03,2022-03-01,Air and Marine Operations,Coastal/Interior,Other,New Orleans Air And Marine Branch,Marine Branch,Fentanyl,2,0.25,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,MAR,3,2022,2022-03,2022-03-01,Air and Marine Operations,Southwest Border,Other,San Diego Air And Marine Branch,Marine Branch,Fentanyl,2,0.3299999999999999,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,MAR,3,2022,2022-03,2022-03-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,1,0.53,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,MAR,3,2022,2022-03,2022-03-01,Air and Marine Operations,Southwest Border,Land,Yuma Air Branch,Air Branch,Fentanyl,2,0.54,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,APR,4,2022,2022-04,2022-04-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,2,29.19,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,APR,4,2022,2022-04,2022-04-01,Air and Marine Operations,Northern Border,Land,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,3,5.66,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,APR,4,2022,2022-04,2022-04-01,Air and Marine Operations,Northern Border,Other,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,1,2.36,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,APR,4,2022,2022-04,2022-04-01,Air and Marine Operations,Southwest Border,Land,Ground Tactical Air Controller,Other,Fentanyl,2,0.01,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,APR,4,2022,2022-04,2022-04-01,Air and Marine Operations,Coastal/Interior,Other,Houston Air And Marine Branch,Marine Branch,Fentanyl,1,0.05,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,APR,4,2022,2022-04,2022-04-01,Air and Marine Operations,Coastal/Interior,Other,Mexico City IAC,Other,Fentanyl,1,109.57,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,APR,4,2022,2022-04,2022-04-01,Air and Marine Operations,Coastal/Interior,Other,NASOC - Albuquerque,NASOC,Fentanyl,1,0.11,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,APR,4,2022,2022-04,2022-04-01,Air and Marine Operations,Coastal/Interior,Other,New Orleans Air And Marine Branch,Marine Branch,Fentanyl,1,0.02,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,APR,4,2022,2022-04,2022-04-01,Air and Marine Operations,Southwest Border,Other,San Diego Air And Marine Branch,Marine Branch,Fentanyl,1,17.03,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,APR,4,2022,2022-04,2022-04-01,Air and Marine Operations,Southwest Border,Land,Yuma Air Branch,Air Branch,Fentanyl,2,1.28,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,MAY,5,2022,2022-05,2022-05-01,Air and Marine Operations,Northern Border,Land,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,1,0.01,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,MAY,5,2022,2022-05,2022-05-01,Air and Marine Operations,Coastal/Interior,Other,Jacksonville Air And Marine Branch,Marine Branch,Fentanyl,1,4.41,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,MAY,5,2022,2022-05,2022-05-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,2,26.57,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,MAY,5,2022,2022-05,2022-05-01,Air and Marine Operations,Southwest Border,Land,Yuma Air Branch,Air Branch,Fentanyl,1,0.75,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,JUN,6,2022,2022-06,2022-06-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,4,3.24,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,JUN,6,2022,2022-06,2022-06-01,Air and Marine Operations,Northern Border,Land,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,2,0.18,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,JUN,6,2022,2022-06,2022-06-01,Air and Marine Operations,Coastal/Interior,Other,Jacksonville Air And Marine Branch,Marine Branch,Fentanyl,2,0.6499999999999999,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,JUN,6,2022,2022-06,2022-06-01,Air and Marine Operations,Southwest Border,Land,Laredo Air Branch,Air Branch,Fentanyl,1,0.04,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,JUN,6,2022,2022-06,2022-06-01,Air and Marine Operations,Coastal/Interior,Other,New Orleans Air And Marine Branch,Marine Branch,Fentanyl,1,0.07,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,JUN,6,2022,2022-06,2022-06-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,6,38.46000000000001,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,JUN,6,2022,2022-06,2022-06-01,Air and Marine Operations,Southwest Border,Land,Yuma Air Branch,Air Branch,Fentanyl,3,3.0200000000000005,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,JUL,7,2022,2022-07,2022-07-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,107,82.02000000000001,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,JUL,7,2022,2022-07,2022-07-01,Air and Marine Operations,Coastal/Interior,Other,Jacksonville Air And Marine Branch,Marine Branch,Fentanyl,1,2.4,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,JUL,7,2022,2022-07,2022-07-01,Air and Marine Operations,Northern Border,Land,Manassas Air Branch,Air Branch,Fentanyl,3,0.66,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,JUL,7,2022,2022-07,2022-07-01,Air and Marine Operations,Southwest Border,Land,Yuma Air Branch,Air Branch,Fentanyl,2,1.43,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,AUG,8,2022,2022-08,2022-08-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,6,9.29,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,AUG,8,2022,2022-08,2022-08-01,Air and Marine Operations,Northern Border,Other,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,1,4.63,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,AUG,8,2022,2022-08,2022-08-01,Air and Marine Operations,Coastal/Interior,Other,Houston Air And Marine Branch,Marine Branch,Fentanyl,1,0.19,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,AUG,8,2022,2022-08,2022-08-01,Air and Marine Operations,Coastal/Interior,Other,Jacksonville Air And Marine Branch,Marine Branch,Fentanyl,1,0.05,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,AUG,8,2022,2022-08,2022-08-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,4,25.26,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,AUG,8,2022,2022-08,2022-08-01,Air and Marine Operations,Southwest Border,Land,Yuma Air Branch,Air Branch,Fentanyl,1,1.28,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,SEP,9,2022,2022-09,2022-09-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,9,18.69,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,SEP,9,2022,2022-09,2022-09-01,Air and Marine Operations,Northern Border,Land,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,2,0.31,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,SEP,9,2022,2022-09,2022-09-01,Air and Marine Operations,Northern Border,Other,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,2,9.04,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,SEP,9,2022,2022-09,2022-09-01,Air and Marine Operations,Southwest Border,Land,Ground Tactical Air Controller,Other,Fentanyl,1,0.6,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,SEP,9,2022,2022-09,2022-09-01,Air and Marine Operations,Northern Border,Land,NASOC - Grand Forks,NASOC,Fentanyl,4,0.27,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,SEP,9,2022,2022-09,2022-09-01,Air and Marine Operations,Southwest Border,Land,NASOC - San Angelo,NASOC,Fentanyl,1,0.99,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,SEP,9,2022,2022-09,2022-09-01,Air and Marine Operations,Southwest Border,Other,San Diego Air And Marine Branch,Marine Branch,Fentanyl,3,31.87,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,SEP,9,2022,2022-09,2022-09-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,5,95.92,amo-drug-seizures-fy19-fy22.csv
+2022,2022,false,SEP,9,2022,2022-09,2022-09-01,Air and Marine Operations,Southwest Border,Land,Yuma Air Branch,Air Branch,Fentanyl,1,4.23,amo-drug-seizures-fy19-fy22.csv
+2023,2023,false,OCT,10,2022,2022-10,2022-10-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,12,6.73,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,OCT,10,2022,2022-10,2022-10-01,Air and Marine Operations,Northern Border,Land,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,1,0.04,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,OCT,10,2022,2022-10,2022-10-01,Air and Marine Operations,Coastal/Interior,Other,Jacksonville Air And Marine Branch,Marine Branch,Fentanyl,3,0.1,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,OCT,10,2022,2022-10,2022-10-01,Air and Marine Operations,Northern Border,Other,Manassas Air Branch,Air Branch,Fentanyl,3,105.18,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,OCT,10,2022,2022-10,2022-10-01,Air and Marine Operations,Northern Border,Land,NASOC - Grand Forks,NASOC,Fentanyl,3,0.37,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,OCT,10,2022,2022-10,2022-10-01,Air and Marine Operations,Southwest Border,Other,San Diego Air And Marine Branch,Marine Branch,Fentanyl,1,1.27,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,OCT,10,2022,2022-10,2022-10-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,1,11.99,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,NOV,11,2022,2022-11,2022-11-01,Air and Marine Operations,Coastal/Interior,Other,AMOC Air And Marine Operations Center,Center,Fentanyl,2,238.51,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,NOV,11,2022,2022-11,2022-11-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,2,1.46,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,NOV,11,2022,2022-11,2022-11-01,Air and Marine Operations,Northern Border,Land,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,2,0.0,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,NOV,11,2022,2022-11,2022-11-01,Air and Marine Operations,Coastal/Interior,Other,Houston Air And Marine Branch,Marine Branch,Fentanyl,1,0.01,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,NOV,11,2022,2022-11,2022-11-01,Air and Marine Operations,Coastal/Interior,Other,Jacksonville Air And Marine Branch,Marine Branch,Fentanyl,1,0.13,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,NOV,11,2022,2022-11,2022-11-01,Air and Marine Operations,Northern Border,Land,Manassas Air Branch,Air Branch,Fentanyl,1,0.73,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,NOV,11,2022,2022-11,2022-11-01,Air and Marine Operations,Northern Border,Other,Manassas Air Branch,Air Branch,Fentanyl,8,19.14,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,NOV,11,2022,2022-11,2022-11-01,Air and Marine Operations,Southwest Border,Land,NASOC - San Angelo,NASOC,Fentanyl,1,0.35,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,NOV,11,2022,2022-11,2022-11-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,5,9.67,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,NOV,11,2022,2022-11,2022-11-01,Air and Marine Operations,Southwest Border,Land,Yuma Air Branch,Air Branch,Fentanyl,1,2.69,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,DEC,12,2022,2022-12,2022-12-01,Air and Marine Operations,Northern Border,Land,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,2,0.7,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,DEC,12,2022,2022-12,2022-12-01,Air and Marine Operations,Southwest Border,Land,Ground Tactical Air Controller,Other,Fentanyl,6,0.53,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,DEC,12,2022,2022-12,2022-12-01,Air and Marine Operations,Coastal/Interior,Other,Jacksonville Air And Marine Branch,Marine Branch,Fentanyl,3,0.0699999999999999,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,DEC,12,2022,2022-12,2022-12-01,Air and Marine Operations,Northern Border,Other,Manassas Air Branch,Air Branch,Fentanyl,1,0.32,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,DEC,12,2022,2022-12,2022-12-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,5,84.39,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,JAN,1,2023,2023-01,2023-01-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,6,1.98,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,JAN,1,2023,2023-01,2023-01-01,Air and Marine Operations,Northern Border,Other,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,1,12.79,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,JAN,1,2023,2023-01,2023-01-01,Air and Marine Operations,Southwest Border,Land,Ground Tactical Air Controller,Other,Fentanyl,12,139.05,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,JAN,1,2023,2023-01,2023-01-01,Air and Marine Operations,Coastal/Interior,Other,Jacksonville Air And Marine Branch,Marine Branch,Fentanyl,3,1.12,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,JAN,1,2023,2023-01,2023-01-01,Air and Marine Operations,Northern Border,Other,Manassas Air Branch,Air Branch,Fentanyl,12,9.28,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,JAN,1,2023,2023-01,2023-01-01,Air and Marine Operations,Coastal/Interior,Other,New Orleans Air And Marine Branch,Marine Branch,Fentanyl,1,0.2,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,JAN,1,2023,2023-01,2023-01-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,2,61.86,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,JAN,1,2023,2023-01,2023-01-01,Air and Marine Operations,Southwest Border,Land,Yuma Air Branch,Air Branch,Fentanyl,1,0.47,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,FEB,2,2023,2023-02,2023-02-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,2,0.86,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,FEB,2,2023,2023-02,2023-02-01,Air and Marine Operations,Northern Border,Land,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,2,2.54,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,FEB,2,2023,2023-02,2023-02-01,Air and Marine Operations,Southwest Border,Land,Ground Tactical Air Controller,Other,Fentanyl,2,7.390000000000001,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,FEB,2,2023,2023-02,2023-02-01,Air and Marine Operations,Northern Border,Other,Manassas Air Branch,Air Branch,Fentanyl,1,0.31,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,FEB,2,2023,2023-02,2023-02-01,Air and Marine Operations,Northern Border,Land,NASOC - Grand Forks,NASOC,Fentanyl,1,0.76,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,FEB,2,2023,2023-02,2023-02-01,Air and Marine Operations,Coastal/Interior,Other,New Orleans Air And Marine Branch,Marine Branch,Fentanyl,1,1.0,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,FEB,2,2023,2023-02,2023-02-01,Air and Marine Operations,Southwest Border,Other,San Diego Air And Marine Branch,Marine Branch,Fentanyl,2,2.05,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,FEB,2,2023,2023-02,2023-02-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,1,12.79,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,FEB,2,2023,2023-02,2023-02-01,Air and Marine Operations,Southwest Border,Land,Yuma Air Branch,Air Branch,Fentanyl,2,4.84,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,MAR,3,2023,2023-03,2023-03-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,10,50.27,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,MAR,3,2023,2023-03,2023-03-01,Air and Marine Operations,Northern Border,Land,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,5,3.15,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,MAR,3,2023,2023-03,2023-03-01,Air and Marine Operations,Coastal/Interior,Other,Jacksonville Air And Marine Branch,Marine Branch,Fentanyl,2,0.73,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,MAR,3,2023,2023-03,2023-03-01,Air and Marine Operations,Northern Border,Other,Manassas Air Branch,Air Branch,Fentanyl,2,0.2299999999999999,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,MAR,3,2023,2023-03,2023-03-01,Air and Marine Operations,Northern Border,Land,NASOC - Grand Forks,NASOC,Fentanyl,1,0.08,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,MAR,3,2023,2023-03,2023-03-01,Air and Marine Operations,Coastal/Interior,Other,New Orleans Air And Marine Branch,Marine Branch,Fentanyl,1,1.01,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,MAR,3,2023,2023-03,2023-03-01,Air and Marine Operations,Southwest Border,Other,San Diego Air And Marine Branch,Marine Branch,Fentanyl,1,2.04,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,MAR,3,2023,2023-03,2023-03-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,1,5.05,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,MAR,3,2023,2023-03,2023-03-01,Air and Marine Operations,Southwest Border,Land,Yuma Air Branch,Air Branch,Fentanyl,4,42.47,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,APR,4,2023,2023-04,2023-04-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,7,66.64,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,APR,4,2023,2023-04,2023-04-01,Air and Marine Operations,Northern Border,Land,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,3,6.32,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,APR,4,2023,2023-04,2023-04-01,Air and Marine Operations,Northern Border,Other,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,3,2.23,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,APR,4,2023,2023-04,2023-04-01,Air and Marine Operations,Coastal/Interior,Other,Jacksonville Air And Marine Branch,Marine Branch,Fentanyl,1,0.35,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,APR,4,2023,2023-04,2023-04-01,Air and Marine Operations,Northern Border,Other,Manassas Air Branch,Air Branch,Fentanyl,3,32.01,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,APR,4,2023,2023-04,2023-04-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,6,9.28,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,APR,4,2023,2023-04,2023-04-01,Air and Marine Operations,Southwest Border,Land,Yuma Air Branch,Air Branch,Fentanyl,2,3.75,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,MAY,5,2023,2023-05,2023-05-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,1,0.9,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,MAY,5,2023,2023-05,2023-05-01,Air and Marine Operations,Northern Border,Land,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,2,1.11,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,MAY,5,2023,2023-05,2023-05-01,Air and Marine Operations,Northern Border,Other,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,2,29.29,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,MAY,5,2023,2023-05,2023-05-01,Air and Marine Operations,Northern Border,Other,Manassas Air Branch,Air Branch,Fentanyl,13,19.47,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,MAY,5,2023,2023-05,2023-05-01,Air and Marine Operations,Coastal/Interior,Other,Miami Air And Marine Branch,Marine Branch,Fentanyl,1,42.0,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,MAY,5,2023,2023-05,2023-05-01,Air and Marine Operations,Northern Border,Land,NASOC - Grand Forks,NASOC,Fentanyl,4,0.0699999999999999,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,MAY,5,2023,2023-05,2023-05-01,Air and Marine Operations,Southwest Border,Land,NASOC - Sierra Vista,NASOC,Fentanyl,2,4.84,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,MAY,5,2023,2023-05,2023-05-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,3,21.45,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,MAY,5,2023,2023-05,2023-05-01,Air and Marine Operations,Southwest Border,Land,Yuma Air Branch,Air Branch,Fentanyl,2,2.34,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,JUN,6,2023,2023-06,2023-06-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,13,104.32,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,JUN,6,2023,2023-06,2023-06-01,Air and Marine Operations,Northern Border,Land,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,2,4.15,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,JUN,6,2023,2023-06,2023-06-01,Air and Marine Operations,Northern Border,Other,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,10,3.22,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,JUN,6,2023,2023-06,2023-06-01,Air and Marine Operations,Southwest Border,Land,Ground Tactical Air Controller,Other,Fentanyl,3,24.57,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,JUN,6,2023,2023-06,2023-06-01,Air and Marine Operations,Northern Border,Land,Manassas Air Branch,Air Branch,Fentanyl,1,0.0,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,JUN,6,2023,2023-06,2023-06-01,Air and Marine Operations,Northern Border,Other,Manassas Air Branch,Air Branch,Fentanyl,5,4.1000000000000005,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,JUN,6,2023,2023-06,2023-06-01,Air and Marine Operations,Coastal/Interior,Other,New Orleans Air And Marine Branch,Marine Branch,Fentanyl,2,0.81,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,JUN,6,2023,2023-06,2023-06-01,Air and Marine Operations,Southwest Border,Other,San Diego Air And Marine Branch,Marine Branch,Fentanyl,1,2.65,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,JUN,6,2023,2023-06,2023-06-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,1,1.85,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,JUN,6,2023,2023-06,2023-06-01,Air and Marine Operations,Southwest Border,Land,Yuma Air Branch,Air Branch,Fentanyl,2,97.71,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,JUL,7,2023,2023-07,2023-07-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,6,25.77,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,JUL,7,2023,2023-07,2023-07-01,Air and Marine Operations,Northern Border,Land,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,2,1.05,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,JUL,7,2023,2023-07,2023-07-01,Air and Marine Operations,Northern Border,Other,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,2,2.38,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,JUL,7,2023,2023-07,2023-07-01,Air and Marine Operations,Coastal/Interior,Other,Jacksonville Air And Marine Branch,Marine Branch,Fentanyl,10,3.77,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,JUL,7,2023,2023-07,2023-07-01,Air and Marine Operations,Northern Border,Other,Manassas Air Branch,Air Branch,Fentanyl,4,44.48,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,AUG,8,2023,2023-08,2023-08-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,4,7.680000000000001,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,AUG,8,2023,2023-08,2023-08-01,Air and Marine Operations,Northern Border,Land,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,2,2.49,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,AUG,8,2023,2023-08,2023-08-01,Air and Marine Operations,Northern Border,Other,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,11,2.83,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,AUG,8,2023,2023-08,2023-08-01,Air and Marine Operations,Coastal/Interior,Other,Jacksonville Air And Marine Branch,Marine Branch,Fentanyl,2,0.17,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,AUG,8,2023,2023-08,2023-08-01,Air and Marine Operations,Northern Border,Land,NASOC - Grand Forks,NASOC,Fentanyl,3,0.02,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,AUG,8,2023,2023-08,2023-08-01,Air and Marine Operations,Southwest Border,Land,NASOC - San Angelo,NASOC,Fentanyl,1,0.33,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,AUG,8,2023,2023-08,2023-08-01,Air and Marine Operations,Coastal/Interior,Other,New Orleans Air And Marine Branch,Marine Branch,Fentanyl,2,2.7,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,AUG,8,2023,2023-08,2023-08-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,3,14.6,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,SEP,9,2023,2023-09,2023-09-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,1,6.88,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,SEP,9,2023,2023-09,2023-09-01,Air and Marine Operations,Northern Border,Land,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,2,0.55,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,SEP,9,2023,2023-09,2023-09-01,Air and Marine Operations,Northern Border,Other,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,1,0.24,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,SEP,9,2023,2023-09,2023-09-01,Air and Marine Operations,Coastal/Interior,Other,Jacksonville Air And Marine Branch,Marine Branch,Fentanyl,2,0.27,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,SEP,9,2023,2023-09,2023-09-01,Air and Marine Operations,Southwest Border,Other,San Diego Air And Marine Branch,Marine Branch,Fentanyl,2,0.33,amo-drug-seizures-fy23-fy26-dec.csv
+2023,2023,false,SEP,9,2023,2023-09,2023-09-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,1,2.45,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,OCT,10,2023,2023-10,2023-10-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,2,4.14,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,OCT,10,2023,2023-10,2023-10-01,Air and Marine Operations,Northern Border,Land,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,3,42.32,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,OCT,10,2023,2023-10,2023-10-01,Air and Marine Operations,Coastal/Interior,Other,Jacksonville Air And Marine Branch,Marine Branch,Fentanyl,3,0.52,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,OCT,10,2023,2023-10,2023-10-01,Air and Marine Operations,Southwest Border,Land,Laredo Air Branch,Air Branch,Fentanyl,1,0.31,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,OCT,10,2023,2023-10,2023-10-01,Air and Marine Operations,Northern Border,Land,Manassas Air Branch,Air Branch,Fentanyl,1,0.35,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,OCT,10,2023,2023-10,2023-10-01,Air and Marine Operations,Northern Border,Other,Manassas Air Branch,Air Branch,Fentanyl,6,115.85,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,OCT,10,2023,2023-10,2023-10-01,Air and Marine Operations,Coastal/Interior,Other,New Orleans Air And Marine Branch,Marine Branch,Fentanyl,1,0.13,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,OCT,10,2023,2023-10,2023-10-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,2,11.46,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,NOV,11,2023,2023-11,2023-11-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,1,533.71,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,NOV,11,2023,2023-11,2023-11-01,Air and Marine Operations,Northern Border,Land,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,2,0.0,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,NOV,11,2023,2023-11,2023-11-01,Air and Marine Operations,Northern Border,Other,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,1,0.0,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,NOV,11,2023,2023-11,2023-11-01,Air and Marine Operations,Coastal/Interior,Other,Jacksonville Air And Marine Branch,Marine Branch,Fentanyl,1,0.31,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,NOV,11,2023,2023-11,2023-11-01,Air and Marine Operations,Southwest Border,Land,Laredo Air Branch,Air Branch,Fentanyl,1,0.17,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,NOV,11,2023,2023-11,2023-11-01,Air and Marine Operations,Northern Border,Other,Manassas Air Branch,Air Branch,Fentanyl,1,0.06,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,NOV,11,2023,2023-11,2023-11-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,2,57.69,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,DEC,12,2023,2023-12,2023-12-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,2,11.02,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,DEC,12,2023,2023-12,2023-12-01,Air and Marine Operations,Northern Border,Land,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,3,0.04,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,JAN,1,2024,2024-01,2024-01-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,2,519.15,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,JAN,1,2024,2024-01,2024-01-01,Air and Marine Operations,Northern Border,Land,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,1,1.42,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,JAN,1,2024,2024-01,2024-01-01,Air and Marine Operations,Southwest Border,Land,Ground Tactical Air Controller,Other,Fentanyl,1,0.24,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,JAN,1,2024,2024-01,2024-01-01,Air and Marine Operations,Coastal/Interior,Other,Jacksonville Air And Marine Branch,Marine Branch,Fentanyl,1,0.0,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,JAN,1,2024,2024-01,2024-01-01,Air and Marine Operations,Northern Border,Other,Manassas Air Branch,Air Branch,Fentanyl,1,0.03,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,JAN,1,2024,2024-01,2024-01-01,Air and Marine Operations,Coastal/Interior,Other,New Orleans Air And Marine Branch,Marine Branch,Fentanyl,1,0.25,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,JAN,1,2024,2024-01,2024-01-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,4,21.78,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,JAN,1,2024,2024-01,2024-01-01,Air and Marine Operations,Southwest Border,Land,Yuma Air Branch,Air Branch,Fentanyl,1,0.0,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,FEB,2,2024,2024-02,2024-02-01,Air and Marine Operations,Coastal/Interior,Other,AMOC Air And Marine Operations Center,Center,Fentanyl,1,46.85,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,FEB,2,2024,2024-02,2024-02-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,11,28.21,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,FEB,2,2024,2024-02,2024-02-01,Air and Marine Operations,Southwest Border,Land,El Paso Air Branch,Air Branch,Fentanyl,1,6.61,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,FEB,2,2024,2024-02,2024-02-01,Air and Marine Operations,Northern Border,Land,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,2,1.44,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,FEB,2,2024,2024-02,2024-02-01,Air and Marine Operations,Northern Border,Other,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,4,14.25,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,FEB,2,2024,2024-02,2024-02-01,Air and Marine Operations,Coastal/Interior,Other,Jacksonville Air And Marine Branch,Marine Branch,Fentanyl,1,0.02,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,FEB,2,2024,2024-02,2024-02-01,Air and Marine Operations,Northern Border,Other,Manassas Air Branch,Air Branch,Fentanyl,1,0.09,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,FEB,2,2024,2024-02,2024-02-01,Air and Marine Operations,Coastal/Interior,Other,National Air Training Center Oklahoma City,Center,Fentanyl,3,0.3399999999999999,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,FEB,2,2024,2024-02,2024-02-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,2,4.74,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,MAR,3,2024,2024-03,2024-03-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,12,6.069999999999999,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,MAR,3,2024,2024-03,2024-03-01,Air and Marine Operations,Northern Border,Land,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,4,0.34,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,MAR,3,2024,2024-03,2024-03-01,Air and Marine Operations,Northern Border,Other,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,1,0.71,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,MAR,3,2024,2024-03,2024-03-01,Air and Marine Operations,Southwest Border,Land,Ground Tactical Air Controller,Other,Fentanyl,1,0.06,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,MAR,3,2024,2024-03,2024-03-01,Air and Marine Operations,Coastal/Interior,Other,Jacksonville Air And Marine Branch,Marine Branch,Fentanyl,1,0.0,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,MAR,3,2024,2024-03,2024-03-01,Air and Marine Operations,Northern Border,Other,Manassas Air Branch,Air Branch,Fentanyl,3,12.61,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,MAR,3,2024,2024-03,2024-03-01,Air and Marine Operations,Coastal/Interior,Other,New Orleans Air And Marine Branch,Marine Branch,Fentanyl,2,0.19,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,MAR,3,2024,2024-03,2024-03-01,Air and Marine Operations,Southwest Border,Other,San Diego Air And Marine Branch,Marine Branch,Fentanyl,1,2.2,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,MAR,3,2024,2024-03,2024-03-01,Air and Marine Operations,Southwest Border,Land,Yuma Air Branch,Air Branch,Fentanyl,1,0.12,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,APR,4,2024,2024-04,2024-04-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,8,22.47,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,APR,4,2024,2024-04,2024-04-01,Air and Marine Operations,Southwest Border,Land,Ground Tactical Air Controller,Other,Fentanyl,2,0.55,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,APR,4,2024,2024-04,2024-04-01,Air and Marine Operations,Coastal/Interior,Other,Jacksonville Air And Marine Branch,Marine Branch,Fentanyl,1,0.05,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,APR,4,2024,2024-04,2024-04-01,Air and Marine Operations,Northern Border,Other,Manassas Air Branch,Air Branch,Fentanyl,1,1.19,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,APR,4,2024,2024-04,2024-04-01,Air and Marine Operations,Coastal/Interior,Other,New Orleans Air And Marine Branch,Marine Branch,Fentanyl,1,0.01,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,APR,4,2024,2024-04,2024-04-01,Air and Marine Operations,Southwest Border,Other,San Diego Air And Marine Branch,Marine Branch,Fentanyl,1,0.23,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,APR,4,2024,2024-04,2024-04-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,6,110.33,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,MAY,5,2024,2024-05,2024-05-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,6,34.43,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,MAY,5,2024,2024-05,2024-05-01,Air and Marine Operations,Northern Border,Other,Manassas Air Branch,Air Branch,Fentanyl,6,3.83,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,MAY,5,2024,2024-05,2024-05-01,Air and Marine Operations,Northern Border,Land,NASOC - Grand Forks,NASOC,Fentanyl,1,2.2,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,MAY,5,2024,2024-05,2024-05-01,Air and Marine Operations,Coastal/Interior,Other,New Orleans Air And Marine Branch,Marine Branch,Fentanyl,1,0.06,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,MAY,5,2024,2024-05,2024-05-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,4,0.01,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,MAY,5,2024,2024-05,2024-05-01,Air and Marine Operations,Southwest Border,Land,Yuma Air Branch,Air Branch,Fentanyl,1,1.85,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,JUN,6,2024,2024-06,2024-06-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,8,25.250000000000004,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,JUN,6,2024,2024-06,2024-06-01,Air and Marine Operations,Northern Border,Land,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,7,0.68,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,JUN,6,2024,2024-06,2024-06-01,Air and Marine Operations,Northern Border,Land,Manassas Air Branch,Air Branch,Fentanyl,1,0.22,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,JUN,6,2024,2024-06,2024-06-01,Air and Marine Operations,Northern Border,Other,Manassas Air Branch,Air Branch,Fentanyl,3,0.5,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,JUN,6,2024,2024-06,2024-06-01,Air and Marine Operations,Northern Border,Land,NASOC - Grand Forks,NASOC,Fentanyl,1,0.01,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,JUN,6,2024,2024-06,2024-06-01,Air and Marine Operations,Southwest Border,Other,San Diego Air And Marine Branch,Marine Branch,Fentanyl,1,1.19,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,JUL,7,2024,2024-07,2024-07-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,5,7.14,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,JUL,7,2024,2024-07,2024-07-01,Air and Marine Operations,Southwest Border,Land,Ground Tactical Air Controller,Other,Fentanyl,3,14.08,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,JUL,7,2024,2024-07,2024-07-01,Air and Marine Operations,Coastal/Interior,Other,Jacksonville Air And Marine Branch,Marine Branch,Fentanyl,7,4.1,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,JUL,7,2024,2024-07,2024-07-01,Air and Marine Operations,Northern Border,Other,Manassas Air Branch,Air Branch,Fentanyl,1,0.21,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,JUL,7,2024,2024-07,2024-07-01,Air and Marine Operations,Southwest Border,Other,San Diego Air And Marine Branch,Marine Branch,Fentanyl,1,0.33,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,JUL,7,2024,2024-07,2024-07-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,2,4.37,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,AUG,8,2024,2024-08,2024-08-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,8,3.65,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,AUG,8,2024,2024-08,2024-08-01,Air and Marine Operations,Northern Border,Land,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,1,4.41,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,AUG,8,2024,2024-08,2024-08-01,Air and Marine Operations,Southwest Border,Land,Ground Tactical Air Controller,Other,Fentanyl,2,3.86,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,AUG,8,2024,2024-08,2024-08-01,Air and Marine Operations,Northern Border,Other,Manassas Air Branch,Air Branch,Fentanyl,1,0.18,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,AUG,8,2024,2024-08,2024-08-01,Air and Marine Operations,Southwest Border,Land,NASOC - Sierra Vista,NASOC,Fentanyl,1,0.01,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,AUG,8,2024,2024-08,2024-08-01,Air and Marine Operations,Coastal/Interior,Other,New Orleans Air And Marine Branch,Marine Branch,Fentanyl,2,0.28,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,AUG,8,2024,2024-08,2024-08-01,Air and Marine Operations,Southwest Border,Other,San Diego Air And Marine Branch,Marine Branch,Fentanyl,1,0.95,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,AUG,8,2024,2024-08,2024-08-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,4,10.76,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,SEP,9,2024,2024-09,2024-09-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,8,4.5,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,SEP,9,2024,2024-09,2024-09-01,Air and Marine Operations,Northern Border,Land,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,2,0.58,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,SEP,9,2024,2024-09,2024-09-01,Air and Marine Operations,Southwest Border,Land,Ground Tactical Air Controller,Other,Fentanyl,5,91.76,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,SEP,9,2024,2024-09,2024-09-01,Air and Marine Operations,Northern Border,Other,Manassas Air Branch,Air Branch,Fentanyl,1,1.55,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,SEP,9,2024,2024-09,2024-09-01,Air and Marine Operations,Northern Border,Land,NASOC - Grand Forks,NASOC,Fentanyl,5,0.15,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,SEP,9,2024,2024-09,2024-09-01,Air and Marine Operations,Coastal/Interior,Other,New Orleans Air And Marine Branch,Marine Branch,Fentanyl,1,0.0,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,SEP,9,2024,2024-09,2024-09-01,Air and Marine Operations,Southwest Border,Other,San Diego Air And Marine Branch,Marine Branch,Fentanyl,1,1.15,amo-drug-seizures-fy23-fy26-dec.csv
+2024,2024,false,SEP,9,2024,2024-09,2024-09-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,3,42.44,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,OCT,10,2024,2024-10,2024-10-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,1,0.25,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,OCT,10,2024,2024-10,2024-10-01,Air and Marine Operations,Southwest Border,Land,El Paso Air Branch,Air Branch,Fentanyl,1,30.87,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,OCT,10,2024,2024-10,2024-10-01,Air and Marine Operations,Northern Border,Other,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,3,2.58,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,OCT,10,2024,2024-10,2024-10-01,Air and Marine Operations,Coastal/Interior,Other,Ground Tactical Air Controller,Other,Fentanyl,9,14.07,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,OCT,10,2024,2024-10,2024-10-01,Air and Marine Operations,Northern Border,Other,Manassas Air Branch,Air Branch,Fentanyl,1,2.11,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,OCT,10,2024,2024-10,2024-10-01,Air and Marine Operations,Southwest Border,Land,NASOC - Sierra Vista,NASOC,Fentanyl,2,2.23,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,OCT,10,2024,2024-10,2024-10-01,Air and Marine Operations,Coastal/Interior,Other,New Orleans Air And Marine Branch,Marine Branch,Fentanyl,5,85.75999999999999,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,NOV,11,2024,2024-11,2024-11-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,2,5.49,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,NOV,11,2024,2024-11,2024-11-01,Air and Marine Operations,Coastal/Interior,Other,Ground Tactical Air Controller,Other,Fentanyl,3,61.34,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,NOV,11,2024,2024-11,2024-11-01,Air and Marine Operations,Northern Border,Land,Manassas Air Branch,Air Branch,Fentanyl,2,0.0,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,NOV,11,2024,2024-11,2024-11-01,Air and Marine Operations,Northern Border,Other,Manassas Air Branch,Air Branch,Fentanyl,2,0.15,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,NOV,11,2024,2024-11,2024-11-01,Air and Marine Operations,Southwest Border,Land,NASOC - Sierra Vista,NASOC,Fentanyl,1,3.24,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,NOV,11,2024,2024-11,2024-11-01,Air and Marine Operations,Coastal/Interior,Other,New Orleans Air And Marine Branch,Marine Branch,Fentanyl,1,1.12,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,NOV,11,2024,2024-11,2024-11-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,2,34.27,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,NOV,11,2024,2024-11,2024-11-01,Air and Marine Operations,Southwest Border,Land,Yuma Air Branch,Air Branch,Fentanyl,1,4.41,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,DEC,12,2024,2024-12,2024-12-01,Air and Marine Operations,Northern Border,Land,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,1,0.35,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,DEC,12,2024,2024-12,2024-12-01,Air and Marine Operations,Coastal/Interior,Other,Ground Tactical Air Controller,Other,Fentanyl,7,122.92,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,DEC,12,2024,2024-12,2024-12-01,Air and Marine Operations,Coastal/Interior,Other,Jacksonville Air And Marine Branch,Marine Branch,Fentanyl,7,0.29,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,DEC,12,2024,2024-12,2024-12-01,Air and Marine Operations,Northern Border,Other,Manassas Air Branch,Air Branch,Fentanyl,1,0.44,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,DEC,12,2024,2024-12,2024-12-01,Air and Marine Operations,Coastal/Interior,Other,New Orleans Air And Marine Branch,Marine Branch,Fentanyl,1,0.23,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,DEC,12,2024,2024-12,2024-12-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,3,5.26,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,JAN,1,2025,2025-01,2025-01-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,6,14.97,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,JAN,1,2025,2025-01,2025-01-01,Air and Marine Operations,Coastal/Interior,Other,Ground Tactical Air Controller,Other,Fentanyl,7,57.36000000000001,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,JAN,1,2025,2025-01,2025-01-01,Air and Marine Operations,Northern Border,Other,Manassas Air Branch,Air Branch,Fentanyl,1,0.66,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,JAN,1,2025,2025-01,2025-01-01,Air and Marine Operations,Coastal/Interior,Other,Miami Air And Marine Branch,Marine Branch,Fentanyl,1,0.0,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,JAN,1,2025,2025-01,2025-01-01,Air and Marine Operations,Southwest Border,Land,NASOC - Sierra Vista,NASOC,Fentanyl,1,2.21,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,JAN,1,2025,2025-01,2025-01-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,3,30.23,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,FEB,2,2025,2025-02,2025-02-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,7,7.369999999999999,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,FEB,2,2025,2025-02,2025-02-01,Air and Marine Operations,Coastal/Interior,Other,Ground Tactical Air Controller,Other,Fentanyl,5,11.52,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,FEB,2,2025,2025-02,2025-02-01,Air and Marine Operations,Northern Border,Land,Manassas Air Branch,Air Branch,Fentanyl,4,0.03,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,FEB,2,2025,2025-02,2025-02-01,Air and Marine Operations,Northern Border,Other,Manassas Air Branch,Air Branch,Fentanyl,2,3.45,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,FEB,2,2025,2025-02,2025-02-01,Air and Marine Operations,Coastal/Interior,Other,New Orleans Air And Marine Branch,Marine Branch,Fentanyl,4,0.4599999999999999,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,FEB,2,2025,2025-02,2025-02-01,Air and Marine Operations,Southwest Border,Other,San Diego Air And Marine Branch,Marine Branch,Fentanyl,1,2.2,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,FEB,2,2025,2025-02,2025-02-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,3,4.98,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,MAR,3,2025,2025-03,2025-03-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,4,1.96,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,MAR,3,2025,2025-03,2025-03-01,Air and Marine Operations,Northern Border,Land,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,1,1.15,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,MAR,3,2025,2025-03,2025-03-01,Air and Marine Operations,Coastal/Interior,Other,Ground Tactical Air Controller,Other,Fentanyl,3,13.33,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,MAR,3,2025,2025-03,2025-03-01,Air and Marine Operations,Northern Border,Other,Manassas Air Branch,Air Branch,Fentanyl,1,0.0,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,MAR,3,2025,2025-03,2025-03-01,Air and Marine Operations,Northern Border,Land,NASOC - Grand Forks,NASOC,Fentanyl,1,0.02,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,MAR,3,2025,2025-03,2025-03-01,Air and Marine Operations,Coastal/Interior,Other,New Orleans Air And Marine Branch,Marine Branch,Fentanyl,3,0.13,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,MAR,3,2025,2025-03,2025-03-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,7,11.86,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,MAR,3,2025,2025-03,2025-03-01,Air and Marine Operations,Southwest Border,Land,Yuma Air Branch,Air Branch,Fentanyl,2,7.15,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,APR,4,2025,2025-04,2025-04-01,Air and Marine Operations,Coastal/Interior,Other,AMOC Air And Marine Operations Center,Center,Fentanyl,3,48.28,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,APR,4,2025,2025-04,2025-04-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,2,12.62,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,APR,4,2025,2025-04,2025-04-01,Air and Marine Operations,Southwest Border,Land,El Paso Air Branch,Air Branch,Fentanyl,4,2.0,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,APR,4,2025,2025-04,2025-04-01,Air and Marine Operations,Northern Border,Other,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,1,0.78,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,APR,4,2025,2025-04,2025-04-01,Air and Marine Operations,Coastal/Interior,Other,Ground Tactical Air Controller,Other,Fentanyl,3,0.15,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,APR,4,2025,2025-04,2025-04-01,Air and Marine Operations,Coastal/Interior,Other,Jacksonville Air And Marine Branch,Marine Branch,Fentanyl,4,6.92,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,APR,4,2025,2025-04,2025-04-01,Air and Marine Operations,Northern Border,Land,Manassas Air Branch,Air Branch,Fentanyl,1,0.05,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,APR,4,2025,2025-04,2025-04-01,Air and Marine Operations,Coastal/Interior,Other,New Orleans Air And Marine Branch,Marine Branch,Fentanyl,8,6.609999999999999,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,APR,4,2025,2025-04,2025-04-01,Air and Marine Operations,Southwest Border,Other,San Diego Air And Marine Branch,Marine Branch,Fentanyl,2,19.18,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,APR,4,2025,2025-04,2025-04-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,5,15.69,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,APR,4,2025,2025-04,2025-04-01,Air and Marine Operations,Southwest Border,Land,Yuma Air Branch,Air Branch,Fentanyl,1,1.06,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,MAY,5,2025,2025-05,2025-05-01,Air and Marine Operations,Coastal/Interior,Other,AMOC Air And Marine Operations Center,Center,Fentanyl,2,28.66,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,MAY,5,2025,2025-05,2025-05-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,4,18.61,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,MAY,5,2025,2025-05,2025-05-01,Air and Marine Operations,Coastal/Interior,Other,Jacksonville Air And Marine Branch,Marine Branch,Fentanyl,1,0.87,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,MAY,5,2025,2025-05,2025-05-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,4,54.17,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,MAY,5,2025,2025-05,2025-05-01,Air and Marine Operations,Southwest Border,Land,Yuma Air Branch,Air Branch,Fentanyl,2,7.279999999999999,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,JUN,6,2025,2025-06,2025-06-01,Air and Marine Operations,Coastal/Interior,Other,AMOC Air And Marine Operations Center,Center,Fentanyl,1,14.33,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,JUN,6,2025,2025-06,2025-06-01,Air and Marine Operations,Coastal/Interior,Other,Ground Tactical Air Controller,Other,Fentanyl,3,0.33,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,JUN,6,2025,2025-06,2025-06-01,Air and Marine Operations,Southwest Border,Land,Mc Allen Air And Marine Branch,Marine Branch,Fentanyl,2,3.3600000000000003,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,JUN,6,2025,2025-06,2025-06-01,Air and Marine Operations,Northern Border,Land,NASOC - Grand Forks,NASOC,Fentanyl,1,0.04,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,JUN,6,2025,2025-06,2025-06-01,Air and Marine Operations,Coastal/Interior,Other,New Orleans Air And Marine Branch,Marine Branch,Fentanyl,3,14.63,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,JUL,7,2025,2025-07,2025-07-01,Air and Marine Operations,Coastal/Interior,Other,AMOC Air And Marine Operations Center,Center,Fentanyl,1,0.55,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,JUL,7,2025,2025-07,2025-07-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,11,3.93,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,JUL,7,2025,2025-07,2025-07-01,Air and Marine Operations,Northern Border,Land,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,2,0.41,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,JUL,7,2025,2025-07,2025-07-01,Air and Marine Operations,Coastal/Interior,Other,Ground Tactical Air Controller,Other,Fentanyl,3,26.91,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,JUL,7,2025,2025-07,2025-07-01,Air and Marine Operations,Northern Border,Land,Manassas Air Branch,Air Branch,Fentanyl,1,0.22,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,JUL,7,2025,2025-07,2025-07-01,Air and Marine Operations,Northern Border,Other,Manassas Air Branch,Air Branch,Fentanyl,1,0.25,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,JUL,7,2025,2025-07,2025-07-01,Air and Marine Operations,Southwest Border,Other,San Diego Air And Marine Branch,Marine Branch,Fentanyl,1,31.77,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,JUL,7,2025,2025-07,2025-07-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,6,12.91,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,AUG,8,2025,2025-08,2025-08-01,Air and Marine Operations,Coastal/Interior,Other,AMOC Air And Marine Operations Center,Center,Fentanyl,1,0.01,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,AUG,8,2025,2025-08,2025-08-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,5,7.59,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,AUG,8,2025,2025-08,2025-08-01,Air and Marine Operations,Northern Border,Land,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,2,0.33,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,AUG,8,2025,2025-08,2025-08-01,Air and Marine Operations,Coastal/Interior,Other,Ground Tactical Air Controller,Other,Fentanyl,2,3.71,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,AUG,8,2025,2025-08,2025-08-01,Air and Marine Operations,Coastal/Interior,Other,Jacksonville Air And Marine Branch,Marine Branch,Fentanyl,1,0.25,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,AUG,8,2025,2025-08,2025-08-01,Air and Marine Operations,Northern Border,Land,Manassas Air Branch,Air Branch,Fentanyl,2,0.53,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,AUG,8,2025,2025-08,2025-08-01,Air and Marine Operations,Coastal/Interior,Other,New Orleans Air And Marine Branch,Marine Branch,Fentanyl,4,3.54,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,AUG,8,2025,2025-08,2025-08-01,Air and Marine Operations,Southwest Border,Other,San Diego Air And Marine Branch,Marine Branch,Fentanyl,1,0.0,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,AUG,8,2025,2025-08,2025-08-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,1,27.78,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,SEP,9,2025,2025-09,2025-09-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,4,0.16,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,SEP,9,2025,2025-09,2025-09-01,Air and Marine Operations,Coastal/Interior,Other,Ground Tactical Air Controller,Other,Fentanyl,1,0.02,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,SEP,9,2025,2025-09,2025-09-01,Air and Marine Operations,Southwest Border,Land,Mc Allen Air And Marine Branch,Marine Branch,Fentanyl,1,14.33,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,SEP,9,2025,2025-09,2025-09-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,1,2.2,amo-drug-seizures-fy23-fy26-dec.csv
+2025,2025,false,SEP,9,2025,2025-09,2025-09-01,Air and Marine Operations,Southwest Border,Land,Yuma Air Branch,Air Branch,Fentanyl,2,2.98,amo-drug-seizures-fy23-fy26-dec.csv
+2026 (FYTD),2026,true,OCT,10,2025,2025-10,2025-10-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,3,4.890000000000001,amo-drug-seizures-fy23-fy26-dec.csv
+2026 (FYTD),2026,true,OCT,10,2025,2025-10,2025-10-01,Air and Marine Operations,Southwest Border,Land,El Paso Air Branch,Air Branch,Fentanyl,3,2.1500000000000004,amo-drug-seizures-fy23-fy26-dec.csv
+2026 (FYTD),2026,true,OCT,10,2025,2025-10,2025-10-01,Air and Marine Operations,Northern Border,Land,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,4,1.01,amo-drug-seizures-fy23-fy26-dec.csv
+2026 (FYTD),2026,true,OCT,10,2025,2025-10,2025-10-01,Air and Marine Operations,Coastal/Interior,Other,Ground Tactical Air Controller,Other,Fentanyl,2,0.04,amo-drug-seizures-fy23-fy26-dec.csv
+2026 (FYTD),2026,true,OCT,10,2025,2025-10,2025-10-01,Air and Marine Operations,Southwest Border,Other,San Diego Air And Marine Branch,Marine Branch,Fentanyl,1,12.13,amo-drug-seizures-fy23-fy26-dec.csv
+2026 (FYTD),2026,true,OCT,10,2025,2025-10,2025-10-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,6,4.65,amo-drug-seizures-fy23-fy26-dec.csv
+2026 (FYTD),2026,true,OCT,10,2025,2025-10,2025-10-01,Air and Marine Operations,Southwest Border,Land,Yuma Air Branch,Air Branch,Fentanyl,1,4.41,amo-drug-seizures-fy23-fy26-dec.csv
+2026 (FYTD),2026,true,NOV,11,2025,2025-11,2025-11-01,Air and Marine Operations,Northern Border,Land,Bellingham Air Branch,Air Branch,Fentanyl,3,1.09,amo-drug-seizures-fy23-fy26-dec.csv
+2026 (FYTD),2026,true,NOV,11,2025,2025-11,2025-11-01,Air and Marine Operations,Southwest Border,Land,El Paso Air Branch,Air Branch,Fentanyl,2,2.44,amo-drug-seizures-fy23-fy26-dec.csv
+2026 (FYTD),2026,true,NOV,11,2025,2025-11,2025-11-01,Air and Marine Operations,Northern Border,Other,Great Lakes Air And Marine Branch,Marine Branch,Fentanyl,2,11.35,amo-drug-seizures-fy23-fy26-dec.csv
+2026 (FYTD),2026,true,NOV,11,2025,2025-11,2025-11-01,Air and Marine Operations,Coastal/Interior,Other,Jacksonville Air And Marine Branch,Marine Branch,Fentanyl,1,0.02,amo-drug-seizures-fy23-fy26-dec.csv
+2026 (FYTD),2026,true,NOV,11,2025,2025-11,2025-11-01,Air and Marine Operations,Northern Border,Other,Manassas Air Branch,Air Branch,Fentanyl,1,1.1,amo-drug-seizures-fy23-fy26-dec.csv
+2026 (FYTD),2026,true,NOV,11,2025,2025-11,2025-11-01,Air and Marine Operations,Coastal/Interior,Other,New Orleans Air And Marine Branch,Marine Branch,Fentanyl,4,0.64,amo-drug-seizures-fy23-fy26-dec.csv
+2026 (FYTD),2026,true,NOV,11,2025,2025-11,2025-11-01,Air and Marine Operations,Southwest Border,Other,San Diego Air And Marine Branch,Marine Branch,Fentanyl,1,2.2,amo-drug-seizures-fy23-fy26-dec.csv
+2026 (FYTD),2026,true,DEC,12,2025,2025-12,2025-12-01,Air and Marine Operations,Coastal/Interior,Other,Jacksonville Air And Marine Branch,Marine Branch,Fentanyl,1,0.6,amo-drug-seizures-fy23-fy26-dec.csv
+2026 (FYTD),2026,true,DEC,12,2025,2025-12,2025-12-01,Air and Marine Operations,Southwest Border,Land,Tucson Air Branch,Air Branch,Fentanyl,3,3.56,amo-drug-seizures-fy23-fy26-dec.csv

@@ -241,7 +241,7 @@
     <div class="shell">
       <h1>U.S. Drug Seizure Dashboard</h1>
       <div class="subtitle">
-        Combined dashboard with NFLIS state reports and CBP fentanyl seizures at Field Office/Sector level.
+        Combined dashboard with NFLIS state reports, CBP fentanyl seizures (Field Office/Sector), and AMO fentanyl seizures (Branch).
       </div>
 
       <div class="grid">
@@ -251,6 +251,7 @@
             <select id="sourceSelect">
               <option value="nflis">NFLIS state reports (all drugs)</option>
               <option value="cbp">CBP fentanyl seizures (Field Office/Sector)</option>
+              <option value="amo">AMO fentanyl seizures (Branch)</option>
             </select>
           </div>
 
@@ -360,6 +361,70 @@
             </div>
           </div>
 
+          <div id="amoControls" class="hidden">
+            <div class="section">
+              <label>
+                <input type="checkbox" id="amoIncludeFytd" />
+                Include FYTD (partial fiscal year)
+              </label>
+              <div class="hint">
+                U.S. fiscal year months are converted to actual calendar month-year (Oct-Dec map to prior year).
+              </div>
+            </div>
+
+            <div class="section">
+              <label class="label" for="amoFySelect">Fiscal Years</label>
+              <select id="amoFySelect" multiple></select>
+              <div class="btn-row">
+                <button type="button" id="amoFyAll">All FY</button>
+                <button type="button" id="amoFyNone">Clear FY</button>
+              </div>
+            </div>
+
+            <div class="section">
+              <label class="label" for="amoMonthSelect">Month</label>
+              <select id="amoMonthSelect" multiple></select>
+            </div>
+
+            <div class="section">
+              <label class="label" for="amoComponentSelect">Component</label>
+              <select id="amoComponentSelect" multiple></select>
+            </div>
+
+            <div class="section">
+              <label class="label" for="amoRegionSelect">Region</label>
+              <select id="amoRegionSelect" multiple></select>
+            </div>
+
+            <div class="section">
+              <label class="label" for="amoLandSelect">Land Filter</label>
+              <select id="amoLandSelect" multiple></select>
+            </div>
+
+            <div class="section">
+              <label class="label" for="amoBranchSelect">Branch</label>
+              <select id="amoBranchSelect" multiple></select>
+              <div class="btn-row">
+                <button type="button" id="amoBranchAll">All Branches</button>
+                <button type="button" id="amoBranchNone">Clear Branches</button>
+              </div>
+            </div>
+
+            <div class="section">
+              <span class="label">Metric</span>
+              <div class="toggle-row">
+                <label>
+                  <input type="radio" name="amoMetricMode" value="events" checked />
+                  Seizure events
+                </label>
+                <label>
+                  <input type="radio" name="amoMetricMode" value="lbs" />
+                  Seized quantity (lbs)
+                </label>
+              </div>
+            </div>
+          </div>
+
           <div class="section">
             <button type="button" class="primary" id="downloadCsv">Download filtered table</button>
           </div>
@@ -406,6 +471,7 @@
     <script>
       const NFLIS_DATA_FILE = "./NFLIS_Drug_DQS_2026_03_03_13_26_55.csv";
       const CBP_DATA_FILE = "./cbp_fentanyl_aor_monthly_2019_2026_dec.csv";
+      const AMO_DATA_FILE = "./amo_fentanyl_branch_monthly_2019_2026_dec.csv";
 
       const LIGHT_TO_DARK_SCALE = [
         [0.0, "#fff7bc"],
@@ -418,9 +484,9 @@
       const MONTH_ORDER = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
 
       const AOR_COORDS = {
-        "ATLANTA FIELD OFFICE": [33.7490, -84.3880],
+        "ATLANTA FIELD OFFICE": [33.749, -84.388],
         "BALTIMORE FIELD OFFICE": [39.2904, -76.6122],
-        "BIG BEND SECTOR": [30.3585, -103.6620],
+        "BIG BEND SECTOR": [30.3585, -103.662],
         "BLAINE SECTOR": [48.9937, -122.7471],
         "BOSTON FIELD OFFICE": [42.3601, -71.0589],
         "BUFFALO FIELD OFFICE": [42.8864, -78.8784],
@@ -429,11 +495,11 @@
         "DEL RIO SECTOR": [29.3627, -100.8968],
         "DETROIT FIELD OFFICE": [42.3314, -83.0458],
         "DETROIT SECTOR": [42.3314, -83.0458],
-        "EL CENTRO SECTOR": [32.7920, -115.5631],
-        "EL PASO FIELD OFFICE": [31.7619, -106.4850],
-        "EL PASO SECTOR": [31.7619, -106.4850],
+        "EL CENTRO SECTOR": [32.792, -115.5631],
+        "EL PASO FIELD OFFICE": [31.7619, -106.485],
+        "EL PASO SECTOR": [31.7619, -106.485],
         "GRAND FORKS SECTOR": [47.9253, -97.0329],
-        "HAVRE SECTOR": [48.5500, -109.6841],
+        "HAVRE SECTOR": [48.55, -109.6841],
         "HOULTON SECTOR": [46.1262, -67.8398],
         "HOUSTON FIELD OFFICE": [29.7604, -95.3698],
         "LAREDO FIELD OFFICE": [27.5036, -99.5075],
@@ -443,7 +509,7 @@
         "MIAMI SECTOR": [25.7617, -80.1918],
         "NEW ORLEANS FIELD OFFICE": [29.9511, -90.0715],
         "NEW ORLEANS SECTOR": [29.9511, -90.0715],
-        "NEW YORK FIELD OFFICE": [40.7128, -74.0060],
+        "NEW YORK FIELD OFFICE": [40.7128, -74.006],
         "PORTLAND FIELD OFFICE": [45.5152, -122.6784],
         "PRECLEARANCE FIELD OFFICE": [38.9072, -77.0369],
         "RAMEY SECTOR": [18.4274, -67.1541],
@@ -453,7 +519,7 @@
         "SAN FRANCISCO FIELD OFFICE": [37.7749, -122.4194],
         "SAN JUAN FIELD OFFICE": [18.4655, -66.1057],
         "SEATTLE FIELD OFFICE": [47.6062, -122.3321],
-        "SPOKANE SECTOR": [47.6588, -117.4260],
+        "SPOKANE SECTOR": [47.6588, -117.426],
         "SWANTON SECTOR": [44.9184, -73.1218],
         "TAMPA FIELD OFFICE": [27.9506, -82.4572],
         "TUCSON FIELD OFFICE": [32.2226, -110.9747],
@@ -461,11 +527,37 @@
         "YUMA SECTOR": [32.6927, -114.6277],
       };
 
+      const BRANCH_COORDS = {
+        "AMOC Air And Marine Operations Center": [33.9533, -117.3962],
+        "Bellingham Air Branch": [48.7519, -122.4787],
+        "El Paso Air Branch": [31.7619, -106.485],
+        "Great Lakes Air And Marine Branch": [42.607, -82.836],
+        "Ground Tactical Air Controller": [32.2226, -110.9747],
+        "Houston Air And Marine Branch": [29.7604, -95.3698],
+        "Jacksonville Air And Marine Branch": [30.3322, -81.6557],
+        "Laredo Air Branch": [27.5036, -99.5075],
+        "Manassas Air Branch": [38.7509, -77.4753],
+        "Mc Allen Air And Marine Branch": [26.2034, -98.23],
+        "Mexico City IAC": [19.4326, -99.1332],
+        "Miami Air And Marine Branch": [25.7617, -80.1918],
+        "NASOC - Albuquerque": [35.0844, -106.6504],
+        "NASOC - Grand Forks": [47.9253, -97.0329],
+        "NASOC - San Angelo": [31.4638, -100.437],
+        "NASOC - Sierra Vista": [31.5455, -110.2773],
+        "National Air Training Center Oklahoma City": [35.4676, -97.5164],
+        "New Orleans Air And Marine Branch": [29.9511, -90.0715],
+        "San Diego Air And Marine Branch": [32.7157, -117.1611],
+        "Tucson Air Branch": [32.2226, -110.9747],
+        "Yuma Air Branch": [32.6927, -114.6277],
+      };
+
       const store = {
         nflisRows: [],
         cbpRows: [],
+        amoRows: [],
         nflisMeta: { years: [], drugs: [], states: [] },
         cbpMeta: { fyLabels: [], months: [], components: [], regions: [], landFilters: [], aors: [] },
+        amoMeta: { fyLabels: [], months: [], components: [], regions: [], landFilters: [], branches: [] },
       };
 
       let currentDownloadRows = [];
@@ -474,6 +566,7 @@
       const sourceSelect = document.getElementById("sourceSelect");
       const nflisControls = document.getElementById("nflisControls");
       const cbpControls = document.getElementById("cbpControls");
+      const amoControls = document.getElementById("amoControls");
       const statusEl = document.getElementById("status");
       const footerNote = document.getElementById("footerNote");
       const trendWrap = document.getElementById("trendWrap");
@@ -498,6 +591,14 @@
       const cbpRegionSelect = document.getElementById("cbpRegionSelect");
       const cbpLandSelect = document.getElementById("cbpLandSelect");
       const cbpAorSelect = document.getElementById("cbpAorSelect");
+
+      const amoIncludeFytd = document.getElementById("amoIncludeFytd");
+      const amoFySelect = document.getElementById("amoFySelect");
+      const amoMonthSelect = document.getElementById("amoMonthSelect");
+      const amoComponentSelect = document.getElementById("amoComponentSelect");
+      const amoRegionSelect = document.getElementById("amoRegionSelect");
+      const amoLandSelect = document.getElementById("amoLandSelect");
+      const amoBranchSelect = document.getElementById("amoBranchSelect");
 
       function setStatus(text) {
         statusEl.textContent = text || "";
@@ -561,19 +662,14 @@
         const drugSet = new Set();
 
         for (const row of rawRows) {
-          // Support both the normalized NFLIS schema and DQS export schema.
           const hasNormalized =
             row.state_abbr !== undefined &&
             row.state_name !== undefined &&
             row.drug_name !== undefined &&
             row.year !== undefined;
 
-          const state_abbr = hasNormalized
-            ? String(row.state_abbr || "").trim()
-            : String(row.STATE || "").trim();
-          const state_name = hasNormalized
-            ? String(row.state_name || "").trim()
-            : String(row.STATE_LONG_NAME || "").trim();
+          const state_abbr = hasNormalized ? String(row.state_abbr || "").trim() : String(row.STATE || "").trim();
+          const state_name = hasNormalized ? String(row.state_name || "").trim() : String(row.STATE_LONG_NAME || "").trim();
           const drug_name = hasNormalized
             ? String(row.drug_name || "").trim()
             : String(row.BASE_DESCRIPTION || row.SUBSTANCE_DESCRIPTION || "").trim();
@@ -584,13 +680,7 @@
 
           const key = `${state_abbr}|${state_name}|${year}|${drug_name}`;
           if (!grouped.has(key)) {
-            grouped.set(key, {
-              state_abbr,
-              state_name,
-              drug_name,
-              year,
-              reports_count: 0,
-            });
+            grouped.set(key, { state_abbr, state_name, drug_name, year, reports_count: 0 });
           }
           grouped.get(key).reports_count += reports_count;
 
@@ -601,8 +691,7 @@
           }
         }
 
-        const rows = [...grouped.values()];
-        store.nflisRows = rows;
+        store.nflisRows = [...grouped.values()];
         store.nflisMeta.years = [...yearSet].sort((a, b) => a - b);
         store.nflisMeta.drugs = [...drugSet].sort((a, b) => a.localeCompare(b));
         store.nflisMeta.states = [...stateMap.values()].sort((a, b) => a.state_abbr.localeCompare(b.state_abbr));
@@ -667,6 +756,65 @@
         store.cbpMeta.aors = [...aorSet].sort((a, b) => a.localeCompare(b));
       }
 
+      function normalizeAmoRows(rawRows) {
+        const rows = [];
+        const fySet = new Set();
+        const monthSet = new Set();
+        const componentSet = new Set();
+        const regionSet = new Set();
+        const landSet = new Set();
+        const branchSet = new Set();
+
+        for (const row of rawRows) {
+          const branch = String(row.branch || "").trim();
+          const fiscal_year_label = String(row.fiscal_year_label || "").trim();
+          const month_abbr = String(row.month_abbr || "").trim().toUpperCase();
+          const month_num = Number(row.month_num);
+          const date = new Date(String(row.calendar_month_start || ""));
+          if (!branch || !fiscal_year_label || !month_abbr || !Number.isFinite(month_num) || Number.isNaN(date.getTime())) {
+            continue;
+          }
+
+          const normalized = {
+            fiscal_year_label,
+            fiscal_year: Number(row.fiscal_year),
+            fiscal_year_is_partial: String(row.fiscal_year_is_partial || "").toLowerCase() === "true",
+            month_abbr,
+            month_num,
+            calendar_month_label: String(row.calendar_month_label || "").trim(),
+            calendar_month_start: date,
+            component: String(row.component || "").trim(),
+            region: String(row.region || "").trim(),
+            land_filter: String(row.land_filter || "").trim(),
+            branch,
+            branch_type: String(row.branch_type || "").trim(),
+            count_of_event: toNumber(row.count_of_event),
+            sum_qty_lbs: toNumber(row.sum_qty_lbs),
+          };
+
+          rows.push(normalized);
+          fySet.add(normalized.fiscal_year_label);
+          monthSet.add(normalized.month_abbr);
+          componentSet.add(normalized.component);
+          regionSet.add(normalized.region);
+          landSet.add(normalized.land_filter);
+          branchSet.add(normalized.branch);
+        }
+
+        store.amoRows = rows;
+        store.amoMeta.fyLabels = [...fySet].sort((a, b) => {
+          const ay = Number((a.match(/\d{4}/) || ["0"])[0]);
+          const by = Number((b.match(/\d{4}/) || ["0"])[0]);
+          if (ay !== by) return ay - by;
+          return a.localeCompare(b);
+        });
+        store.amoMeta.months = MONTH_ORDER.filter((m) => monthSet.has(m));
+        store.amoMeta.components = [...componentSet].sort((a, b) => a.localeCompare(b));
+        store.amoMeta.regions = [...regionSet].sort((a, b) => a.localeCompare(b));
+        store.amoMeta.landFilters = [...landSet].sort((a, b) => a.localeCompare(b));
+        store.amoMeta.branches = [...branchSet].sort((a, b) => a.localeCompare(b));
+      }
+
       function initControls() {
         const nflisYears = store.nflisMeta.years;
         const defaultNflisYears = nflisYears.length ? [String(Math.max(...nflisYears))] : [];
@@ -682,7 +830,14 @@
         setMultiOptions(cbpLandSelect, store.cbpMeta.landFilters, store.cbpMeta.landFilters);
         setMultiOptions(cbpAorSelect, store.cbpMeta.aors, store.cbpMeta.aors);
 
+        setMultiOptions(amoMonthSelect, store.amoMeta.months, store.amoMeta.months);
+        setMultiOptions(amoComponentSelect, store.amoMeta.components, store.amoMeta.components);
+        setMultiOptions(amoRegionSelect, store.amoMeta.regions, store.amoMeta.regions);
+        setMultiOptions(amoLandSelect, store.amoMeta.landFilters, store.amoMeta.landFilters);
+        setMultiOptions(amoBranchSelect, store.amoMeta.branches, store.amoMeta.branches);
+
         updateCbpFyOptions();
+        updateAmoFyOptions();
       }
 
       function updateCbpFyOptions() {
@@ -693,6 +848,16 @@
         const selected = allowedFy.filter((fy) => previouslySelected.includes(fy));
         const defaults = selected.length ? selected : allowedFy;
         setMultiOptions(cbpFySelect, allowedFy, defaults);
+      }
+
+      function updateAmoFyOptions() {
+        const includeFytd = amoIncludeFytd.checked;
+        const allFy = store.amoMeta.fyLabels;
+        const allowedFy = includeFytd ? allFy : allFy.filter((fy) => !fy.toUpperCase().includes("FYTD"));
+        const previouslySelected = selectedValues(amoFySelect);
+        const selected = allowedFy.filter((fy) => previouslySelected.includes(fy));
+        const defaults = selected.length ? selected : allowedFy;
+        setMultiOptions(amoFySelect, allowedFy, defaults);
       }
 
       function bindControls() {
@@ -752,6 +917,35 @@
         });
         document.getElementById("cbpAorNone").addEventListener("click", () => {
           selectAll(cbpAorSelect, false);
+          refresh();
+        });
+
+        amoIncludeFytd.addEventListener("change", () => {
+          updateAmoFyOptions();
+          refresh();
+        });
+        amoFySelect.addEventListener("change", refresh);
+        amoMonthSelect.addEventListener("change", refresh);
+        amoComponentSelect.addEventListener("change", refresh);
+        amoRegionSelect.addEventListener("change", refresh);
+        amoLandSelect.addEventListener("change", refresh);
+        amoBranchSelect.addEventListener("change", refresh);
+        document.querySelectorAll("input[name='amoMetricMode']").forEach((el) => el.addEventListener("change", refresh));
+
+        document.getElementById("amoFyAll").addEventListener("click", () => {
+          selectAll(amoFySelect, true);
+          refresh();
+        });
+        document.getElementById("amoFyNone").addEventListener("click", () => {
+          selectAll(amoFySelect, false);
+          refresh();
+        });
+        document.getElementById("amoBranchAll").addEventListener("click", () => {
+          selectAll(amoBranchSelect, true);
+          refresh();
+        });
+        document.getElementById("amoBranchNone").addEventListener("click", () => {
+          selectAll(amoBranchSelect, false);
           refresh();
         });
 
@@ -849,6 +1043,7 @@
           mode === "avg" ? formatNum(total, 2) : formatNum(total, 0)
         );
 
+        const hoverFmt = mode === "avg" ? "%{z:,.2f}" : "%{z:,.0f}";
         Plotly.newPlot(
           "map",
           [
@@ -862,7 +1057,7 @@
               reversescale: false,
               marker: { line: { color: "#ffffff", width: 0.7 } },
               colorbar: { title: metricLabel },
-              hovertemplate: "%{text} (%{location})<br>" + metricLabel + ": %{z:,.2f}<extra></extra>",
+              hovertemplate: "%{text} (%{location})<br>" + metricLabel + ": " + hoverFmt + "<extra></extra>",
             },
           ],
           {
@@ -921,17 +1116,28 @@
         const landSet = new Set(landFilters);
         const aorSet = new Set(aors);
 
-        const filtered = store.cbpRows.filter((row) =>
-          fySet.has(row.fiscal_year_label) &&
-          monthSet.has(row.month_abbr) &&
-          componentSet.has(row.component) &&
-          regionSet.has(row.region) &&
-          landSet.has(row.land_filter) &&
-          aorSet.has(row.area_of_responsibility)
+        const filtered = store.cbpRows.filter(
+          (row) =>
+            fySet.has(row.fiscal_year_label) &&
+            monthSet.has(row.month_abbr) &&
+            componentSet.has(row.component) &&
+            regionSet.has(row.region) &&
+            landSet.has(row.land_filter) &&
+            aorSet.has(row.area_of_responsibility)
         );
 
         if (!filtered.length) {
           setStatus("No CBP fentanyl records match the selected filters.");
+          setKpis("Selected AOR", "0", "Calendar Span", "N/A", "Seizure events", "0");
+          Plotly.newPlot("map", [], { geo: { scope: "usa" } }, { responsive: true, displayModeBar: false });
+          Plotly.newPlot("trend", [], { margin: { l: 0, r: 0, t: 10, b: 0 } }, { responsive: true, displayModeBar: false });
+          setTable([], [
+            { key: "area_of_responsibility", header: "Field Office / Sector" },
+            { key: "aor_type", header: "Type" },
+            { key: "events_total", header: "Events" },
+            { key: "qty_lbs_total", header: "Qty (lbs)" },
+          ]);
+          currentDownloadRows = [];
           return;
         }
 
@@ -951,7 +1157,7 @@
           rec.qty_lbs_total += row.sum_qty_lbs;
         }
 
-        let grouped = [...groupedMap.values()];
+        const grouped = [...groupedMap.values()];
         for (const rec of grouped) {
           const coords = AOR_COORDS[rec.area_of_responsibility] || [null, null];
           rec.lat = coords[0];
@@ -980,7 +1186,7 @@
         const maxValue = Math.max(...mapRows.map((r) => r.metric_value), 0);
         const markerSizes = mapRows.map((r) => {
           if (maxValue <= 0) return 8;
-          return 8 + (Math.sqrt(r.metric_value / maxValue) * 34);
+          return 8 + Math.sqrt(r.metric_value / maxValue) * 34;
         });
 
         Plotly.newPlot(
@@ -1008,7 +1214,8 @@
                 "Type: %{customdata[0]}<br>" +
                 "Events: %{customdata[1]:,.0f}<br>" +
                 "Qty (lbs): %{customdata[2]:,.2f}<br>" +
-                metricLabel + ": %{customdata[3]:,.2f}<extra></extra>",
+                metricLabel +
+                ": %{customdata[3]:,.2f}<extra></extra>",
             },
           ],
           {
@@ -1084,16 +1291,233 @@
           "Fiscal-year months converted to calendar month-year for trend plotting.";
       }
 
+      function renderAmo() {
+        trendWrap.classList.remove("hidden");
+
+        const fiscalYears = selectedValues(amoFySelect);
+        const months = selectedValues(amoMonthSelect);
+        const components = selectedValues(amoComponentSelect);
+        const regions = selectedValues(amoRegionSelect);
+        const landFilters = selectedValues(amoLandSelect);
+        const branches = selectedValues(amoBranchSelect);
+        const metricMode = document.querySelector("input[name='amoMetricMode']:checked").value;
+
+        if (!fiscalYears.length || !months.length || !components.length || !regions.length || !landFilters.length || !branches.length) {
+          setStatus("Select at least one value for each AMO filter.");
+          setKpis("Selected Branches", "0", "Calendar Span", "N/A", "Seizure events", "0");
+          Plotly.newPlot("map", [], { geo: { scope: "usa" } }, { responsive: true, displayModeBar: false });
+          Plotly.newPlot("trend", [], { margin: { l: 0, r: 0, t: 10, b: 0 } }, { responsive: true, displayModeBar: false });
+          setTable([], [
+            { key: "branch", header: "Branch" },
+            { key: "branch_type", header: "Type" },
+            { key: "events_total", header: "Events" },
+            { key: "qty_lbs_total", header: "Qty (lbs)" },
+          ]);
+          currentDownloadRows = [];
+          return;
+        }
+
+        setStatus("");
+
+        const fySet = new Set(fiscalYears);
+        const monthSet = new Set(months);
+        const componentSet = new Set(components);
+        const regionSet = new Set(regions);
+        const landSet = new Set(landFilters);
+        const branchSet = new Set(branches);
+
+        const filtered = store.amoRows.filter(
+          (row) =>
+            fySet.has(row.fiscal_year_label) &&
+            monthSet.has(row.month_abbr) &&
+            componentSet.has(row.component) &&
+            regionSet.has(row.region) &&
+            landSet.has(row.land_filter) &&
+            branchSet.has(row.branch)
+        );
+
+        if (!filtered.length) {
+          setStatus("No AMO fentanyl records match the selected filters.");
+          setKpis("Selected Branches", "0", "Calendar Span", "N/A", "Seizure events", "0");
+          Plotly.newPlot("map", [], { geo: { scope: "usa" } }, { responsive: true, displayModeBar: false });
+          Plotly.newPlot("trend", [], { margin: { l: 0, r: 0, t: 10, b: 0 } }, { responsive: true, displayModeBar: false });
+          setTable([], [
+            { key: "branch", header: "Branch" },
+            { key: "branch_type", header: "Type" },
+            { key: "events_total", header: "Events" },
+            { key: "qty_lbs_total", header: "Qty (lbs)" },
+          ]);
+          currentDownloadRows = [];
+          return;
+        }
+
+        const groupedMap = new Map();
+        for (const row of filtered) {
+          const key = row.branch;
+          if (!groupedMap.has(key)) {
+            groupedMap.set(key, {
+              branch: row.branch,
+              branch_type: row.branch_type,
+              events_total: 0,
+              qty_lbs_total: 0,
+            });
+          }
+          const rec = groupedMap.get(key);
+          rec.events_total += row.count_of_event;
+          rec.qty_lbs_total += row.sum_qty_lbs;
+        }
+
+        const grouped = [...groupedMap.values()];
+        for (const rec of grouped) {
+          const coords = BRANCH_COORDS[rec.branch] || [null, null];
+          rec.lat = coords[0];
+          rec.lon = coords[1];
+          rec.metric_value = metricMode === "events" ? rec.events_total : rec.qty_lbs_total;
+        }
+
+        const metricLabel = metricMode === "events" ? "Seizure events" : "Seized quantity (lbs)";
+        const metricDigits = metricMode === "events" ? 0 : 2;
+
+        const dates = filtered.map((r) => r.calendar_month_start).sort((a, b) => a - b);
+        const start = dates[0];
+        const end = dates[dates.length - 1];
+        const span = `${start.toISOString().slice(0, 7)} to ${end.toISOString().slice(0, 7)}`;
+
+        setKpis(
+          "Selected Branches",
+          String(grouped.length),
+          "Calendar Span",
+          span,
+          metricLabel,
+          formatNum(grouped.reduce((sum, r) => sum + r.metric_value, 0), metricDigits)
+        );
+
+        const mapRows = grouped.filter((r) => Number.isFinite(r.lat) && Number.isFinite(r.lon));
+        const maxValue = Math.max(...mapRows.map((r) => r.metric_value), 0);
+        const markerSizes = mapRows.map((r) => {
+          if (maxValue <= 0) return 8;
+          return 8 + Math.sqrt(r.metric_value / maxValue) * 34;
+        });
+
+        Plotly.newPlot(
+          "map",
+          [
+            {
+              type: "scattergeo",
+              mode: "markers",
+              lat: mapRows.map((r) => r.lat),
+              lon: mapRows.map((r) => r.lon),
+              text: mapRows.map((r) => r.branch),
+              customdata: mapRows.map((r) => [r.branch_type, r.events_total, r.qty_lbs_total, r.metric_value]),
+              marker: {
+                size: markerSizes,
+                color: mapRows.map((r) => r.metric_value),
+                colorscale: LIGHT_TO_DARK_SCALE,
+                reversescale: false,
+                line: { color: "#ffffff", width: 1 },
+                colorbar: { title: metricLabel },
+                showscale: true,
+                opacity: 0.9,
+              },
+              hovertemplate:
+                "%{text}<br>" +
+                "Type: %{customdata[0]}<br>" +
+                "Events: %{customdata[1]:,.0f}<br>" +
+                "Qty (lbs): %{customdata[2]:,.2f}<br>" +
+                metricLabel +
+                ": %{customdata[3]:,.2f}<extra></extra>",
+            },
+          ],
+          {
+            geo: { scope: "usa", bgcolor: "rgba(0,0,0,0)" },
+            margin: { l: 0, r: 0, t: 12, b: 0 },
+            paper_bgcolor: "rgba(0,0,0,0)",
+            plot_bgcolor: "rgba(0,0,0,0)",
+          },
+          { responsive: true, displayModeBar: false }
+        );
+
+        if (grouped.length > mapRows.length) {
+          setStatus(`${grouped.length - mapRows.length} branch entries were excluded from map due to missing coordinates.`);
+        }
+
+        const monthlyMap = new Map();
+        for (const row of filtered) {
+          const key = row.calendar_month_start.toISOString().slice(0, 10);
+          if (!monthlyMap.has(key)) {
+            monthlyMap.set(key, { date: key, events: 0, lbs: 0 });
+          }
+          const rec = monthlyMap.get(key);
+          rec.events += row.count_of_event;
+          rec.lbs += row.sum_qty_lbs;
+        }
+        const monthly = [...monthlyMap.values()].sort((a, b) => a.date.localeCompare(b.date));
+        const trendY = metricMode === "events" ? monthly.map((r) => r.events) : monthly.map((r) => r.lbs);
+
+        Plotly.newPlot(
+          "trend",
+          [
+            {
+              type: "scatter",
+              mode: "lines+markers",
+              x: monthly.map((r) => r.date),
+              y: trendY,
+              line: { color: "#d95f0e", width: 2 },
+              marker: { size: 5, color: "#8c2d04" },
+              hovertemplate: "%{x}<br>" + metricLabel + ": %{y:,.2f}<extra></extra>",
+            },
+          ],
+          {
+            title: `Monthly AMO fentanyl trend (${metricLabel})`,
+            margin: { l: 0, r: 0, t: 36, b: 10 },
+            xaxis: { title: "Calendar month-year" },
+            yaxis: { title: metricLabel },
+            paper_bgcolor: "rgba(0,0,0,0)",
+            plot_bgcolor: "rgba(0,0,0,0)",
+          },
+          { responsive: true, displayModeBar: false }
+        );
+
+        grouped.sort((a, b) => b.metric_value - a.metric_value);
+        setTable(grouped, [
+          { key: "branch", header: "Branch" },
+          { key: "branch_type", header: "Type" },
+          { key: "events_total", header: "Events", render: (v) => formatNum(v, 0) },
+          { key: "qty_lbs_total", header: "Qty (lbs)", render: (v) => formatNum(v, 2) },
+          { key: "metric_value", header: metricLabel, render: (v) => formatNum(v, metricDigits) },
+        ]);
+
+        currentDownloadRows = grouped.map((r) => ({
+          branch: r.branch,
+          branch_type: r.branch_type,
+          events_total: r.events_total,
+          qty_lbs_total: r.qty_lbs_total,
+          metric_mode: metricMode,
+          metric_value: r.metric_value,
+        }));
+        currentDownloadFilename = "amo_fentanyl_filtered_branch_totals.csv";
+        footerNote.innerHTML =
+          "Data files: <code>docs/amo_fentanyl_branch_monthly_2019_2026_dec.csv</code><br>" +
+          "Fiscal-year months converted to calendar month-year for trend plotting.";
+      }
+
       function refresh() {
         const source = sourceSelect.value;
         if (source === "nflis") {
           nflisControls.classList.remove("hidden");
           cbpControls.classList.add("hidden");
+          amoControls.classList.add("hidden");
           renderNflis();
-        } else {
+        } else if (source === "cbp") {
           nflisControls.classList.add("hidden");
           cbpControls.classList.remove("hidden");
+          amoControls.classList.add("hidden");
           renderCbp();
+        } else {
+          nflisControls.classList.add("hidden");
+          cbpControls.classList.add("hidden");
+          amoControls.classList.remove("hidden");
+          renderAmo();
         }
       }
 
@@ -1121,9 +1545,14 @@
       async function boot() {
         try {
           setStatus("Loading datasets...");
-          const [nflisRaw, cbpRaw] = await Promise.all([parseCsv(NFLIS_DATA_FILE), parseCsv(CBP_DATA_FILE)]);
+          const [nflisRaw, cbpRaw, amoRaw] = await Promise.all([
+            parseCsv(NFLIS_DATA_FILE),
+            parseCsv(CBP_DATA_FILE),
+            parseCsv(AMO_DATA_FILE),
+          ]);
           normalizeNflisRows(nflisRaw);
           normalizeCbpRows(cbpRaw);
+          normalizeAmoRows(amoRaw);
           initControls();
           bindControls();
           setStatus("");
