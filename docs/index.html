@@ -241,7 +241,7 @@
     <div class="shell">
       <h1>U.S. Drug Seizure Dashboard</h1>
       <div class="subtitle">
-        Combined dashboard with NFLIS state reports, CBP fentanyl seizures (Field Office/Sector), and AMO fentanyl seizures (Branch).
+        Combined dashboard with NFLIS state reports and a unified CBP + AMO fentanyl seizure dataset (with source-specific views optional).
       </div>
 
       <div class="grid">
@@ -250,6 +250,7 @@
             <label class="label" for="sourceSelect">Data Source</label>
             <select id="sourceSelect">
               <option value="nflis">NFLIS state reports (all drugs)</option>
+              <option value="ops">CBP + AMO fentanyl seizures (combined)</option>
               <option value="cbp">CBP fentanyl seizures (Field Office/Sector)</option>
               <option value="amo">AMO fentanyl seizures (Branch)</option>
             </select>
@@ -294,6 +295,80 @@
                 <input type="checkbox" id="nflisHideZero" />
                 Hide states with zero values
               </label>
+            </div>
+          </div>
+
+          <div id="opsControls" class="hidden">
+            <div class="section">
+              <label>
+                <input type="checkbox" id="opsIncludeFytd" />
+                Include FYTD (partial fiscal year)
+              </label>
+              <div class="hint">
+                U.S. fiscal year months are converted to actual calendar month-year (Oct-Dec map to prior year).
+              </div>
+            </div>
+
+            <div class="section">
+              <label class="label" for="opsFySelect">Fiscal Years</label>
+              <select id="opsFySelect" multiple></select>
+              <div class="btn-row">
+                <button type="button" id="opsFyAll">All FY</button>
+                <button type="button" id="opsFyNone">Clear FY</button>
+              </div>
+            </div>
+
+            <div class="section">
+              <label class="label" for="opsMonthSelect">Month</label>
+              <select id="opsMonthSelect" multiple></select>
+            </div>
+
+            <div class="section">
+              <label class="label" for="opsOrgSelect">Organization</label>
+              <select id="opsOrgSelect" multiple></select>
+            </div>
+
+            <div class="section">
+              <label class="label" for="opsComponentSelect">Component</label>
+              <select id="opsComponentSelect" multiple></select>
+            </div>
+
+            <div class="section">
+              <label class="label" for="opsRegionSelect">Region</label>
+              <select id="opsRegionSelect" multiple></select>
+            </div>
+
+            <div class="section">
+              <label class="label" for="opsLandSelect">Land Filter</label>
+              <select id="opsLandSelect" multiple></select>
+            </div>
+
+            <div class="section">
+              <label class="label" for="opsLocationTypeSelect">Location Type</label>
+              <select id="opsLocationTypeSelect" multiple></select>
+            </div>
+
+            <div class="section">
+              <label class="label" for="opsLocationSelect">Location (AOR / Branch)</label>
+              <select id="opsLocationSelect" multiple></select>
+              <div class="btn-row">
+                <button type="button" id="opsLocationAll">All Locations</button>
+                <button type="button" id="opsLocationNone">Clear Locations</button>
+              </div>
+            </div>
+
+            <div class="section">
+              <span class="label">Metric</span>
+              <div class="toggle-row">
+                <label>
+                  <input type="radio" name="opsMetricMode" value="events" checked />
+                  Seizure events
+                </label>
+                <label>
+                  <input type="radio" name="opsMetricMode" value="lbs" />
+                  Seized quantity (lbs)
+                </label>
+              </div>
             </div>
           </div>
 
@@ -473,6 +548,7 @@
       const NFLIS_DATA_FILE = "./NFLIS_Drug_DQS_2026_03_03_13_26_55.csv";
       const CBP_DATA_FILE = "./cbp_fentanyl_aor_monthly_2019_2026_dec.csv";
       const AMO_DATA_FILE = "./amo_fentanyl_branch_monthly_2019_2026_dec.csv";
+      const OPS_DATA_FILE = "./cbp_amo_fentanyl_location_monthly_2019_2026_dec.csv";
 
       const LIGHT_TO_DARK_SCALE = [
         [0.0, "#fff7bc"],
@@ -556,9 +632,20 @@
         nflisRows: [],
         cbpRows: [],
         amoRows: [],
+        opsRows: [],
         nflisMeta: { years: [], drugs: [], states: [] },
         cbpMeta: { fyLabels: [], months: [], components: [], regions: [], landFilters: [], aors: [] },
         amoMeta: { fyLabels: [], months: [], components: [], regions: [], landFilters: [], branches: [] },
+        opsMeta: {
+          fyLabels: [],
+          months: [],
+          organizations: [],
+          components: [],
+          regions: [],
+          landFilters: [],
+          locationTypes: [],
+          locations: [],
+        },
       };
 
       let currentDownloadRows = [];
@@ -566,6 +653,7 @@
 
       const sourceSelect = document.getElementById("sourceSelect");
       const nflisControls = document.getElementById("nflisControls");
+      const opsControls = document.getElementById("opsControls");
       const cbpControls = document.getElementById("cbpControls");
       const amoControls = document.getElementById("amoControls");
       const statusEl = document.getElementById("status");
@@ -584,6 +672,16 @@
       const nflisYearSelect = document.getElementById("nflisYearSelect");
       const nflisDrugSelect = document.getElementById("nflisDrugSelect");
       const nflisHideZero = document.getElementById("nflisHideZero");
+
+      const opsIncludeFytd = document.getElementById("opsIncludeFytd");
+      const opsFySelect = document.getElementById("opsFySelect");
+      const opsMonthSelect = document.getElementById("opsMonthSelect");
+      const opsOrgSelect = document.getElementById("opsOrgSelect");
+      const opsComponentSelect = document.getElementById("opsComponentSelect");
+      const opsRegionSelect = document.getElementById("opsRegionSelect");
+      const opsLandSelect = document.getElementById("opsLandSelect");
+      const opsLocationTypeSelect = document.getElementById("opsLocationTypeSelect");
+      const opsLocationSelect = document.getElementById("opsLocationSelect");
 
       const cbpIncludeFytd = document.getElementById("cbpIncludeFytd");
       const cbpFySelect = document.getElementById("cbpFySelect");
@@ -816,6 +914,84 @@
         store.amoMeta.branches = [...branchSet].sort((a, b) => a.localeCompare(b));
       }
 
+      function normalizeOpsRows(rawRows) {
+        const rows = [];
+        const fySet = new Set();
+        const monthSet = new Set();
+        const orgSet = new Set();
+        const componentSet = new Set();
+        const regionSet = new Set();
+        const landSet = new Set();
+        const locationTypeSet = new Set();
+        const locationSet = new Set();
+
+        for (const row of rawRows) {
+          const organization = String(row.organization || "").trim();
+          const fiscal_year_label = String(row.fiscal_year_label || "").trim();
+          const month_abbr = String(row.month_abbr || "").trim().toUpperCase();
+          const month_num = Number(row.month_num);
+          const date = new Date(String(row.calendar_month_start || ""));
+          const location_name = String(row.location_name || "").trim();
+          const location_type = String(row.location_type || "").trim();
+          if (
+            !organization ||
+            !fiscal_year_label ||
+            !month_abbr ||
+            !Number.isFinite(month_num) ||
+            Number.isNaN(date.getTime()) ||
+            !location_name ||
+            !location_type
+          ) {
+            continue;
+          }
+
+          const normalized = {
+            organization,
+            fiscal_year_label,
+            fiscal_year: Number(row.fiscal_year),
+            fiscal_year_is_partial: String(row.fiscal_year_is_partial || "").toLowerCase() === "true",
+            month_abbr,
+            month_num,
+            calendar_month_label: String(row.calendar_month_label || "").trim(),
+            calendar_month_start: date,
+            component: String(row.component || "").trim(),
+            region: String(row.region || "").trim(),
+            land_filter: String(row.land_filter || "").trim(),
+            location_name,
+            location_type,
+            count_of_event: toNumber(row.count_of_event),
+            sum_qty_lbs: toNumber(row.sum_qty_lbs),
+            lat: String(row.lat ?? "").trim() === "" ? NaN : Number(row.lat),
+            lon: String(row.lon ?? "").trim() === "" ? NaN : Number(row.lon),
+          };
+
+          rows.push(normalized);
+          fySet.add(normalized.fiscal_year_label);
+          monthSet.add(normalized.month_abbr);
+          orgSet.add(normalized.organization);
+          componentSet.add(normalized.component);
+          regionSet.add(normalized.region);
+          landSet.add(normalized.land_filter);
+          locationTypeSet.add(normalized.location_type);
+          locationSet.add(normalized.location_name);
+        }
+
+        store.opsRows = rows;
+        store.opsMeta.fyLabels = [...fySet].sort((a, b) => {
+          const ay = Number((a.match(/\d{4}/) || ["0"])[0]);
+          const by = Number((b.match(/\d{4}/) || ["0"])[0]);
+          if (ay !== by) return ay - by;
+          return a.localeCompare(b);
+        });
+        store.opsMeta.months = MONTH_ORDER.filter((m) => monthSet.has(m));
+        store.opsMeta.organizations = [...orgSet].sort((a, b) => a.localeCompare(b));
+        store.opsMeta.components = [...componentSet].sort((a, b) => a.localeCompare(b));
+        store.opsMeta.regions = [...regionSet].sort((a, b) => a.localeCompare(b));
+        store.opsMeta.landFilters = [...landSet].sort((a, b) => a.localeCompare(b));
+        store.opsMeta.locationTypes = [...locationTypeSet].sort((a, b) => a.localeCompare(b));
+        store.opsMeta.locations = [...locationSet].sort((a, b) => a.localeCompare(b));
+      }
+
       function initControls() {
         const nflisYears = store.nflisMeta.years;
         const defaultNflisYears = nflisYears.length ? [String(Math.max(...nflisYears))] : [];
@@ -824,6 +1000,13 @@
         const nflisDrugs = store.nflisMeta.drugs;
         const defaultDrug = nflisDrugs.includes("Fentanyl") ? ["Fentanyl"] : nflisDrugs.slice(0, 1);
         setMultiOptions(nflisDrugSelect, nflisDrugs, defaultDrug);
+
+        setMultiOptions(opsMonthSelect, store.opsMeta.months, store.opsMeta.months);
+        setMultiOptions(opsOrgSelect, store.opsMeta.organizations, store.opsMeta.organizations);
+        setMultiOptions(opsComponentSelect, store.opsMeta.components, store.opsMeta.components);
+        setMultiOptions(opsRegionSelect, store.opsMeta.regions, store.opsMeta.regions);
+        setMultiOptions(opsLandSelect, store.opsMeta.landFilters, store.opsMeta.landFilters);
+        setMultiOptions(opsLocationTypeSelect, store.opsMeta.locationTypes, store.opsMeta.locationTypes);
 
         setMultiOptions(cbpMonthSelect, store.cbpMeta.months, store.cbpMeta.months);
         setMultiOptions(cbpComponentSelect, store.cbpMeta.components, store.cbpMeta.components);
@@ -837,8 +1020,37 @@
         setMultiOptions(amoLandSelect, store.amoMeta.landFilters, store.amoMeta.landFilters);
         setMultiOptions(amoBranchSelect, store.amoMeta.branches, store.amoMeta.branches);
 
+        updateOpsFyOptions();
+        updateOpsLocationOptions();
         updateCbpFyOptions();
         updateAmoFyOptions();
+      }
+
+      function updateOpsFyOptions() {
+        const includeFytd = opsIncludeFytd.checked;
+        const allFy = store.opsMeta.fyLabels;
+        const allowedFy = includeFytd ? allFy : allFy.filter((fy) => !fy.toUpperCase().includes("FYTD"));
+        const previouslySelected = selectedValues(opsFySelect);
+        const selected = allowedFy.filter((fy) => previouslySelected.includes(fy));
+        const defaults = selected.length ? selected : allowedFy;
+        setMultiOptions(opsFySelect, allowedFy, defaults);
+      }
+
+      function updateOpsLocationOptions() {
+        const selectedOrgs = selectedValues(opsOrgSelect);
+        const selectedTypes = selectedValues(opsLocationTypeSelect);
+        const orgSet = new Set(selectedOrgs.length ? selectedOrgs : store.opsMeta.organizations);
+        const typeSet = new Set(selectedTypes.length ? selectedTypes : store.opsMeta.locationTypes);
+        const available = [...new Set(
+          store.opsRows
+            .filter((row) => orgSet.has(row.organization) && typeSet.has(row.location_type))
+            .map((row) => row.location_name)
+        )].sort((a, b) => a.localeCompare(b));
+
+        const previouslySelected = selectedValues(opsLocationSelect);
+        const selected = available.filter((name) => previouslySelected.includes(name));
+        const defaults = selected.length ? selected : available;
+        setMultiOptions(opsLocationSelect, available, defaults);
       }
 
       function updateCbpFyOptions() {
@@ -889,6 +1101,43 @@
           [...nflisDrugSelect.options].forEach((opt) => {
             opt.selected = opt.value === "Fentanyl";
           });
+          refresh();
+        });
+
+        opsIncludeFytd.addEventListener("change", () => {
+          updateOpsFyOptions();
+          refresh();
+        });
+        opsFySelect.addEventListener("change", refresh);
+        opsMonthSelect.addEventListener("change", refresh);
+        opsOrgSelect.addEventListener("change", () => {
+          updateOpsLocationOptions();
+          refresh();
+        });
+        opsComponentSelect.addEventListener("change", refresh);
+        opsRegionSelect.addEventListener("change", refresh);
+        opsLandSelect.addEventListener("change", refresh);
+        opsLocationTypeSelect.addEventListener("change", () => {
+          updateOpsLocationOptions();
+          refresh();
+        });
+        opsLocationSelect.addEventListener("change", refresh);
+        document.querySelectorAll("input[name='opsMetricMode']").forEach((el) => el.addEventListener("change", refresh));
+
+        document.getElementById("opsFyAll").addEventListener("click", () => {
+          selectAll(opsFySelect, true);
+          refresh();
+        });
+        document.getElementById("opsFyNone").addEventListener("click", () => {
+          selectAll(opsFySelect, false);
+          refresh();
+        });
+        document.getElementById("opsLocationAll").addEventListener("click", () => {
+          selectAll(opsLocationSelect, true);
+          refresh();
+        });
+        document.getElementById("opsLocationNone").addEventListener("click", () => {
+          selectAll(opsLocationSelect, false);
           refresh();
         });
 
@@ -1080,6 +1329,238 @@
         currentDownloadRows = rows.map((r) => ({ ...r, metric_mode: mode }));
         currentDownloadFilename = "nflis_filtered_state_totals.csv";
         footerNote.innerHTML = "Data files: <code>docs/NFLIS_Drug_DQS_2026_03_03_13_26_55.csv</code>";
+      }
+
+      function renderOps() {
+        trendWrap.classList.remove("hidden");
+
+        const fiscalYears = selectedValues(opsFySelect);
+        const months = selectedValues(opsMonthSelect);
+        const orgs = selectedValues(opsOrgSelect);
+        const components = selectedValues(opsComponentSelect);
+        const regions = selectedValues(opsRegionSelect);
+        const landFilters = selectedValues(opsLandSelect);
+        const locationTypes = selectedValues(opsLocationTypeSelect);
+        const locations = selectedValues(opsLocationSelect);
+        const metricMode = document.querySelector("input[name='opsMetricMode']:checked").value;
+
+        if (
+          !fiscalYears.length ||
+          !months.length ||
+          !orgs.length ||
+          !components.length ||
+          !regions.length ||
+          !landFilters.length ||
+          !locationTypes.length ||
+          !locations.length
+        ) {
+          setStatus("Select at least one value for each combined filter.");
+          setKpis("Selected Locations", "0", "Calendar Span", "N/A", "Seizure events", "0");
+          Plotly.newPlot("map", [], { geo: { scope: "usa" } }, { responsive: true, displayModeBar: false });
+          Plotly.newPlot("trend", [], { margin: { l: 0, r: 0, t: 10, b: 0 } }, { responsive: true, displayModeBar: false });
+          setTable([], [
+            { key: "organization", header: "Organization" },
+            { key: "location_name", header: "Location" },
+            { key: "location_type", header: "Type" },
+            { key: "events_total", header: "Events" },
+            { key: "qty_lbs_total", header: "Qty (lbs)" },
+          ]);
+          currentDownloadRows = [];
+          return;
+        }
+
+        setStatus("");
+
+        const fySet = new Set(fiscalYears);
+        const monthSet = new Set(months);
+        const orgSet = new Set(orgs);
+        const componentSet = new Set(components);
+        const regionSet = new Set(regions);
+        const landSet = new Set(landFilters);
+        const locationTypeSet = new Set(locationTypes);
+        const locationSet = new Set(locations);
+
+        const filtered = store.opsRows.filter(
+          (row) =>
+            fySet.has(row.fiscal_year_label) &&
+            monthSet.has(row.month_abbr) &&
+            orgSet.has(row.organization) &&
+            componentSet.has(row.component) &&
+            regionSet.has(row.region) &&
+            landSet.has(row.land_filter) &&
+            locationTypeSet.has(row.location_type) &&
+            locationSet.has(row.location_name)
+        );
+
+        if (!filtered.length) {
+          setStatus("No combined CBP/AMO fentanyl records match the selected filters.");
+          setKpis("Selected Locations", "0", "Calendar Span", "N/A", "Seizure events", "0");
+          Plotly.newPlot("map", [], { geo: { scope: "usa" } }, { responsive: true, displayModeBar: false });
+          Plotly.newPlot("trend", [], { margin: { l: 0, r: 0, t: 10, b: 0 } }, { responsive: true, displayModeBar: false });
+          setTable([], [
+            { key: "organization", header: "Organization" },
+            { key: "location_name", header: "Location" },
+            { key: "location_type", header: "Type" },
+            { key: "events_total", header: "Events" },
+            { key: "qty_lbs_total", header: "Qty (lbs)" },
+          ]);
+          currentDownloadRows = [];
+          return;
+        }
+
+        const groupedMap = new Map();
+        for (const row of filtered) {
+          const key = `${row.organization}|${row.location_name}|${row.location_type}`;
+          if (!groupedMap.has(key)) {
+            groupedMap.set(key, {
+              organization: row.organization,
+              location_name: row.location_name,
+              location_type: row.location_type,
+              events_total: 0,
+              qty_lbs_total: 0,
+              lat: Number.isFinite(row.lat) ? row.lat : null,
+              lon: Number.isFinite(row.lon) ? row.lon : null,
+            });
+          }
+          const rec = groupedMap.get(key);
+          rec.events_total += row.count_of_event;
+          rec.qty_lbs_total += row.sum_qty_lbs;
+          if (!Number.isFinite(rec.lat) && Number.isFinite(row.lat)) rec.lat = row.lat;
+          if (!Number.isFinite(rec.lon) && Number.isFinite(row.lon)) rec.lon = row.lon;
+        }
+
+        const grouped = [...groupedMap.values()];
+        for (const rec of grouped) {
+          rec.metric_value = metricMode === "events" ? rec.events_total : rec.qty_lbs_total;
+        }
+
+        const metricLabel = metricMode === "events" ? "Seizure events" : "Seized quantity (lbs)";
+        const metricDigits = metricMode === "events" ? 0 : 2;
+
+        const dates = filtered.map((r) => r.calendar_month_start).sort((a, b) => a - b);
+        const start = dates[0];
+        const end = dates[dates.length - 1];
+        const span = `${start.toISOString().slice(0, 7)} to ${end.toISOString().slice(0, 7)}`;
+
+        setKpis(
+          "Selected Locations",
+          String(grouped.length),
+          "Calendar Span",
+          span,
+          metricLabel,
+          formatNum(grouped.reduce((sum, r) => sum + r.metric_value, 0), metricDigits)
+        );
+
+        const mapRows = grouped.filter((r) => Number.isFinite(r.lat) && Number.isFinite(r.lon));
+        const maxValue = Math.max(...mapRows.map((r) => r.metric_value), 0);
+        const markerSizes = mapRows.map((r) => {
+          if (maxValue <= 0) return 8;
+          return 8 + Math.sqrt(r.metric_value / maxValue) * 34;
+        });
+
+        Plotly.newPlot(
+          "map",
+          [
+            {
+              type: "scattergeo",
+              mode: "markers",
+              lat: mapRows.map((r) => r.lat),
+              lon: mapRows.map((r) => r.lon),
+              text: mapRows.map((r) => r.location_name),
+              customdata: mapRows.map((r) => [r.organization, r.location_type, r.events_total, r.qty_lbs_total, r.metric_value]),
+              marker: {
+                size: markerSizes,
+                color: mapRows.map((r) => r.metric_value),
+                colorscale: LIGHT_TO_DARK_SCALE,
+                reversescale: false,
+                line: { color: "#ffffff", width: 1 },
+                colorbar: { title: metricLabel },
+                showscale: true,
+                opacity: 0.9,
+              },
+              hovertemplate:
+                "%{text}<br>" +
+                "Org: %{customdata[0]}<br>" +
+                "Type: %{customdata[1]}<br>" +
+                "Events: %{customdata[2]:,.0f}<br>" +
+                "Qty (lbs): %{customdata[3]:,.2f}<br>" +
+                metricLabel +
+                ": %{customdata[4]:,.2f}<extra></extra>",
+            },
+          ],
+          {
+            geo: { scope: "usa", bgcolor: "rgba(0,0,0,0)" },
+            margin: { l: 0, r: 0, t: 12, b: 0 },
+            paper_bgcolor: "rgba(0,0,0,0)",
+            plot_bgcolor: "rgba(0,0,0,0)",
+          },
+          { responsive: true, displayModeBar: false }
+        );
+
+        if (grouped.length > mapRows.length) {
+          setStatus(`${grouped.length - mapRows.length} location entries were excluded from map due to missing coordinates.`);
+        }
+
+        const monthlyMap = new Map();
+        for (const row of filtered) {
+          const key = row.calendar_month_start.toISOString().slice(0, 10);
+          if (!monthlyMap.has(key)) {
+            monthlyMap.set(key, { date: key, events: 0, lbs: 0 });
+          }
+          const rec = monthlyMap.get(key);
+          rec.events += row.count_of_event;
+          rec.lbs += row.sum_qty_lbs;
+        }
+        const monthly = [...monthlyMap.values()].sort((a, b) => a.date.localeCompare(b.date));
+        const trendY = metricMode === "events" ? monthly.map((r) => r.events) : monthly.map((r) => r.lbs);
+
+        Plotly.newPlot(
+          "trend",
+          [
+            {
+              type: "scatter",
+              mode: "lines+markers",
+              x: monthly.map((r) => r.date),
+              y: trendY,
+              line: { color: "#d95f0e", width: 2 },
+              marker: { size: 5, color: "#8c2d04" },
+              hovertemplate: "%{x}<br>" + metricLabel + ": %{y:,.2f}<extra></extra>",
+            },
+          ],
+          {
+            title: `Monthly combined CBP + AMO fentanyl trend (${metricLabel})`,
+            margin: { l: 0, r: 0, t: 36, b: 10 },
+            xaxis: { title: "Calendar month-year" },
+            yaxis: { title: metricLabel },
+            paper_bgcolor: "rgba(0,0,0,0)",
+            plot_bgcolor: "rgba(0,0,0,0)",
+          },
+          { responsive: true, displayModeBar: false }
+        );
+
+        grouped.sort((a, b) => b.metric_value - a.metric_value);
+        setTable(grouped, [
+          { key: "organization", header: "Organization" },
+          { key: "location_name", header: "Location" },
+          { key: "location_type", header: "Type" },
+          { key: "events_total", header: "Events", render: (v) => formatNum(v, 0) },
+          { key: "qty_lbs_total", header: "Qty (lbs)", render: (v) => formatNum(v, 2) },
+          { key: "metric_value", header: metricLabel, render: (v) => formatNum(v, metricDigits) },
+        ]);
+
+        currentDownloadRows = grouped.map((r) => ({
+          organization: r.organization,
+          location_name: r.location_name,
+          location_type: r.location_type,
+          events_total: r.events_total,
+          qty_lbs_total: r.qty_lbs_total,
+          metric_mode: metricMode,
+          metric_value: r.metric_value,
+        }));
+        currentDownloadFilename = "cbp_amo_fentanyl_filtered_location_totals.csv";
+        footerNote.innerHTML =
+          "Data files: <code>docs/cbp_amo_fentanyl_location_monthly_2019_2026_dec.csv</code><br>" +
+          "Combined from CBP enforcement statistics and AMO operations statistics.";
       }
 
       function renderCbp() {
@@ -1506,16 +1987,25 @@
         const source = sourceSelect.value;
         if (source === "nflis") {
           nflisControls.classList.remove("hidden");
+          opsControls.classList.add("hidden");
           cbpControls.classList.add("hidden");
           amoControls.classList.add("hidden");
           renderNflis();
+        } else if (source === "ops") {
+          nflisControls.classList.add("hidden");
+          opsControls.classList.remove("hidden");
+          cbpControls.classList.add("hidden");
+          amoControls.classList.add("hidden");
+          renderOps();
         } else if (source === "cbp") {
           nflisControls.classList.add("hidden");
+          opsControls.classList.add("hidden");
           cbpControls.classList.remove("hidden");
           amoControls.classList.add("hidden");
           renderCbp();
         } else {
           nflisControls.classList.add("hidden");
+          opsControls.classList.add("hidden");
           cbpControls.classList.add("hidden");
           amoControls.classList.remove("hidden");
           renderAmo();
@@ -1546,12 +2036,14 @@
       async function boot() {
         try {
           setStatus("Loading datasets...");
-          const [nflisRaw, cbpRaw, amoRaw] = await Promise.all([
+          const [nflisRaw, opsRaw, cbpRaw, amoRaw] = await Promise.all([
             parseCsv(NFLIS_DATA_FILE),
+            parseCsv(OPS_DATA_FILE),
             parseCsv(CBP_DATA_FILE),
             parseCsv(AMO_DATA_FILE),
           ]);
           normalizeNflisRows(nflisRaw);
+          normalizeOpsRows(opsRaw);
           normalizeCbpRows(cbpRaw);
           normalizeAmoRows(amoRaw);
           initControls();
