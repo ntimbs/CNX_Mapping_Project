@@ -21,38 +21,55 @@ python3 "Fentanyl Data/build_fentanyl_state_year_template.py"
   - One row per `state_name, year`
   - Includes NFLIS derived metrics plus DEA FPP placeholder fields
 
-## Interactive dashboard
+## Interactive dashboard (Streamlit)
 
-You can run a local Streamlit dashboard that maps selected drug/year combinations:
+You can run the local multi-source dashboard with:
 
 ```bash
 python3 -m pip install -r "Fentanyl Data/dashboard_requirements.txt"
 streamlit run "Fentanyl Data/nflis_state_drug_dashboard.py"
 ```
 
-Dashboard features:
-- Multi-select drugs
-- Multi-select years
-- U.S. choropleth map by state
-- Toggle between total and average annual reports
-- Download filtered state-level totals as CSV
+Current Streamlit data sources:
+- NFLIS state reports (all drugs)
+- Synthetic opioid overdose deaths (national)
+- CBP + AMO fentanyl seizures (combined)
+- CBP fentanyl seizures (Field Office/Sector)
+- AMO fentanyl seizures (Branch)
+
+Current Streamlit behavior highlights:
+- NFLIS: state choropleth + drug/year filters
+- CBP/AMO/combined: fiscal-to-calendar converted monthly operational views
+- Overdose: national monthly series with a U.S. marker (no state-level breakout in source data)
 
 ## GitHub Pages dashboard
 
-This repo now includes a static dashboard in `docs/` so it can run directly from GitHub Pages:
+This repo includes a static dashboard in `docs/` that runs directly on GitHub Pages:
 
 - `docs/index.html`
 - `docs/NFLIS_Drug_DQS_2026_03_03_13_26_55.csv`
 - `docs/cbp_fentanyl_aor_monthly_2019_2026_dec.csv`
-- `.github/workflows/deploy-pages.yml`
+- `docs/amo_fentanyl_branch_monthly_2019_2026_dec.csv`
+- `docs/cbp_amo_fentanyl_location_monthly_2019_2026_dec.csv`
+- `docs/overdoseDeathsData_cleaned.csv`
 
-After GitHub Pages is enabled for this repository, your URL will be:
+GitHub Pages is published at:
 
 `https://ntimbs.github.io/CNX_Mapping_Project/`
 
-## CBP fentanyl dataset build
+Pages deploy note:
+- This repository currently uses GitHub's built-in Pages pipeline (`pages build and deployment`) from `main`.
+- There is no custom `.github/workflows/deploy-pages.yml` in this repo.
 
-To build the CBP Field Office/Sector fentanyl file from the two nationwide-drugs extracts:
+## CBP/AMO fentanyl dataset builds
+
+Raw source inputs are kept in `Drug Border Seizures/`:
+- `nationwide-drugs-fy19-fy22.csv`
+- `nationwide-drugs-fy23-fy26-dec.csv`
+- `amo-drug-seizures-fy19-fy22.csv`
+- `amo-drug-seizures-fy23-fy26-dec.csv`
+
+Build CBP Field Office/Sector fentanyl rows:
 
 ```bash
 python3 "Drug Border Seizures/build_cbp_fentanyl_dataset.py"
@@ -60,6 +77,20 @@ cp "Drug Border Seizures/cbp_fentanyl_aor_monthly_2019_2026_dec.csv" "docs/cbp_f
 ```
 
 The builder filters to `Drug Type == Fentanyl` and converts fiscal month labels to real calendar month-year (`Oct-Dec` map to `FY-1`).
+
+Build AMO branch fentanyl rows:
+
+```bash
+python3 "Drug Border Seizures/build_amo_fentanyl_dataset.py"
+cp "Drug Border Seizures/amo_fentanyl_branch_monthly_2019_2026_dec.csv" "docs/amo_fentanyl_branch_monthly_2019_2026_dec.csv"
+```
+
+Build combined CBP + AMO location rows:
+
+```bash
+python3 "Drug Border Seizures/build_cbp_amo_combined_fentanyl_dataset.py"
+cp "Drug Border Seizures/cbp_amo_fentanyl_location_monthly_2019_2026_dec.csv" "docs/cbp_amo_fentanyl_location_monthly_2019_2026_dec.csv"
+```
 
 ## Key columns in `us_state_year_fentanyl_template_2017_2023.csv`
 

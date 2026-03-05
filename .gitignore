@@ -1,0 +1,23 @@
+# OS / editor artifacts
+.DS_Store
+
+# Python cache artifacts
+__pycache__/
+*.py[cod]
+
+# Local virtual environment
+.venv/
+
+# Local-only analysis data/workspaces (not used by the fentanyl dashboards)
+ACLED DATA/
+ACLED Geo Data/
+GeoAI QGIS/
+Main Code/
+plots/
+qgis_assets/
+cnx_transactions.csv
+cnx_transactions_us_sender_or_receiver.csv
+Mexican_Cartel_Info.csv
+
+# Local backup artifacts
+Fentanyl Data/Fentanyl_Precursor_List_Combined_with_schedule_dates.backup_*.xlsx

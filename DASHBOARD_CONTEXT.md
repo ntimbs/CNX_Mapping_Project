@@ -19,6 +19,13 @@ Both dashboards currently support the following data sources:
 
 ## Key data files
 
+### Branch + deploy baseline
+
+- Deployment branch: `main`
+- Working branch: `codex/pages-dashboard`
+- Current practice: keep `main` and `codex/pages-dashboard` synchronized for dashboard changes.
+- Pages deploy system: GitHub built-in `pages build and deployment` (dynamic), not a custom workflow file.
+
 ### NFLIS
 
 - Primary NFLIS file used in both dashboards:
@@ -64,6 +71,13 @@ Both dashboards currently support the following data sources:
   - `Drug Border Seizures/build_amo_fentanyl_dataset.py`
 - CBP + AMO combined builder:
   - `Drug Border Seizures/build_cbp_amo_combined_fentanyl_dataset.py`
+
+### Raw CBP/AMO inputs (versioned)
+
+- `Drug Border Seizures/nationwide-drugs-fy19-fy22.csv`
+- `Drug Border Seizures/nationwide-drugs-fy23-fy26-dec.csv`
+- `Drug Border Seizures/amo-drug-seizures-fy19-fy22.csv`
+- `Drug Border Seizures/amo-drug-seizures-fy23-fy26-dec.csv`
 
 Rebuild combined ops dataset:
 
@@ -127,7 +141,13 @@ Then open:
 
 - `http://localhost:8765/index.html`
 
-## Pending context-sensitive files (outside this commit scope)
+## Cleanup + repo hygiene status
 
-There are additional untracked datasets/scripts in this repo that are not part of this dashboard commit.
-When committing, stage only dashboard-relevant files unless requested otherwise.
+- Added root `.gitignore` to suppress local-only non-dashboard data/workspaces and cache artifacts.
+- `docs/nflis_state_year_drug_counts_2017_2022.csv` is not used by the current `docs/index.html` app and can remain out of the active docs runtime set.
+- Streamlit reproducibility requires all of these files to be present in git:
+  - `NFLIS_Drug_DQS_2026_03_03_13_26_55.csv`
+  - `Drug Border Seizures/cbp_fentanyl_aor_monthly_2019_2026_dec.csv`
+  - `Drug Border Seizures/amo_fentanyl_branch_monthly_2019_2026_dec.csv`
+  - `Drug Border Seizures/cbp_amo_fentanyl_location_monthly_2019_2026_dec.csv`
+  - `Fentanyl Data/overdoseDeathsData_cleaned.csv`
