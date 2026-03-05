@@ -302,8 +302,8 @@
           <div id="odControls" class="hidden">
             <div class="section">
               <div class="hint">
-                Monthly counts are estimated from CDC 12 month-ending state series for
-                <code>Synthetic opioids, excl. methadone (T40.4)</code>.
+                Monthly counts are estimated from CDC 12 month-ending state series
+                for selected opioid indicators (use Variable filter).
               </div>
             </div>
 
@@ -605,7 +605,7 @@
     <!-- pages-redeploy-trigger: 2026-03-05T17:18:30Z -->
     <script>
       const NFLIS_DATA_FILE = "./NFLIS_Drug_DQS_2026_03_03_13_26_55.csv";
-      const OVERDOSE_DATA_FILE = "./state_synthetic_opioid_overdose_monthly_counts_estimated.csv";
+      const OVERDOSE_DATA_FILE = "./state_opioid_overdose_monthly_counts_estimated.csv";
       const CBP_DATA_FILE = "./cbp_fentanyl_aor_monthly_2019_2026_dec.csv";
       const AMO_DATA_FILE = "./amo_fentanyl_branch_monthly_2019_2026_dec.csv";
       const OPS_DATA_FILE = "./cbp_amo_fentanyl_location_monthly_2019_2026_dec.csv";
@@ -1752,8 +1752,8 @@
         currentDownloadRows = tableRows;
         currentDownloadFilename = "overdose_filtered_state_totals.csv";
         footerNote.innerHTML =
-          "Data files: <code>docs/state_synthetic_opioid_overdose_monthly_counts_estimated.csv</code><br>" +
-          "Indicator: <code>Synthetic opioids, excl. methadone (T40.4)</code>. " +
+          "Data files: <code>docs/state_opioid_overdose_monthly_counts_estimated.csv</code><br>" +
+          "Indicators: selected opioid-related categories from CDC VSRR. " +
           "Monthly counts are estimated from 12 month-ending series.";
       }
 

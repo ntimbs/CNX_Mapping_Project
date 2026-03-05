@@ -36,12 +36,17 @@ Both dashboards currently support the following data sources:
 - Raw source file added by user:
   - `VSRR_Provisional_Drug_Overdose_Death_Counts.csv`
 - Derived dashboard file:
-  - `Fentanyl Data/state_synthetic_opioid_overdose_monthly_counts_estimated.csv`
+  - `Fentanyl Data/state_opioid_overdose_monthly_counts_estimated.csv`
 - Docs copy for GitHub Pages:
-  - `docs/state_synthetic_opioid_overdose_monthly_counts_estimated.csv`
+  - `docs/state_opioid_overdose_monthly_counts_estimated.csv`
 - Schema:
   - `state_abbr, state_name, variable, date, year, month_num, month_abbr, count, ...`
-- Indicator filter:
+- Indicator filter set:
+  - `Natural & semi-synthetic opioids (T40.2)`
+  - `Methadone (T40.3)`
+  - `Natural & semi-synthetic opioids, incl. methadone (T40.2, T40.3)`
+  - `Natural, semi-synthetic, & synthetic opioids, incl. methadone (T40.2-T40.4)`
+  - `Opioids (T40.0-T40.4,T40.6)`
   - `Synthetic opioids, excl. methadone (T40.4)`
 - Monthly count method:
   - Source file has only `12 month-ending` series.
@@ -132,7 +137,7 @@ python3 "Fentanyl Data/build_state_overdose_monthly_from_vsrr.py"
 - Existing color scale direction remains:
   - light colors = lower values
   - dark colors = higher values
-- Overdose choropleth now uses state-level estimated monthly counts.
+- Overdose choropleth now uses state-level estimated monthly counts across selected opioid indicators.
 
 ## Run and verify
 
@@ -162,4 +167,4 @@ Then open:
   - `Drug Border Seizures/amo_fentanyl_branch_monthly_2019_2026_dec.csv`
   - `Drug Border Seizures/cbp_amo_fentanyl_location_monthly_2019_2026_dec.csv`
   - `VSRR_Provisional_Drug_Overdose_Death_Counts.csv`
-  - `Fentanyl Data/state_synthetic_opioid_overdose_monthly_counts_estimated.csv`
+  - `Fentanyl Data/state_opioid_overdose_monthly_counts_estimated.csv`

@@ -40,7 +40,7 @@ Current Streamlit data sources:
 Current Streamlit behavior highlights:
 - NFLIS: state choropleth + drug/year filters
 - CBP/AMO/combined: fiscal-to-calendar converted monthly operational views
-- Overdose: state-level choropleth and trend from estimated monthly counts (derived from 12 month-ending VSRR values)
+- Overdose: state-level choropleth and trend from estimated monthly counts across selected opioid indicators (derived from 12 month-ending VSRR values)
 
 ## GitHub Pages dashboard
 
@@ -51,7 +51,7 @@ This repo includes a static dashboard in `docs/` that runs directly on GitHub Pa
 - `docs/cbp_fentanyl_aor_monthly_2019_2026_dec.csv`
 - `docs/amo_fentanyl_branch_monthly_2019_2026_dec.csv`
 - `docs/cbp_amo_fentanyl_location_monthly_2019_2026_dec.csv`
-- `docs/state_synthetic_opioid_overdose_monthly_counts_estimated.csv`
+- `docs/state_opioid_overdose_monthly_counts_estimated.csv`
 
 GitHub Pages is published at:
 

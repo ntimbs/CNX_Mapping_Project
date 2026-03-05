@@ -29,7 +29,7 @@ OPS_COMBINED_DATA_FILE = (
 )
 OVERDOSE_DATA_FILE = (
     Path(__file__).resolve().parent
-    / "state_synthetic_opioid_overdose_monthly_counts_estimated.csv"
+    / "state_opioid_overdose_monthly_counts_estimated.csv"
 )
 LIGHT_TO_DARK_SCALE = ["#fff7bc", "#fec44f", "#fe9929", "#d95f0e", "#8c2d04"]
 
@@ -1125,7 +1125,7 @@ def run_overdose_view(df: pd.DataFrame) -> None:
 
     st.caption(
         "Monthly overdose values are estimated from CDC 12 month-ending state series "
-        "(Indicator: Synthetic opioids, excl. methadone (T40.4))."
+        "for selected opioid-related indicators (see Variable filter)."
     )
 
     map_values = state_values[state_values["state_abbr"].isin(usa_state_codes)].copy()

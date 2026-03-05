@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 """
-Build a state-level synthetic-opioid overdose monthly dataset from CDC VSRR data.
+Build a state-level opioid-indicator overdose monthly dataset from CDC VSRR data.
 
 Input:
 - VSRR_Provisional_Drug_Overdose_Death_Counts.csv
 
 Output (written to both locations):
-- Fentanyl Data/state_synthetic_opioid_overdose_monthly_counts_estimated.csv
-- docs/state_synthetic_opioid_overdose_monthly_counts_estimated.csv
+- Fentanyl Data/state_opioid_overdose_monthly_counts_estimated.csv
+- docs/state_opioid_overdose_monthly_counts_estimated.csv
 
 Notes:
-- Keeps only Indicator == "Synthetic opioids, excl. methadone (T40.4)".
+- Keeps only selected opioid-related indicators (see TARGET_INDICATORS).
 - Excludes non-state aggregates "US" and "YC".
 - Source file values are 12 month-ending counts. Monthly values are estimated via
   a rolling-window deconvolution recurrence with a first-year seed assumption.
@@ -26,11 +26,18 @@ import pandas as pd
 
 ROOT_DIR = Path(__file__).resolve().parent.parent
 INPUT_FILE = ROOT_DIR / "VSRR_Provisional_Drug_Overdose_Death_Counts.csv"
-OUTPUT_NAME = "state_synthetic_opioid_overdose_monthly_counts_estimated.csv"
+OUTPUT_NAME = "state_opioid_overdose_monthly_counts_estimated.csv"
 OUTPUT_STREAMLIT = Path(__file__).resolve().parent / OUTPUT_NAME
 OUTPUT_DOCS = ROOT_DIR / "docs" / OUTPUT_NAME
 
-TARGET_INDICATOR = "Synthetic opioids, excl. methadone (T40.4)"
+TARGET_INDICATORS = {
+    "Natural & semi-synthetic opioids (T40.2)",
+    "Methadone (T40.3)",
+    "Natural & semi-synthetic opioids, incl. methadone (T40.2, T40.3)",
+    "Natural, semi-synthetic, & synthetic opioids, incl. methadone (T40.2-T40.4)",
+    "Opioids (T40.0-T40.4,T40.6)",
+    "Synthetic opioids, excl. methadone (T40.4)",
+}
 EXCLUDED_STATE_CODES = {"US", "YC"}
 
 MONTH_TO_NUM = {
@@ -135,13 +142,13 @@ def main() -> None:
     if missing:
         raise ValueError(f"Input missing columns: {sorted(missing)}")
 
-    df = df[df["Indicator"].astype(str).str.strip() == TARGET_INDICATOR].copy()
+    df["variable"] = df["Indicator"].astype(str).str.strip()
+    df = df[df["variable"].isin(TARGET_INDICATORS)].copy()
     df = df[~df["State"].astype(str).str.strip().isin(EXCLUDED_STATE_CODES)].copy()
 
     df["state_abbr"] = df["State"].astype(str).str.strip()
     df["state_name"] = df["State Name"].astype(str).str.strip()
     df["period"] = df["Period"].astype(str).str.strip()
-    df["variable"] = TARGET_INDICATOR
 
     df["year"] = pd.to_numeric(df["Year"], errors="coerce")
     df["month_num"] = (
@@ -169,7 +176,7 @@ def main() -> None:
     result_rows: list[pd.DataFrame] = []
     negative_count_total = 0
 
-    for state_abbr, group in df.groupby("state_abbr", sort=True):
+    for (variable, state_abbr), group in df.groupby(["variable", "state_abbr"], sort=True):
         g = group.sort_values("date").drop_duplicates("date", keep="last").copy()
 
         monthly_index = pd.date_range(g["date"].min(), g["date"].max(), freq="MS")
@@ -194,7 +201,7 @@ def main() -> None:
 
         g["state_abbr"] = state_abbr
         g["state_name"] = g["state_name"].ffill().bfill()
-        g["variable"] = TARGET_INDICATOR
+        g["variable"] = variable
         g["period"] = g["period"].fillna("12 month-ending")
         g["source_value_type"] = g["source_value_type"].fillna("missing")
 
