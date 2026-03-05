@@ -27,6 +27,10 @@ OPS_COMBINED_DATA_FILE = (
     / "Drug Border Seizures"
     / "cbp_amo_fentanyl_location_monthly_2019_2026_dec.csv"
 )
+OVERDOSE_DATA_FILE = (
+    Path(__file__).resolve().parent
+    / "overdoseDeathsData_cleaned.csv"
+)
 LIGHT_TO_DARK_SCALE = ["#fff7bc", "#fec44f", "#fe9929", "#d95f0e", "#8c2d04"]
 
 AOR_COORDS = {
@@ -309,6 +313,24 @@ def load_ops_combined_data(path: Path) -> pd.DataFrame:
     df["fiscal_year"] = df["fiscal_year"].astype(int)
     df["month_num"] = df["month_num"].astype(int)
     return df
+
+
+@st.cache_data(show_spinner=False)
+def load_overdose_data(path: Path) -> pd.DataFrame:
+    df = pd.read_csv(path)
+    required = {"variable", "date", "count"}
+    missing = required - set(df.columns)
+    if missing:
+        raise ValueError(f"Missing required columns: {sorted(missing)}")
+
+    df["variable"] = df["variable"].astype(str).str.strip()
+    df["date"] = pd.to_datetime(df["date"], errors="coerce")
+    df["count"] = pd.to_numeric(df["count"], errors="coerce")
+    df = df.dropna(subset=["variable", "date", "count"]).copy()
+    df["count"] = df["count"].astype(float)
+    df["year"] = df["date"].dt.year.astype(int)
+    df["month_abbr"] = df["date"].dt.strftime("%b").str.upper()
+    return df.sort_values("date").reset_index(drop=True)
 
 
 def run_nflis_view(df: pd.DataFrame) -> None:
@@ -922,12 +944,171 @@ def run_ops_combined_view(df: pd.DataFrame) -> None:
     )
 
 
+def run_overdose_view(df: pd.DataFrame) -> None:
+    variables = sorted(df["variable"].unique().tolist())
+    years = sorted(df["year"].unique().tolist())
+    month_order = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"]
+    month_options = [m for m in month_order if m in set(df["month_abbr"].unique())]
+
+    with st.sidebar:
+        st.header("Overdose Filters")
+        selected_variables = st.multiselect(
+            "Variable",
+            options=variables,
+            default=variables,
+            key="od_variables",
+        )
+        selected_years = st.multiselect(
+            "Years",
+            options=years,
+            default=years,
+            key="od_years",
+        )
+        selected_months = st.multiselect(
+            "Month",
+            options=month_options,
+            default=month_options,
+            key="od_months",
+        )
+        metric_mode = st.radio(
+            "KPI/Map metric",
+            options=[
+                "Total deaths (sum across selected months)",
+                "Average monthly deaths",
+            ],
+            key="od_metric_mode",
+        )
+        show_rolling = st.checkbox(
+            "Show 12-month rolling average",
+            value=True,
+            key="od_rolling",
+        )
+
+    if not selected_variables or not selected_years or not selected_months:
+        st.info("Select at least one value for each overdose filter.")
+        return
+
+    filtered = df[
+        df["variable"].isin(selected_variables)
+        & df["year"].isin(selected_years)
+        & df["month_abbr"].isin(selected_months)
+    ].copy()
+
+    if filtered.empty:
+        st.warning("No overdose records match the selected filters.")
+        return
+
+    monthly = (
+        filtered.groupby("date", as_index=False)["count"]
+        .sum()
+        .sort_values("date")
+    )
+    monthly["rolling_12m"] = monthly["count"].rolling(window=12, min_periods=1).mean()
+
+    total_deaths = float(monthly["count"].sum())
+    avg_monthly = float(monthly["count"].mean())
+    metric_value = total_deaths if metric_mode.startswith("Total deaths") else avg_monthly
+    metric_label = "Total deaths" if metric_mode.startswith("Total deaths") else "Average monthly deaths"
+
+    calendar_start = monthly["date"].min().date().isoformat()
+    calendar_end = monthly["date"].max().date().isoformat()
+
+    c1, c2, c3 = st.columns(3)
+    c1.metric("Selected months", f"{monthly.shape[0]:,}")
+    c2.metric("Calendar month span", f"{calendar_start} to {calendar_end}")
+    c3.metric(metric_label, f"{metric_value:,.0f}" if metric_mode.startswith("Total deaths") else f"{metric_value:,.2f}")
+
+    st.caption(
+        "This overdose file is national monthly data (no state-level breakdown), so the map shows a single U.S. marker."
+    )
+
+    map_df = pd.DataFrame(
+        [
+            {
+                "location_name": "United States",
+                "lat": 39.8283,
+                "lon": -98.5795,
+                "metric_value": metric_value,
+                "total_deaths": total_deaths,
+                "avg_monthly": avg_monthly,
+            }
+        ]
+    )
+    map_fig = px.scatter_geo(
+        map_df,
+        lat="lat",
+        lon="lon",
+        size="metric_value",
+        color="metric_value",
+        scope="usa",
+        hover_name="location_name",
+        hover_data={
+            "metric_value": ":,.2f",
+            "total_deaths": ":,.0f",
+            "avg_monthly": ":,.2f",
+            "lat": False,
+            "lon": False,
+        },
+        color_continuous_scale=LIGHT_TO_DARK_SCALE,
+        labels={"metric_value": metric_label},
+    )
+    map_fig.update_layout(
+        margin={"l": 0, "r": 0, "t": 10, "b": 0},
+        coloraxis_colorbar={"title": metric_label},
+    )
+    st.plotly_chart(map_fig, use_container_width=True)
+
+    if show_rolling:
+        trend_df = monthly.rename(
+            columns={
+                "count": "Monthly deaths",
+                "rolling_12m": "12-month rolling avg",
+            }
+        )
+        trend_fig = px.line(
+            trend_df,
+            x="date",
+            y=["Monthly deaths", "12-month rolling avg"],
+            labels={"date": "Calendar month", "value": "Deaths", "variable": "Series"},
+            title="National synthetic opioid overdose deaths trend",
+        )
+    else:
+        trend_fig = px.line(
+            monthly,
+            x="date",
+            y="count",
+            labels={"date": "Calendar month", "count": "Deaths"},
+            title="National synthetic opioid overdose deaths trend",
+        )
+
+    trend_fig.update_layout(margin={"l": 0, "r": 0, "t": 40, "b": 0})
+    st.plotly_chart(trend_fig, use_container_width=True)
+
+    st.subheader("Monthly Overdose Values")
+    table = monthly.copy()
+    table["date"] = table["date"].dt.date
+    table = table.rename(
+        columns={
+            "date": "month_start",
+            "count": "deaths",
+            "rolling_12m": "rolling_12m_deaths",
+        }
+    )
+    st.dataframe(table, use_container_width=True, hide_index=True)
+    st.download_button(
+        label="Download filtered overdose monthly values (CSV)",
+        data=table.to_csv(index=False).encode("utf-8"),
+        file_name="overdose_filtered_monthly_values.csv",
+        mime="text/csv",
+    )
+
+
 def main() -> None:
     st.set_page_config(page_title="U.S. Drug Seizure Dashboard", layout="wide")
     st.title("U.S. Drug Seizure Dashboard")
     st.caption(
         "Switch between NFLIS state reports, a combined CBP + AMO fentanyl seizure dataset, "
-        "and the source-specific CBP/AMO views."
+        "source-specific CBP/AMO views, and national overdose deaths."
     )
 
     if not NFLIS_DATA_FILE.exists():
@@ -951,6 +1132,9 @@ def main() -> None:
             "Run Drug Border Seizures/build_cbp_amo_combined_fentanyl_dataset.py first."
         )
         st.stop()
+    if not OVERDOSE_DATA_FILE.exists():
+        st.error(f"Overdose data file not found: {OVERDOSE_DATA_FILE}")
+        st.stop()
 
     with st.sidebar:
         data_source = st.radio(
@@ -960,6 +1144,7 @@ def main() -> None:
                 "CBP + AMO fentanyl seizures (Combined)",
                 "CBP fentanyl seizures (Field Office/Sector)",
                 "AMO fentanyl seizures (Branch)",
+                "Synthetic opioid overdose deaths (National)",
             ],
         )
 
@@ -975,10 +1160,14 @@ def main() -> None:
         st.caption(f"Current source file: {CBP_DATA_FILE.name}")
         cbp_df = load_cbp_data(CBP_DATA_FILE)
         run_cbp_view(cbp_df)
-    else:
+    elif data_source.startswith("AMO"):
         st.caption(f"Current source file: {AMO_DATA_FILE.name}")
         amo_df = load_amo_data(AMO_DATA_FILE)
         run_amo_view(amo_df)
+    else:
+        st.caption(f"Current source file: {OVERDOSE_DATA_FILE.name}")
+        overdose_df = load_overdose_data(OVERDOSE_DATA_FILE)
+        run_overdose_view(overdose_df)
 
 
 if __name__ == "__main__":

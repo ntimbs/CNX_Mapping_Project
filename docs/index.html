@@ -241,7 +241,7 @@
     <div class="shell">
       <h1>U.S. Drug Seizure Dashboard</h1>
       <div class="subtitle">
-        Combined dashboard with NFLIS state reports and a unified CBP + AMO fentanyl seizure dataset (with source-specific views optional).
+        Combined dashboard with NFLIS state reports, operational seizure data, and national synthetic opioid overdose deaths.
       </div>
 
       <div class="grid">
@@ -250,6 +250,7 @@
             <label class="label" for="sourceSelect">Data Source</label>
             <select id="sourceSelect">
               <option value="nflis">NFLIS state reports (all drugs)</option>
+              <option value="od">Synthetic opioid overdose deaths (national)</option>
               <option value="ops">CBP + AMO fentanyl seizures (combined)</option>
               <option value="cbp">CBP fentanyl seizures (Field Office/Sector)</option>
               <option value="amo">AMO fentanyl seizures (Branch)</option>
@@ -294,6 +295,54 @@
               <label>
                 <input type="checkbox" id="nflisHideZero" />
                 Hide states with zero values
+              </label>
+            </div>
+          </div>
+
+          <div id="odControls" class="hidden">
+            <div class="section">
+              <div class="hint">
+                This source is national monthly data and does not provide state-level breakdowns.
+              </div>
+            </div>
+
+            <div class="section">
+              <label class="label" for="odVariableSelect">Variable</label>
+              <select id="odVariableSelect" multiple></select>
+            </div>
+
+            <div class="section">
+              <label class="label" for="odYearSelect">Years</label>
+              <select id="odYearSelect" multiple></select>
+              <div class="btn-row">
+                <button type="button" id="odYearAll">All Years</button>
+                <button type="button" id="odYearNone">Clear Years</button>
+              </div>
+            </div>
+
+            <div class="section">
+              <label class="label" for="odMonthSelect">Month</label>
+              <select id="odMonthSelect" multiple></select>
+            </div>
+
+            <div class="section">
+              <span class="label">Metric</span>
+              <div class="toggle-row">
+                <label>
+                  <input type="radio" name="odMetricMode" value="sum" checked />
+                  Total deaths
+                </label>
+                <label>
+                  <input type="radio" name="odMetricMode" value="avg" />
+                  Avg monthly deaths
+                </label>
+              </div>
+            </div>
+
+            <div class="section">
+              <label>
+                <input type="checkbox" id="odRolling" checked />
+                Show 12-month rolling average
               </label>
             </div>
           </div>
@@ -546,6 +595,7 @@
     <!-- pages-redeploy-trigger: 2026-03-03T19:05:00Z -->
     <script>
       const NFLIS_DATA_FILE = "./NFLIS_Drug_DQS_2026_03_03_13_26_55.csv";
+      const OVERDOSE_DATA_FILE = "./overdoseDeathsData_cleaned.csv";
       const CBP_DATA_FILE = "./cbp_fentanyl_aor_monthly_2019_2026_dec.csv";
       const AMO_DATA_FILE = "./amo_fentanyl_branch_monthly_2019_2026_dec.csv";
       const OPS_DATA_FILE = "./cbp_amo_fentanyl_location_monthly_2019_2026_dec.csv";
@@ -630,10 +680,12 @@
 
       const store = {
         nflisRows: [],
+        odRows: [],
         cbpRows: [],
         amoRows: [],
         opsRows: [],
         nflisMeta: { years: [], drugs: [], states: [] },
+        odMeta: { variables: [], years: [], months: [] },
         cbpMeta: { fyLabels: [], months: [], components: [], regions: [], landFilters: [], aors: [] },
         amoMeta: { fyLabels: [], months: [], components: [], regions: [], landFilters: [], branches: [] },
         opsMeta: {
@@ -653,6 +705,7 @@
 
       const sourceSelect = document.getElementById("sourceSelect");
       const nflisControls = document.getElementById("nflisControls");
+      const odControls = document.getElementById("odControls");
       const opsControls = document.getElementById("opsControls");
       const cbpControls = document.getElementById("cbpControls");
       const amoControls = document.getElementById("amoControls");
@@ -672,6 +725,11 @@
       const nflisYearSelect = document.getElementById("nflisYearSelect");
       const nflisDrugSelect = document.getElementById("nflisDrugSelect");
       const nflisHideZero = document.getElementById("nflisHideZero");
+
+      const odVariableSelect = document.getElementById("odVariableSelect");
+      const odYearSelect = document.getElementById("odYearSelect");
+      const odMonthSelect = document.getElementById("odMonthSelect");
+      const odRolling = document.getElementById("odRolling");
 
       const opsIncludeFytd = document.getElementById("opsIncludeFytd");
       const opsFySelect = document.getElementById("opsFySelect");
@@ -794,6 +852,43 @@
         store.nflisMeta.years = [...yearSet].sort((a, b) => a - b);
         store.nflisMeta.drugs = [...drugSet].sort((a, b) => a.localeCompare(b));
         store.nflisMeta.states = [...stateMap.values()].sort((a, b) => a.state_abbr.localeCompare(b.state_abbr));
+      }
+
+      function normalizeOverdoseRows(rawRows) {
+        const rows = [];
+        const variableSet = new Set();
+        const yearSet = new Set();
+        const monthSet = new Set();
+
+        for (const row of rawRows) {
+          const variable = String(row.variable || "").trim();
+          const dateStr = String(row.date || "").trim();
+          const m = dateStr.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+          const date = new Date(`${dateStr}T00:00:00Z`);
+          const count = toNumber(row.count);
+          if (!variable || Number.isNaN(date.getTime()) || !m) continue;
+
+          const year = Number(m[1]);
+          const monthNum = Number(m[2]);
+          const monthAbbr = MONTH_ORDER[monthNum - 1];
+          if (!Number.isFinite(year) || !Number.isFinite(monthNum) || !monthAbbr) continue;
+          const normalized = {
+            variable,
+            date,
+            year,
+            month_abbr: monthAbbr,
+            count,
+          };
+          rows.push(normalized);
+          variableSet.add(variable);
+          yearSet.add(normalized.year);
+          monthSet.add(monthAbbr);
+        }
+
+        store.odRows = rows.sort((a, b) => a.date - b.date);
+        store.odMeta.variables = [...variableSet].sort((a, b) => a.localeCompare(b));
+        store.odMeta.years = [...yearSet].sort((a, b) => a - b);
+        store.odMeta.months = MONTH_ORDER.filter((m) => monthSet.has(m));
       }
 
       function normalizeCbpRows(rawRows) {
@@ -1001,6 +1096,10 @@
         const defaultDrug = nflisDrugs.includes("Fentanyl") ? ["Fentanyl"] : nflisDrugs.slice(0, 1);
         setMultiOptions(nflisDrugSelect, nflisDrugs, defaultDrug);
 
+        setMultiOptions(odVariableSelect, store.odMeta.variables, store.odMeta.variables);
+        setMultiOptions(odYearSelect, store.odMeta.years.map(String), store.odMeta.years.map(String));
+        setMultiOptions(odMonthSelect, store.odMeta.months, store.odMeta.months);
+
         setMultiOptions(opsMonthSelect, store.opsMeta.months, store.opsMeta.months);
         setMultiOptions(opsOrgSelect, store.opsMeta.organizations, store.opsMeta.organizations);
         setMultiOptions(opsComponentSelect, store.opsMeta.components, store.opsMeta.components);
@@ -1101,6 +1200,21 @@
           [...nflisDrugSelect.options].forEach((opt) => {
             opt.selected = opt.value === "Fentanyl";
           });
+          refresh();
+        });
+
+        odVariableSelect.addEventListener("change", refresh);
+        odYearSelect.addEventListener("change", refresh);
+        odMonthSelect.addEventListener("change", refresh);
+        odRolling.addEventListener("change", refresh);
+        document.querySelectorAll("input[name='odMetricMode']").forEach((el) => el.addEventListener("change", refresh));
+
+        document.getElementById("odYearAll").addEventListener("click", () => {
+          selectAll(odYearSelect, true);
+          refresh();
+        });
+        document.getElementById("odYearNone").addEventListener("click", () => {
+          selectAll(odYearSelect, false);
           refresh();
         });
 
@@ -1329,6 +1443,195 @@
         currentDownloadRows = rows.map((r) => ({ ...r, metric_mode: mode }));
         currentDownloadFilename = "nflis_filtered_state_totals.csv";
         footerNote.innerHTML = "Data files: <code>docs/NFLIS_Drug_DQS_2026_03_03_13_26_55.csv</code>";
+      }
+
+      function renderOverdose() {
+        trendWrap.classList.remove("hidden");
+
+        const variables = selectedValues(odVariableSelect);
+        const years = selectedValues(odYearSelect).map(Number);
+        const months = selectedValues(odMonthSelect);
+        const metricMode = document.querySelector("input[name='odMetricMode']:checked").value;
+
+        if (!variables.length || !years.length || !months.length) {
+          setStatus("Select at least one value for each overdose filter.");
+          setKpis("Selected Months", "0", "Calendar Span", "N/A", "Total deaths", "0");
+          Plotly.newPlot("map", [], { geo: { scope: "usa" } }, { responsive: true, displayModeBar: false });
+          Plotly.newPlot("trend", [], { margin: { l: 0, r: 0, t: 10, b: 0 } }, { responsive: true, displayModeBar: false });
+          setTable([], [
+            { key: "month_start", header: "Month" },
+            { key: "deaths", header: "Deaths" },
+            { key: "rolling_12m_deaths", header: "Rolling 12M" },
+          ]);
+          currentDownloadRows = [];
+          return;
+        }
+
+        setStatus("");
+
+        const variableSet = new Set(variables);
+        const yearSet = new Set(years);
+        const monthSet = new Set(months);
+
+        const filtered = store.odRows.filter(
+          (row) =>
+            variableSet.has(row.variable) &&
+            yearSet.has(row.year) &&
+            monthSet.has(row.month_abbr)
+        );
+
+        if (!filtered.length) {
+          setStatus("No overdose records match the selected filters.");
+          setKpis("Selected Months", "0", "Calendar Span", "N/A", "Total deaths", "0");
+          Plotly.newPlot("map", [], { geo: { scope: "usa" } }, { responsive: true, displayModeBar: false });
+          Plotly.newPlot("trend", [], { margin: { l: 0, r: 0, t: 10, b: 0 } }, { responsive: true, displayModeBar: false });
+          setTable([], [
+            { key: "month_start", header: "Month" },
+            { key: "deaths", header: "Deaths" },
+            { key: "rolling_12m_deaths", header: "Rolling 12M" },
+          ]);
+          currentDownloadRows = [];
+          return;
+        }
+
+        const monthlyMap = new Map();
+        for (const row of filtered) {
+          const key = row.date.toISOString().slice(0, 10);
+          if (!monthlyMap.has(key)) {
+            monthlyMap.set(key, { date: key, deaths: 0 });
+          }
+          monthlyMap.get(key).deaths += row.count;
+        }
+
+        const monthly = [...monthlyMap.values()].sort((a, b) => a.date.localeCompare(b.date));
+        let rollingSum = 0;
+        const window = [];
+        for (const rec of monthly) {
+          window.push(rec.deaths);
+          rollingSum += rec.deaths;
+          if (window.length > 12) {
+            rollingSum -= window.shift();
+          }
+          rec.rolling_12m_deaths = rollingSum / window.length;
+        }
+
+        const totalDeaths = monthly.reduce((sum, r) => sum + r.deaths, 0);
+        const avgMonthlyDeaths = monthly.length ? totalDeaths / monthly.length : 0;
+        const metricValue = metricMode === "sum" ? totalDeaths : avgMonthlyDeaths;
+        const metricLabel = metricMode === "sum" ? "Total deaths" : "Average monthly deaths";
+        const metricDigits = metricMode === "sum" ? 0 : 2;
+
+        const span = `${monthly[0].date.slice(0, 7)} to ${monthly[monthly.length - 1].date.slice(0, 7)}`;
+        setKpis(
+          "Selected Months",
+          String(monthly.length),
+          "Calendar Span",
+          span,
+          metricLabel,
+          formatNum(metricValue, metricDigits)
+        );
+
+        const usPoint = {
+          location_name: "United States",
+          lat: 39.8283,
+          lon: -98.5795,
+          metric_value: metricValue,
+          total_deaths: totalDeaths,
+          avg_monthly_deaths: avgMonthlyDeaths,
+        };
+
+        Plotly.newPlot(
+          "map",
+          [
+            {
+              type: "scattergeo",
+              mode: "markers",
+              lat: [usPoint.lat],
+              lon: [usPoint.lon],
+              text: [usPoint.location_name],
+              customdata: [[usPoint.total_deaths, usPoint.avg_monthly_deaths, usPoint.metric_value]],
+              marker: {
+                size: [26],
+                color: [usPoint.metric_value],
+                colorscale: LIGHT_TO_DARK_SCALE,
+                reversescale: false,
+                line: { color: "#ffffff", width: 1 },
+                colorbar: { title: metricLabel },
+                showscale: true,
+                opacity: 0.9,
+              },
+              hovertemplate:
+                "%{text}<br>" +
+                "Total deaths: %{customdata[0]:,.0f}<br>" +
+                "Avg monthly deaths: %{customdata[1]:,.2f}<br>" +
+                metricLabel +
+                ": %{customdata[2]:,.2f}<extra></extra>",
+            },
+          ],
+          {
+            geo: { scope: "usa", bgcolor: "rgba(0,0,0,0)" },
+            margin: { l: 0, r: 0, t: 12, b: 0 },
+            paper_bgcolor: "rgba(0,0,0,0)",
+            plot_bgcolor: "rgba(0,0,0,0)",
+          },
+          { responsive: true, displayModeBar: false }
+        );
+
+        const showRolling = odRolling.checked;
+        const trendTraces = [
+          {
+            type: "scatter",
+            mode: "lines+markers",
+            x: monthly.map((r) => r.date),
+            y: monthly.map((r) => r.deaths),
+            name: "Monthly deaths",
+            line: { color: "#d95f0e", width: 2 },
+            marker: { size: 5, color: "#8c2d04" },
+            hovertemplate: "%{x}<br>Monthly deaths: %{y:,.0f}<extra></extra>",
+          },
+        ];
+        if (showRolling) {
+          trendTraces.push({
+            type: "scatter",
+            mode: "lines",
+            x: monthly.map((r) => r.date),
+            y: monthly.map((r) => r.rolling_12m_deaths),
+            name: "12-month rolling avg",
+            line: { color: "#205072", width: 2, dash: "dot" },
+            hovertemplate: "%{x}<br>12-month rolling avg: %{y:,.2f}<extra></extra>",
+          });
+        }
+
+        Plotly.newPlot(
+          "trend",
+          trendTraces,
+          {
+            title: "National synthetic opioid overdose deaths trend",
+            margin: { l: 0, r: 0, t: 36, b: 10 },
+            xaxis: { title: "Calendar month-year" },
+            yaxis: { title: "Deaths" },
+            paper_bgcolor: "rgba(0,0,0,0)",
+            plot_bgcolor: "rgba(0,0,0,0)",
+          },
+          { responsive: true, displayModeBar: false }
+        );
+
+        const tableRows = monthly.map((r) => ({
+          month_start: r.date,
+          deaths: r.deaths,
+          rolling_12m_deaths: r.rolling_12m_deaths,
+        }));
+        setTable(tableRows, [
+          { key: "month_start", header: "Month" },
+          { key: "deaths", header: "Deaths", render: (v) => formatNum(v, 0) },
+          { key: "rolling_12m_deaths", header: "Rolling 12M", render: (v) => formatNum(v, 2) },
+        ]);
+
+        currentDownloadRows = tableRows;
+        currentDownloadFilename = "overdose_filtered_monthly_values.csv";
+        footerNote.innerHTML =
+          "Data files: <code>docs/overdoseDeathsData_cleaned.csv</code><br>" +
+          "National monthly data; no state-level breakdown is present in this file.";
       }
 
       function renderOps() {
@@ -1987,24 +2290,35 @@
         const source = sourceSelect.value;
         if (source === "nflis") {
           nflisControls.classList.remove("hidden");
+          odControls.classList.add("hidden");
           opsControls.classList.add("hidden");
           cbpControls.classList.add("hidden");
           amoControls.classList.add("hidden");
           renderNflis();
+        } else if (source === "od") {
+          nflisControls.classList.add("hidden");
+          odControls.classList.remove("hidden");
+          opsControls.classList.add("hidden");
+          cbpControls.classList.add("hidden");
+          amoControls.classList.add("hidden");
+          renderOverdose();
         } else if (source === "ops") {
           nflisControls.classList.add("hidden");
+          odControls.classList.add("hidden");
           opsControls.classList.remove("hidden");
           cbpControls.classList.add("hidden");
           amoControls.classList.add("hidden");
           renderOps();
         } else if (source === "cbp") {
           nflisControls.classList.add("hidden");
+          odControls.classList.add("hidden");
           opsControls.classList.add("hidden");
           cbpControls.classList.remove("hidden");
           amoControls.classList.add("hidden");
           renderCbp();
         } else {
           nflisControls.classList.add("hidden");
+          odControls.classList.add("hidden");
           opsControls.classList.add("hidden");
           cbpControls.classList.add("hidden");
           amoControls.classList.remove("hidden");
@@ -2036,13 +2350,15 @@
       async function boot() {
         try {
           setStatus("Loading datasets...");
-          const [nflisRaw, opsRaw, cbpRaw, amoRaw] = await Promise.all([
+          const [nflisRaw, overdoseRaw, opsRaw, cbpRaw, amoRaw] = await Promise.all([
             parseCsv(NFLIS_DATA_FILE),
+            parseCsv(OVERDOSE_DATA_FILE),
             parseCsv(OPS_DATA_FILE),
             parseCsv(CBP_DATA_FILE),
             parseCsv(AMO_DATA_FILE),
           ]);
           normalizeNflisRows(nflisRaw);
+          normalizeOverdoseRows(overdoseRaw);
           normalizeOpsRows(opsRaw);
           normalizeCbpRows(cbpRaw);
           normalizeAmoRows(amoRaw);
