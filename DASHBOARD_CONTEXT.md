@@ -12,7 +12,7 @@ This file is a persistent context log for the active dashboard implementation in
 Both dashboards currently support the following data sources:
 
 1. NFLIS state reports (all drugs)
-2. Synthetic opioid overdose deaths (national)
+2. Synthetic opioid overdose deaths (state-level estimated monthly)
 3. CBP + AMO fentanyl seizures (combined)
 4. CBP fentanyl seizures (Field Office/Sector)
 5. AMO fentanyl seizures (Branch)
@@ -33,18 +33,19 @@ Both dashboards currently support the following data sources:
 
 ### Overdose
 
-- Source file added by user:
-  - `Fentanyl Data/overdoseDeathsData_cleaned.csv`
+- Raw source file added by user:
+  - `VSRR_Provisional_Drug_Overdose_Death_Counts.csv`
+- Derived dashboard file:
+  - `Fentanyl Data/state_synthetic_opioid_overdose_monthly_counts_estimated.csv`
 - Docs copy for GitHub Pages:
-  - `docs/overdoseDeathsData_cleaned.csv`
+  - `docs/state_synthetic_opioid_overdose_monthly_counts_estimated.csv`
 - Schema:
-  - `variable, date, count`
-- Important limitation:
-  - This file is national monthly data and does not include state-level geographic columns.
-  - Dashboard rendering for this source is therefore:
-    - single U.S. marker on map
-    - monthly trend chart
-    - monthly table + CSV download
+  - `state_abbr, state_name, variable, date, year, month_num, month_abbr, count, ...`
+- Indicator filter:
+  - `Synthetic opioids, excl. methadone (T40.4)`
+- Monthly count method:
+  - Source file has only `12 month-ending` series.
+  - Dashboard uses monthly estimates produced by recurrence/deconvolution with first-year seed assumptions.
 
 ### CBP / AMO source-specific files
 
@@ -71,6 +72,8 @@ Both dashboards currently support the following data sources:
   - `Drug Border Seizures/build_amo_fentanyl_dataset.py`
 - CBP + AMO combined builder:
   - `Drug Border Seizures/build_cbp_amo_combined_fentanyl_dataset.py`
+- Overdose builder:
+  - `Fentanyl Data/build_state_overdose_monthly_from_vsrr.py`
 
 ### Raw CBP/AMO inputs (versioned)
 
@@ -86,42 +89,50 @@ python3 "Drug Border Seizures/build_cbp_amo_combined_fentanyl_dataset.py"
 cp "Drug Border Seizures/cbp_amo_fentanyl_location_monthly_2019_2026_dec.csv" docs/
 ```
 
+Rebuild state-level overdose dataset:
+
+```bash
+python3 "Fentanyl Data/build_state_overdose_monthly_from_vsrr.py"
+```
+
 ## Overdose integration behavior
 
 ### Streamlit
 
-- Loader validates required columns (`variable`, `date`, `count`) and derives:
+- Loader validates required columns (`state_abbr`, `state_name`, `variable`, `date`, `count`) and derives:
   - `year`
   - `month_abbr`
 - Sidebar filters:
   - variable
   - year
   - month
+  - states/territories
   - metric mode (`Total deaths` / `Average monthly deaths`)
   - optional 12-month rolling average overlay
 - Outputs:
-  - national marker map
-  - monthly trend
-  - monthly table + download
+  - state choropleth map
+  - national monthly trend (summed from selected state rows)
+  - state totals table + download
 
 ### GitHub Pages
 
 - Added data source option:
-  - `Synthetic opioid overdose deaths (national)`
+  - `Synthetic opioid overdose deaths (state-level estimated monthly)`
 - Added overdose control panel:
   - variable filter
   - year filter (+ all/clear)
   - month filter
+  - state/territory filter (+ all/clear)
   - metric mode radio
   - rolling-average toggle
-- JS normalizer parses `date` and derives year/month for filters and plotting.
+- JS normalizer parses `date` and state columns for filters and plotting.
 
 ## Notes on design consistency
 
 - Existing color scale direction remains:
   - light colors = lower values
   - dark colors = higher values
-- Overdose view intentionally avoids choropleth rendering due to missing state-level data.
+- Overdose choropleth now uses state-level estimated monthly counts.
 
 ## Run and verify
 
@@ -150,4 +161,5 @@ Then open:
   - `Drug Border Seizures/cbp_fentanyl_aor_monthly_2019_2026_dec.csv`
   - `Drug Border Seizures/amo_fentanyl_branch_monthly_2019_2026_dec.csv`
   - `Drug Border Seizures/cbp_amo_fentanyl_location_monthly_2019_2026_dec.csv`
-  - `Fentanyl Data/overdoseDeathsData_cleaned.csv`
+  - `VSRR_Provisional_Drug_Overdose_Death_Counts.csv`
+  - `Fentanyl Data/state_synthetic_opioid_overdose_monthly_counts_estimated.csv`

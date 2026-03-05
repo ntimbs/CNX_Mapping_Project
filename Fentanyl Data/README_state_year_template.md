@@ -32,7 +32,7 @@ streamlit run "Fentanyl Data/nflis_state_drug_dashboard.py"
 
 Current Streamlit data sources:
 - NFLIS state reports (all drugs)
-- Synthetic opioid overdose deaths (national)
+- Synthetic opioid overdose deaths (state-level estimated monthly)
 - CBP + AMO fentanyl seizures (combined)
 - CBP fentanyl seizures (Field Office/Sector)
 - AMO fentanyl seizures (Branch)
@@ -40,7 +40,7 @@ Current Streamlit data sources:
 Current Streamlit behavior highlights:
 - NFLIS: state choropleth + drug/year filters
 - CBP/AMO/combined: fiscal-to-calendar converted monthly operational views
-- Overdose: national monthly series with a U.S. marker (no state-level breakout in source data)
+- Overdose: state-level choropleth and trend from estimated monthly counts (derived from 12 month-ending VSRR values)
 
 ## GitHub Pages dashboard
 
@@ -51,7 +51,7 @@ This repo includes a static dashboard in `docs/` that runs directly on GitHub Pa
 - `docs/cbp_fentanyl_aor_monthly_2019_2026_dec.csv`
 - `docs/amo_fentanyl_branch_monthly_2019_2026_dec.csv`
 - `docs/cbp_amo_fentanyl_location_monthly_2019_2026_dec.csv`
-- `docs/overdoseDeathsData_cleaned.csv`
+- `docs/state_synthetic_opioid_overdose_monthly_counts_estimated.csv`
 
 GitHub Pages is published at:
 
@@ -90,6 +90,12 @@ Build combined CBP + AMO location rows:
 ```bash
 python3 "Drug Border Seizures/build_cbp_amo_combined_fentanyl_dataset.py"
 cp "Drug Border Seizures/cbp_amo_fentanyl_location_monthly_2019_2026_dec.csv" "docs/cbp_amo_fentanyl_location_monthly_2019_2026_dec.csv"
+```
+
+Build state-level synthetic opioid overdose monthly estimates:
+
+```bash
+python3 "Fentanyl Data/build_state_overdose_monthly_from_vsrr.py"
 ```
 
 ## Key columns in `us_state_year_fentanyl_template_2017_2023.csv`

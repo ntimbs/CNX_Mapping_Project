@@ -29,7 +29,7 @@ OPS_COMBINED_DATA_FILE = (
 )
 OVERDOSE_DATA_FILE = (
     Path(__file__).resolve().parent
-    / "overdoseDeathsData_cleaned.csv"
+    / "state_synthetic_opioid_overdose_monthly_counts_estimated.csv"
 )
 LIGHT_TO_DARK_SCALE = ["#fff7bc", "#fec44f", "#fe9929", "#d95f0e", "#8c2d04"]
 
@@ -318,19 +318,21 @@ def load_ops_combined_data(path: Path) -> pd.DataFrame:
 @st.cache_data(show_spinner=False)
 def load_overdose_data(path: Path) -> pd.DataFrame:
     df = pd.read_csv(path)
-    required = {"variable", "date", "count"}
+    required = {"state_abbr", "state_name", "variable", "date", "count"}
     missing = required - set(df.columns)
     if missing:
         raise ValueError(f"Missing required columns: {sorted(missing)}")
 
+    df["state_abbr"] = df["state_abbr"].astype(str).str.strip().str.upper()
+    df["state_name"] = df["state_name"].astype(str).str.strip()
     df["variable"] = df["variable"].astype(str).str.strip()
     df["date"] = pd.to_datetime(df["date"], errors="coerce")
     df["count"] = pd.to_numeric(df["count"], errors="coerce")
-    df = df.dropna(subset=["variable", "date", "count"]).copy()
+    df = df.dropna(subset=["state_abbr", "state_name", "variable", "date", "count"]).copy()
     df["count"] = df["count"].astype(float)
     df["year"] = df["date"].dt.year.astype(int)
     df["month_abbr"] = df["date"].dt.strftime("%b").str.upper()
-    return df.sort_values("date").reset_index(drop=True)
+    return df.sort_values(["date", "state_abbr"]).reset_index(drop=True)
 
 
 def run_nflis_view(df: pd.DataFrame) -> None:
@@ -945,8 +947,71 @@ def run_ops_combined_view(df: pd.DataFrame) -> None:
 
 
 def run_overdose_view(df: pd.DataFrame) -> None:
+    usa_state_codes = {
+        "AL",
+        "AK",
+        "AZ",
+        "AR",
+        "CA",
+        "CO",
+        "CT",
+        "DE",
+        "FL",
+        "GA",
+        "HI",
+        "ID",
+        "IL",
+        "IN",
+        "IA",
+        "KS",
+        "KY",
+        "LA",
+        "ME",
+        "MD",
+        "MA",
+        "MI",
+        "MN",
+        "MS",
+        "MO",
+        "MT",
+        "NE",
+        "NV",
+        "NH",
+        "NJ",
+        "NM",
+        "NY",
+        "NC",
+        "ND",
+        "OH",
+        "OK",
+        "OR",
+        "PA",
+        "RI",
+        "SC",
+        "SD",
+        "TN",
+        "TX",
+        "UT",
+        "VT",
+        "VA",
+        "WA",
+        "WV",
+        "WI",
+        "WY",
+        "DC",
+    }
     variables = sorted(df["variable"].unique().tolist())
     years = sorted(df["year"].unique().tolist())
+    states = (
+        df[["state_abbr", "state_name"]]
+        .drop_duplicates()
+        .sort_values(["state_name", "state_abbr"])
+    )
+    state_options = states["state_abbr"].tolist()
+    state_labels = {
+        row.state_abbr: f"{row.state_name} ({row.state_abbr})"
+        for row in states.itertuples(index=False)
+    }
     month_order = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"]
     month_options = [m for m in month_order if m in set(df["month_abbr"].unique())]
 
@@ -970,6 +1035,13 @@ def run_overdose_view(df: pd.DataFrame) -> None:
             default=month_options,
             key="od_months",
         )
+        selected_states = st.multiselect(
+            "States/Territories",
+            options=state_options,
+            default=state_options,
+            format_func=lambda s: state_labels.get(s, s),
+            key="od_states",
+        )
         metric_mode = st.radio(
             "KPI/Map metric",
             options=[
@@ -978,13 +1050,18 @@ def run_overdose_view(df: pd.DataFrame) -> None:
             ],
             key="od_metric_mode",
         )
+        hide_zero_states = st.checkbox(
+            "Hide states with zero value",
+            value=False,
+            key="od_hide_zero",
+        )
         show_rolling = st.checkbox(
             "Show 12-month rolling average",
             value=True,
             key="od_rolling",
         )
 
-    if not selected_variables or not selected_years or not selected_months:
+    if not selected_variables or not selected_years or not selected_months or not selected_states:
         st.info("Select at least one value for each overdose filter.")
         return
 
@@ -992,62 +1069,79 @@ def run_overdose_view(df: pd.DataFrame) -> None:
         df["variable"].isin(selected_variables)
         & df["year"].isin(selected_years)
         & df["month_abbr"].isin(selected_months)
+        & df["state_abbr"].isin(selected_states)
     ].copy()
 
     if filtered.empty:
         st.warning("No overdose records match the selected filters.")
         return
 
-    monthly = (
+    state_monthly = (
+        filtered.groupby(["state_abbr", "state_name", "date"], as_index=False)["count"]
+        .sum()
+        .sort_values("date")
+    )
+    state_values = (
+        state_monthly.groupby(["state_abbr", "state_name"], as_index=False)
+        .agg(
+            total_deaths=("count", "sum"),
+            months_covered=("date", "nunique"),
+        )
+    )
+    state_values["avg_monthly_deaths"] = (
+        state_values["total_deaths"] / state_values["months_covered"].clip(lower=1)
+    )
+    if metric_mode.startswith("Total deaths"):
+        state_values["metric_value"] = state_values["total_deaths"]
+        metric_label = "Total deaths"
+    else:
+        state_values["metric_value"] = state_values["avg_monthly_deaths"]
+        metric_label = "Average monthly deaths"
+
+    state_values["metric_value"] = state_values["metric_value"].round(2)
+    if hide_zero_states:
+        state_values = state_values[state_values["metric_value"] > 0]
+
+    monthly_national = (
         filtered.groupby("date", as_index=False)["count"]
         .sum()
         .sort_values("date")
     )
-    monthly["rolling_12m"] = monthly["count"].rolling(window=12, min_periods=1).mean()
+    monthly_national["rolling_12m"] = monthly_national["count"].rolling(window=12, min_periods=1).mean()
 
-    total_deaths = float(monthly["count"].sum())
-    avg_monthly = float(monthly["count"].mean())
+    total_deaths = float(monthly_national["count"].sum())
+    avg_monthly = float(monthly_national["count"].mean())
     metric_value = total_deaths if metric_mode.startswith("Total deaths") else avg_monthly
-    metric_label = "Total deaths" if metric_mode.startswith("Total deaths") else "Average monthly deaths"
 
-    calendar_start = monthly["date"].min().date().isoformat()
-    calendar_end = monthly["date"].max().date().isoformat()
+    calendar_start = monthly_national["date"].min().date().isoformat()
+    calendar_end = monthly_national["date"].max().date().isoformat()
+    states_with_data = int((state_values["metric_value"] > 0).sum())
 
     c1, c2, c3 = st.columns(3)
-    c1.metric("Selected months", f"{monthly.shape[0]:,}")
+    c1.metric("Selected months", f"{monthly_national.shape[0]:,}")
     c2.metric("Calendar month span", f"{calendar_start} to {calendar_end}")
     c3.metric(metric_label, f"{metric_value:,.0f}" if metric_mode.startswith("Total deaths") else f"{metric_value:,.2f}")
+    st.caption(f"States/territories with non-zero value: {states_with_data}")
 
     st.caption(
-        "This overdose file is national monthly data (no state-level breakdown), so the map shows a single U.S. marker."
+        "Monthly overdose values are estimated from CDC 12 month-ending state series "
+        "(Indicator: Synthetic opioids, excl. methadone (T40.4))."
     )
 
-    map_df = pd.DataFrame(
-        [
-            {
-                "location_name": "United States",
-                "lat": 39.8283,
-                "lon": -98.5795,
-                "metric_value": metric_value,
-                "total_deaths": total_deaths,
-                "avg_monthly": avg_monthly,
-            }
-        ]
-    )
-    map_fig = px.scatter_geo(
-        map_df,
-        lat="lat",
-        lon="lon",
-        size="metric_value",
+    map_values = state_values[state_values["state_abbr"].isin(usa_state_codes)].copy()
+    map_fig = px.choropleth(
+        map_values,
+        locations="state_abbr",
+        locationmode="USA-states",
         color="metric_value",
         scope="usa",
-        hover_name="location_name",
+        hover_name="state_name",
         hover_data={
-            "metric_value": ":,.2f",
+            "state_abbr": True,
             "total_deaths": ":,.0f",
-            "avg_monthly": ":,.2f",
-            "lat": False,
-            "lon": False,
+            "avg_monthly_deaths": ":,.2f",
+            "months_covered": True,
+            "metric_value": ":,.2f" if not metric_mode.startswith("Total deaths") else ":,.0f",
         },
         color_continuous_scale=LIGHT_TO_DARK_SCALE,
         labels={"metric_value": metric_label},
@@ -1059,7 +1153,7 @@ def run_overdose_view(df: pd.DataFrame) -> None:
     st.plotly_chart(map_fig, use_container_width=True)
 
     if show_rolling:
-        trend_df = monthly.rename(
+        trend_df = monthly_national.rename(
             columns={
                 "count": "Monthly deaths",
                 "rolling_12m": "12-month rolling avg",
@@ -1070,35 +1164,28 @@ def run_overdose_view(df: pd.DataFrame) -> None:
             x="date",
             y=["Monthly deaths", "12-month rolling avg"],
             labels={"date": "Calendar month", "value": "Deaths", "variable": "Series"},
-            title="National synthetic opioid overdose deaths trend",
+            title="State-level synthetic opioid overdose deaths trend (monthly estimated)",
         )
     else:
         trend_fig = px.line(
-            monthly,
+            monthly_national,
             x="date",
             y="count",
             labels={"date": "Calendar month", "count": "Deaths"},
-            title="National synthetic opioid overdose deaths trend",
+            title="State-level synthetic opioid overdose deaths trend (monthly estimated)",
         )
 
     trend_fig.update_layout(margin={"l": 0, "r": 0, "t": 40, "b": 0})
     st.plotly_chart(trend_fig, use_container_width=True)
 
-    st.subheader("Monthly Overdose Values")
-    table = monthly.copy()
-    table["date"] = table["date"].dt.date
-    table = table.rename(
-        columns={
-            "date": "month_start",
-            "count": "deaths",
-            "rolling_12m": "rolling_12m_deaths",
-        }
-    )
+    st.subheader("State Values")
+    table = state_values.sort_values("metric_value", ascending=False).reset_index(drop=True)
+    table["metric_value"] = table["metric_value"].round(2)
     st.dataframe(table, use_container_width=True, hide_index=True)
     st.download_button(
-        label="Download filtered overdose monthly values (CSV)",
+        label="Download filtered overdose state totals (CSV)",
         data=table.to_csv(index=False).encode("utf-8"),
-        file_name="overdose_filtered_monthly_values.csv",
+        file_name="overdose_filtered_state_totals.csv",
         mime="text/csv",
     )
 
@@ -1108,7 +1195,7 @@ def main() -> None:
     st.title("U.S. Drug Seizure Dashboard")
     st.caption(
         "Switch between NFLIS state reports, a combined CBP + AMO fentanyl seizure dataset, "
-        "source-specific CBP/AMO views, and national overdose deaths."
+        "source-specific CBP/AMO views, and state-level overdose deaths."
     )
 
     if not NFLIS_DATA_FILE.exists():
@@ -1144,7 +1231,7 @@ def main() -> None:
                 "CBP + AMO fentanyl seizures (Combined)",
                 "CBP fentanyl seizures (Field Office/Sector)",
                 "AMO fentanyl seizures (Branch)",
-                "Synthetic opioid overdose deaths (National)",
+                "Synthetic opioid overdose deaths (State-level estimated monthly)",
             ],
         )
 
