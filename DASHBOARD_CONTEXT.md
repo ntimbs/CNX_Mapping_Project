@@ -12,7 +12,7 @@ This file is a persistent context log for the active dashboard implementation in
 Both dashboards currently support the following data sources:
 
 1. NFLIS state reports (all drugs)
-2. CNX shipments to US (HS code, state, year)
+2. CNX shipments to US (chemical match, state, year)
 3. Synthetic opioid overdose deaths (state-level estimated monthly)
 4. CBP + AMO fentanyl seizures (combined)
 5. CBP fentanyl seizures (Field Office/Sector)
@@ -53,22 +53,21 @@ Both dashboards currently support the following data sources:
   - Source file has only `12 month-ending` series.
   - Dashboard uses monthly estimates produced by recurrence/deconvolution with first-year seed assumptions.
 
-### CNX shipments (US receiver, state/year/HS6)
+### CNX shipments (US receiver, state/year/chemical match)
 
 - Raw source file:
   - `cnx_transactions_us_sender_or_receiver.csv`
-- Docs derived file for GitHub Pages:
-  - `docs/cnx_shipments_us_state_year_hs6.csv`
-  - `docs/fentanyl_precursor_hs6_codes.csv`
+- Docs derived files for GitHub Pages:
+  - `docs/cnx_shipments_us_state_year_hs6.csv` (legacy HS aggregation)
+  - `docs/cnx_shipments_us_state_year_chemical_matches.csv` (active CNX Pages source)
 - Build script:
   - `Fentanyl Data/build_cnx_shipments_pages_dataset.py`
 - Notes:
   - Filtered to `receiver_country_iso2 = US`
   - `state_abbr/state_name` derived from `receiver_address`
   - `year` derived from `transaction_date`
-  - `hs6` normalized from `hs6_code` fallback `hs_code` fallback `predicted_hs6_codes_top_1`
-  - GitHub Pages CNX controls include option to restrict to HS6 codes present in
-    `Fentanyl Data/Fentanyl_Precursor_List_Combined_with_schedule_date.xlsx`
+  - Chemical matching uses names from `Fentanyl Data/Fentanyl_Precursor_List_Combined_with_schedule_date.xlsx`
+    against `goods_description` with exact phrase and fuzzy token-window matching
 
 ### CBP / AMO source-specific files
 
