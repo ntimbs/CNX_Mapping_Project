@@ -250,7 +250,7 @@
             <label class="label" for="sourceSelect">Data Source</label>
             <select id="sourceSelect">
               <option value="nflis">NFLIS state reports (all drugs)</option>
-              <option value="cnx">CNX shipments to US (chemical match, state, year)</option>
+              <option value="cnx">CNX shipments to US (chemical + HS code, state, year)</option>
               <option value="od">Synthetic opioid overdose deaths (state-level estimated monthly)</option>
               <option value="ops">CBP + AMO fentanyl seizures (combined)</option>
               <option value="cbp">CBP fentanyl seizures (Field Office/Sector)</option>
@@ -305,7 +305,8 @@
               <div class="hint">
                 Records are filtered to <code>receiver_country_iso2 = US</code> and mapped to state from
                 <code>receiver_address</code>; year comes from <code>transaction_date</code>; chemicals are matched from
-                <code>goods_description</code> against the precursor spreadsheet list (exact + fuzzy).
+                <code>goods_description</code> against the precursor spreadsheet list (exact + fuzzy). HS6 is also retained
+                for filtering.
               </div>
             </div>
 
@@ -324,6 +325,15 @@
               <div class="btn-row">
                 <button type="button" id="cnxChemicalAll">All Chemicals</button>
                 <button type="button" id="cnxChemicalNone">Clear Chemicals</button>
+              </div>
+            </div>
+
+            <div class="section">
+              <label class="label" for="cnxHsSelect">HS6 Codes</label>
+              <select id="cnxHsSelect" multiple></select>
+              <div class="btn-row">
+                <button type="button" id="cnxHsAll">All HS6</button>
+                <button type="button" id="cnxHsNone">Clear HS6</button>
               </div>
             </div>
 
@@ -753,7 +763,7 @@
         amoRows: [],
         opsRows: [],
         nflisMeta: { years: [], drugs: [], states: [] },
-        cnxMeta: { years: [], chemicals: [], states: [] },
+        cnxMeta: { years: [], chemicals: [], hsCodes: [], states: [] },
         odMeta: { variables: [], years: [], months: [], states: [] },
         cbpMeta: { fyLabels: [], months: [], components: [], regions: [], landFilters: [], aors: [] },
         amoMeta: { fyLabels: [], months: [], components: [], regions: [], landFilters: [], branches: [] },
@@ -798,6 +808,7 @@
 
       const cnxYearSelect = document.getElementById("cnxYearSelect");
       const cnxChemicalSelect = document.getElementById("cnxChemicalSelect");
+      const cnxHsSelect = document.getElementById("cnxHsSelect");
       const cnxStateSelect = document.getElementById("cnxStateSelect");
 
       const odVariableSelect = document.getElementById("odVariableSelect");
@@ -933,6 +944,7 @@
         const rows = [];
         const yearSet = new Set();
         const chemicalSet = new Set();
+        const hsSet = new Set();
         const stateMap = new Map();
 
         for (const row of rawRows) {
@@ -940,6 +952,7 @@
           const state_name = String(row.state_name || "").trim();
           const year = Number(row.year);
           const chemical_name = String(row.chemical_name || "").trim();
+          const hs6 = String(row.hs6 || "").trim() || "UNKNOWN";
           const shipment_records = toNumber(row.shipment_records);
           const total_quantity_kg = toNumber(row.total_quantity_kg);
           const total_value_usd = toNumber(row.total_value_usd);
@@ -953,6 +966,7 @@
             state_name,
             year,
             chemical_name,
+            hs6,
             shipment_records,
             total_quantity_kg,
             total_value_usd,
@@ -963,6 +977,7 @@
 
           yearSet.add(year);
           chemicalSet.add(chemical_name);
+          hsSet.add(hs6);
           if (!stateMap.has(state_abbr)) {
             stateMap.set(state_abbr, { state_abbr, state_name });
           }
@@ -971,6 +986,7 @@
         store.cnxRows = rows;
         store.cnxMeta.years = [...yearSet].sort((a, b) => a - b);
         store.cnxMeta.chemicals = [...chemicalSet].sort((a, b) => a.localeCompare(b));
+        store.cnxMeta.hsCodes = [...hsSet].sort((a, b) => a.localeCompare(b));
         store.cnxMeta.states = [...stateMap.values()].sort((a, b) => a.state_name.localeCompare(b.state_name));
       }
 
@@ -1227,6 +1243,7 @@
 
         setMultiOptions(cnxYearSelect, store.cnxMeta.years.map(String), store.cnxMeta.years.map(String));
         setMultiOptions(cnxChemicalSelect, store.cnxMeta.chemicals, store.cnxMeta.chemicals);
+        setMultiOptions(cnxHsSelect, store.cnxMeta.hsCodes, store.cnxMeta.hsCodes);
         setMultiOptions(
           cnxStateSelect,
           store.cnxMeta.states.map((s) => s.state_abbr),
@@ -1355,6 +1372,7 @@
 
         cnxYearSelect.addEventListener("change", refresh);
         cnxChemicalSelect.addEventListener("change", refresh);
+        cnxHsSelect.addEventListener("change", refresh);
         cnxStateSelect.addEventListener("change", refresh);
         document.querySelectorAll("input[name='cnxMetricMode']").forEach((el) => el.addEventListener("change", refresh));
 
@@ -1372,6 +1390,14 @@
         });
         document.getElementById("cnxChemicalNone").addEventListener("click", () => {
           selectAll(cnxChemicalSelect, false);
+          refresh();
+        });
+        document.getElementById("cnxHsAll").addEventListener("click", () => {
+          selectAll(cnxHsSelect, true);
+          refresh();
+        });
+        document.getElementById("cnxHsNone").addEventListener("click", () => {
+          selectAll(cnxHsSelect, false);
           refresh();
         });
         document.getElementById("cnxStateAll").addEventListener("click", () => {
@@ -1639,12 +1665,13 @@
 
         const years = selectedValues(cnxYearSelect).map(Number);
         const chemicals = selectedValues(cnxChemicalSelect);
+        const hsCodes = selectedValues(cnxHsSelect);
         const states = selectedValues(cnxStateSelect);
         const metricMode = document.querySelector("input[name='cnxMetricMode']:checked").value;
 
-        if (!years.length || !chemicals.length || !states.length) {
-          setStatus("Select at least one year, chemical name, and state.");
-          setKpis("Selected Chemicals", String(chemicals.length), "Selected Years", String(years.length), "Shipment records", "0");
+        if (!years.length || !chemicals.length || !hsCodes.length || !states.length) {
+          setStatus("Select at least one year, chemical name, HS6 code, and state.");
+          setKpis("Selected Chemicals", String(chemicals.length), "Selected HS6", String(hsCodes.length), "Shipment records", "0");
           Plotly.newPlot("map", [], { geo: { scope: "usa" } }, { responsive: true, displayModeBar: false });
           Plotly.newPlot("trend", [], { margin: { l: 0, r: 0, t: 10, b: 0 } }, { responsive: true, displayModeBar: false });
           setTable([], [
@@ -1659,18 +1686,20 @@
         setStatus("");
         const yearSet = new Set(years);
         const chemicalSet = new Set(chemicals);
+        const hsSet = new Set(hsCodes);
         const stateSet = new Set(states);
 
         const filtered = store.cnxRows.filter(
           (row) =>
             yearSet.has(row.year) &&
             chemicalSet.has(row.chemical_name) &&
+            hsSet.has(row.hs6) &&
             stateSet.has(row.state_abbr)
         );
 
         if (!filtered.length) {
           setStatus("No CNX shipment records match the selected filters.");
-          setKpis("Selected Chemicals", String(chemicals.length), "Selected Years", String(years.length), "Shipment records", "0");
+          setKpis("Selected Chemicals", String(chemicals.length), "Selected HS6", String(hsCodes.length), "Shipment records", "0");
           Plotly.newPlot("map", [], { geo: { scope: "usa" } }, { responsive: true, displayModeBar: false });
           Plotly.newPlot("trend", [], { margin: { l: 0, r: 0, t: 10, b: 0 } }, { responsive: true, displayModeBar: false });
           setTable([], [
@@ -1693,6 +1722,7 @@
               total_quantity_kg: 0,
               total_value_usd: 0,
               matched_chemicals: new Set(),
+              matched_hs6: new Set(),
               score_weighted_sum: 0,
               score_weight: 0,
               max_match_score: 0,
@@ -1703,6 +1733,7 @@
           rec.total_quantity_kg += row.total_quantity_kg;
           rec.total_value_usd += row.total_value_usd;
           rec.matched_chemicals.add(row.chemical_name);
+          rec.matched_hs6.add(row.hs6);
           if (Number.isFinite(row.avg_match_score)) {
             rec.score_weighted_sum += row.avg_match_score * row.shipment_records;
             rec.score_weight += row.shipment_records;
@@ -1719,6 +1750,7 @@
           total_quantity_kg: r.total_quantity_kg,
           total_value_usd: r.total_value_usd,
           unique_chemicals: r.matched_chemicals.size,
+          unique_hs6: r.matched_hs6.size,
           avg_match_score: r.score_weight ? r.score_weighted_sum / r.score_weight : null,
           max_match_score: r.max_match_score || null,
         }));
@@ -1768,8 +1800,8 @@
         setKpis(
           "Selected Chemicals",
           String(chemicals.length),
-          "Selected Years",
-          String(years.length),
+          "Selected HS6",
+          String(hsCodes.length),
           metricLabel,
           formatNum(metricTotal, metricDigits)
         );
@@ -1788,6 +1820,7 @@
                 r.total_quantity_kg,
                 r.total_value_usd,
                 r.unique_chemicals,
+                r.unique_hs6,
                 r.avg_match_score,
                 r.max_match_score,
               ]),
@@ -1801,8 +1834,9 @@
                 "Total quantity (kg): %{customdata[1]:,.2f}<br>" +
                 "Total value (USD): %{customdata[2]:,.2f}<br>" +
                 "Matched chemicals: %{customdata[3]:,.0f}<br>" +
-                "Avg match score: %{customdata[4]:.3f}<br>" +
-                "Max match score: %{customdata[5]:.3f}<br>" +
+                "Matched HS6: %{customdata[4]:,.0f}<br>" +
+                "Avg match score: %{customdata[5]:.3f}<br>" +
+                "Max match score: %{customdata[6]:.3f}<br>" +
                 metricLabel +
                 ": " +
                 hoverMetricFmt +
@@ -1850,6 +1884,7 @@
           { key: "total_quantity_kg", header: "Total quantity (kg)", render: (v) => formatNum(v, 2) },
           { key: "total_value_usd", header: "Total value (USD)", render: (v) => formatNum(v, 2) },
           { key: "unique_chemicals", header: "Matched chemicals", render: (v) => formatNum(v, 0) },
+          { key: "unique_hs6", header: "Matched HS6", render: (v) => formatNum(v, 0) },
           { key: "avg_match_score", header: "Avg match score", render: (v) => (v == null ? "" : Number(v).toFixed(3)) },
           { key: "max_match_score", header: "Max match score", render: (v) => (v == null ? "" : Number(v).toFixed(3)) },
           { key: "metric_value", header: metricLabel, render: (v) => formatNum(v, metricDigits) },
@@ -1859,6 +1894,7 @@
           ...r,
           metric_mode: metricMode,
           selected_years: years.join("|"),
+          selected_hs6: hsCodes.join("|"),
           selected_chemicals: chemicals.join("|"),
         }));
         currentDownloadFilename = "cnx_shipments_us_state_totals.csv";

@@ -12,7 +12,7 @@ This file is a persistent context log for the active dashboard implementation in
 Both dashboards currently support the following data sources:
 
 1. NFLIS state reports (all drugs)
-2. CNX shipments to US (chemical match, state, year)
+2. CNX shipments to US (chemical + HS code, state, year)
 3. Synthetic opioid overdose deaths (state-level estimated monthly)
 4. CBP + AMO fentanyl seizures (combined)
 5. CBP fentanyl seizures (Field Office/Sector)
@@ -53,7 +53,7 @@ Both dashboards currently support the following data sources:
   - Source file has only `12 month-ending` series.
   - Dashboard uses monthly estimates produced by recurrence/deconvolution with first-year seed assumptions.
 
-### CNX shipments (US receiver, state/year/chemical match)
+### CNX shipments (US receiver, state/year/chemical + HS code)
 
 - Raw source file:
   - `cnx_transactions_us_sender_or_receiver.csv`
@@ -68,6 +68,7 @@ Both dashboards currently support the following data sources:
   - `year` derived from `transaction_date`
   - Chemical matching uses names from `Fentanyl Data/Fentanyl_Precursor_List_Combined_with_schedule_date.xlsx`
     against `goods_description` with exact phrase and fuzzy token-window matching
+  - Active Pages CNX view supports filtering by both matched `chemical_name` and `hs6`
 
 ### CBP / AMO source-specific files
 

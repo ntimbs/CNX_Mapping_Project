@@ -404,6 +404,7 @@ def build_pages_chemical_dataset(
                 "state_name": row.state_name,
                 "year": row.year,
                 "chemical_name": match["chemical_name"],
+                "hs6": row.hs6 if isinstance(row.hs6, str) and row.hs6.strip() else "UNKNOWN",
                 "matched_alias": match["matched_alias"],
                 "match_type": match["match_type"],
                 "match_score": float(match["match_score"]),
@@ -415,7 +416,7 @@ def build_pages_chemical_dataset(
     if matched_rows:
         matched_df = pd.DataFrame(matched_rows)
         grouped = (
-            matched_df.groupby(["state_abbr", "state_name", "year", "chemical_name"], as_index=False)
+            matched_df.groupby(["state_abbr", "state_name", "year", "chemical_name", "hs6"], as_index=False)
             .agg(
                 shipment_records=("chemical_name", "count"),
                 total_quantity_kg=("quantity_kg", "sum"),
@@ -434,6 +435,7 @@ def build_pages_chemical_dataset(
                 "state_name",
                 "year",
                 "chemical_name",
+                "hs6",
                 "shipment_records",
                 "total_quantity_kg",
                 "total_value_usd",
@@ -451,6 +453,7 @@ def build_pages_chemical_dataset(
     print(f"Rows: {len(grouped):,}")
     if len(grouped):
         print(f"Unique chemicals: {grouped['chemical_name'].nunique():,}")
+        print(f"Unique HS6 (incl UNKNOWN): {grouped['hs6'].nunique():,}")
         print(f"Year range: {grouped['year'].min()}-{grouped['year'].max()}")
 
 
