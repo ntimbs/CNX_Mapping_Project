@@ -251,6 +251,7 @@
             <select id="sourceSelect">
               <option value="nflis">NFLIS state reports (all drugs)</option>
               <option value="cnx">CNX shipments to US (chemical + HS code, state, year)</option>
+              <option value="cnx_sender">CNX shipments from US (chemical + HS code, state, year)</option>
               <option value="od">Synthetic opioid overdose deaths (state-level estimated monthly)</option>
               <option value="ops">CBP + AMO fentanyl seizures (combined)</option>
               <option value="cbp">CBP fentanyl seizures (Field Office/Sector)</option>
@@ -302,7 +303,7 @@
 
           <div id="cnxControls" class="hidden">
             <div class="section">
-              <div class="hint">
+              <div class="hint" id="cnxHint">
                 Records are filtered to <code>receiver_country_iso2 = US</code> and mapped to state from
                 <code>receiver_address</code>; year comes from <code>transaction_date</code>; chemicals are matched from
                 <code>goods_description</code> against the precursor spreadsheet list (exact + fuzzy). HS6 is also retained
@@ -338,7 +339,7 @@
             </div>
 
             <div class="section">
-              <label class="label" for="cnxStateSelect">Receiver State</label>
+              <label class="label" for="cnxStateSelect" id="cnxStateLabel">Receiver State</label>
               <select id="cnxStateSelect" multiple></select>
               <div class="btn-row">
                 <button type="button" id="cnxStateAll">All States</button>
@@ -675,7 +676,8 @@
       const CBP_DATA_FILE = "./cbp_fentanyl_aor_monthly_2019_2026_dec.csv";
       const AMO_DATA_FILE = "./amo_fentanyl_branch_monthly_2019_2026_dec.csv";
       const OPS_DATA_FILE = "./cbp_amo_fentanyl_location_monthly_2019_2026_dec.csv";
-      const CNX_DATA_FILE = "./cnx_shipments_us_state_year_chemical_matches.csv";
+      const CNX_RECEIVER_DATA_FILE = "./cnx_shipments_us_state_year_chemical_matches.csv";
+      const CNX_SENDER_DATA_FILE = "./cnx_shipments_us_sender_state_year_chemical_matches.csv";
 
       const LIGHT_TO_DARK_SCALE = [
         [0.0, "#fff7bc"],
@@ -758,12 +760,14 @@
       const store = {
         nflisRows: [],
         cnxRows: [],
+        cnxSenderRows: [],
         odRows: [],
         cbpRows: [],
         amoRows: [],
         opsRows: [],
         nflisMeta: { years: [], drugs: [], states: [] },
         cnxMeta: { years: [], chemicals: [], hsCodes: [], states: [] },
+        cnxSenderMeta: { years: [], chemicals: [], hsCodes: [], states: [] },
         odMeta: { variables: [], years: [], months: [], states: [] },
         cbpMeta: { fyLabels: [], months: [], components: [], regions: [], landFilters: [], aors: [] },
         amoMeta: { fyLabels: [], months: [], components: [], regions: [], landFilters: [], branches: [] },
@@ -781,10 +785,13 @@
 
       let currentDownloadRows = [];
       let currentDownloadFilename = "filtered_dashboard_rows.csv";
+      let activeCnxMode = null;
 
       const sourceSelect = document.getElementById("sourceSelect");
       const nflisControls = document.getElementById("nflisControls");
       const cnxControls = document.getElementById("cnxControls");
+      const cnxHint = document.getElementById("cnxHint");
+      const cnxStateLabel = document.getElementById("cnxStateLabel");
       const odControls = document.getElementById("odControls");
       const opsControls = document.getElementById("opsControls");
       const cbpControls = document.getElementById("cbpControls");
@@ -940,7 +947,7 @@
         store.nflisMeta.states = [...stateMap.values()].sort((a, b) => a.state_abbr.localeCompare(b.state_abbr));
       }
 
-      function normalizeCnxRows(rawRows) {
+      function normalizeCnxRows(rawRows, rowsKey, metaKey) {
         const rows = [];
         const yearSet = new Set();
         const chemicalSet = new Set();
@@ -983,11 +990,71 @@
           }
         }
 
-        store.cnxRows = rows;
-        store.cnxMeta.years = [...yearSet].sort((a, b) => a - b);
-        store.cnxMeta.chemicals = [...chemicalSet].sort((a, b) => a.localeCompare(b));
-        store.cnxMeta.hsCodes = [...hsSet].sort((a, b) => a.localeCompare(b));
-        store.cnxMeta.states = [...stateMap.values()].sort((a, b) => a.state_name.localeCompare(b.state_name));
+        store[rowsKey] = rows;
+        store[metaKey].years = [...yearSet].sort((a, b) => a - b);
+        store[metaKey].chemicals = [...chemicalSet].sort((a, b) => a.localeCompare(b));
+        store[metaKey].hsCodes = [...hsSet].sort((a, b) => a.localeCompare(b));
+        store[metaKey].states = [...stateMap.values()].sort((a, b) => a.state_name.localeCompare(b.state_name));
+      }
+
+      function getCnxMode(source) {
+        return source === "cnx_sender" ? "sender" : "receiver";
+      }
+
+      function getCnxConfig(mode) {
+        if (mode === "sender") {
+          return {
+            rows: store.cnxSenderRows,
+            meta: store.cnxSenderMeta,
+            stateLabel: "Sender State",
+            sourceLabel: "from US",
+            countryFilter: "sender_country_iso2 = US",
+            addressField: "sender_address",
+            csvFile: "docs/cnx_shipments_us_sender_state_year_chemical_matches.csv",
+            downloadFilename: "cnx_shipments_us_sender_state_totals.csv",
+          };
+        }
+
+        return {
+          rows: store.cnxRows,
+          meta: store.cnxMeta,
+          stateLabel: "Receiver State",
+          sourceLabel: "to US",
+          countryFilter: "receiver_country_iso2 = US",
+          addressField: "receiver_address",
+          csvFile: "docs/cnx_shipments_us_state_year_chemical_matches.csv",
+          downloadFilename: "cnx_shipments_us_receiver_state_totals.csv",
+        };
+      }
+
+      function applyCnxControlOptions(meta) {
+        setMultiOptions(cnxYearSelect, meta.years.map(String), meta.years.map(String));
+        setMultiOptions(cnxChemicalSelect, meta.chemicals, meta.chemicals);
+        setMultiOptions(cnxHsSelect, meta.hsCodes, meta.hsCodes);
+        setMultiOptions(
+          cnxStateSelect,
+          meta.states.map((s) => s.state_abbr),
+          meta.states.map((s) => s.state_abbr),
+          (abbr) => {
+            const rec = meta.states.find((r) => r.state_abbr === abbr);
+            return rec ? `${rec.state_name} (${rec.state_abbr})` : abbr;
+          }
+        );
+      }
+
+      function syncCnxModeFromSource() {
+        const mode = getCnxMode(sourceSelect.value);
+        if (mode === activeCnxMode) return;
+
+        const cfg = getCnxConfig(mode);
+        activeCnxMode = mode;
+        applyCnxControlOptions(cfg.meta);
+        cnxStateLabel.textContent = cfg.stateLabel;
+        cnxHint.innerHTML =
+          `Records are filtered to <code>${cfg.countryFilter}</code> and mapped to state from ` +
+          `<code>${cfg.addressField}</code>; year comes from <code>transaction_date</code>; ` +
+          `chemicals are matched from <code>goods_description</code> against the precursor spreadsheet list ` +
+          `(exact + fuzzy). HS6 is also retained for filtering.`;
       }
 
       function normalizeOverdoseRows(rawRows) {
@@ -1241,18 +1308,8 @@
         const defaultDrug = nflisDrugs.includes("Fentanyl") ? ["Fentanyl"] : nflisDrugs.slice(0, 1);
         setMultiOptions(nflisDrugSelect, nflisDrugs, defaultDrug);
 
-        setMultiOptions(cnxYearSelect, store.cnxMeta.years.map(String), store.cnxMeta.years.map(String));
-        setMultiOptions(cnxChemicalSelect, store.cnxMeta.chemicals, store.cnxMeta.chemicals);
-        setMultiOptions(cnxHsSelect, store.cnxMeta.hsCodes, store.cnxMeta.hsCodes);
-        setMultiOptions(
-          cnxStateSelect,
-          store.cnxMeta.states.map((s) => s.state_abbr),
-          store.cnxMeta.states.map((s) => s.state_abbr),
-          (abbr) => {
-            const rec = store.cnxMeta.states.find((r) => r.state_abbr === abbr);
-            return rec ? `${rec.state_name} (${rec.state_abbr})` : abbr;
-          }
-        );
+        activeCnxMode = null;
+        syncCnxModeFromSource();
 
         setMultiOptions(odVariableSelect, store.odMeta.variables, store.odMeta.variables);
         setMultiOptions(odYearSelect, store.odMeta.years.map(String), store.odMeta.years.map(String));
@@ -1662,6 +1719,9 @@
 
       function renderCnx() {
         trendWrap.classList.remove("hidden");
+        syncCnxModeFromSource();
+        const cnxCfg = getCnxConfig(activeCnxMode || "receiver");
+        const cnxRows = cnxCfg.rows;
 
         const years = selectedValues(cnxYearSelect).map(Number);
         const chemicals = selectedValues(cnxChemicalSelect);
@@ -1689,7 +1749,7 @@
         const hsSet = new Set(hsCodes);
         const stateSet = new Set(states);
 
-        const filtered = store.cnxRows.filter(
+        const filteredRows = cnxRows.filter(
           (row) =>
             yearSet.has(row.year) &&
             chemicalSet.has(row.chemical_name) &&
@@ -1697,7 +1757,7 @@
             stateSet.has(row.state_abbr)
         );
 
-        if (!filtered.length) {
+        if (!filteredRows.length) {
           setStatus("No CNX shipment records match the selected filters.");
           setKpis("Selected Chemicals", String(chemicals.length), "Selected HS6", String(hsCodes.length), "Shipment records", "0");
           Plotly.newPlot("map", [], { geo: { scope: "usa" } }, { responsive: true, displayModeBar: false });
@@ -1712,7 +1772,7 @@
         }
 
         const stateMap = new Map();
-        for (const row of filtered) {
+        for (const row of filteredRows) {
           const key = `${row.state_abbr}|${row.state_name}`;
           if (!stateMap.has(key)) {
             stateMap.set(key, {
@@ -1777,7 +1837,7 @@
         }
 
         const yearlyMap = new Map();
-        for (const row of filtered) {
+        for (const row of filteredRows) {
           if (!yearlyMap.has(row.year)) {
             yearlyMap.set(row.year, {
               year: row.year,
@@ -1866,7 +1926,7 @@
             },
           ],
           {
-            title: `Annual CNX shipment trend (${metricLabel})`,
+            title: `Annual CNX shipment trend ${cnxCfg.sourceLabel} (${metricLabel})`,
             margin: { l: 0, r: 0, t: 36, b: 10 },
             xaxis: { title: "Year" },
             yaxis: { title: metricLabel },
@@ -1897,12 +1957,13 @@
           selected_hs6: hsCodes.join("|"),
           selected_chemicals: chemicals.join("|"),
         }));
-        currentDownloadFilename = "cnx_shipments_us_state_totals.csv";
+        currentDownloadFilename = cnxCfg.downloadFilename;
         footerNote.innerHTML =
-          "Data files: <code>docs/cnx_shipments_us_state_year_chemical_matches.csv</code><br>" +
+          `Data files: <code>${cnxCfg.csvFile}</code><br>` +
           "Chemical list source: <code>Fentanyl Data/Fentanyl_Precursor_List_Combined_with_schedule_date.xlsx</code><br>" +
-          "Derived from <code>cnx_transactions_us_sender_or_receiver.csv</code>, filtered to receiver_country_iso2 = US, " +
-          "with state parsed from receiver_address, year parsed from transaction_date, and chemical matched from goods_description (fuzzy + exact).";
+          `Derived from <code>cnx_transactions_us_sender_or_receiver.csv</code>, filtered to ${cnxCfg.countryFilter}, ` +
+          `with state parsed from ${cnxCfg.addressField}, year parsed from transaction_date, and chemical matched from ` +
+          "goods_description (fuzzy + exact).";
       }
 
       function renderOverdose() {
@@ -2841,7 +2902,7 @@
           cbpControls.classList.add("hidden");
           amoControls.classList.add("hidden");
           renderNflis();
-        } else if (source === "cnx") {
+        } else if (source === "cnx" || source === "cnx_sender") {
           nflisControls.classList.add("hidden");
           cnxControls.classList.remove("hidden");
           odControls.classList.add("hidden");
@@ -2908,16 +2969,18 @@
       async function boot() {
         try {
           setStatus("Loading datasets...");
-          const [nflisRaw, cnxRaw, overdoseRaw, opsRaw, cbpRaw, amoRaw] = await Promise.all([
+          const [nflisRaw, cnxReceiverRaw, cnxSenderRaw, overdoseRaw, opsRaw, cbpRaw, amoRaw] = await Promise.all([
             parseCsv(NFLIS_DATA_FILE),
-            parseCsv(CNX_DATA_FILE),
+            parseCsv(CNX_RECEIVER_DATA_FILE),
+            parseCsv(CNX_SENDER_DATA_FILE),
             parseCsv(OVERDOSE_DATA_FILE),
             parseCsv(OPS_DATA_FILE),
             parseCsv(CBP_DATA_FILE),
             parseCsv(AMO_DATA_FILE),
           ]);
           normalizeNflisRows(nflisRaw);
-          normalizeCnxRows(cnxRaw);
+          normalizeCnxRows(cnxReceiverRaw, "cnxRows", "cnxMeta");
+          normalizeCnxRows(cnxSenderRaw, "cnxSenderRows", "cnxSenderMeta");
           normalizeOverdoseRows(overdoseRaw);
           normalizeOpsRows(opsRaw);
           normalizeCbpRows(cbpRaw);

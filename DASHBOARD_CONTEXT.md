@@ -13,10 +13,11 @@ Both dashboards currently support the following data sources:
 
 1. NFLIS state reports (all drugs)
 2. CNX shipments to US (chemical + HS code, state, year)
-3. Synthetic opioid overdose deaths (state-level estimated monthly)
-4. CBP + AMO fentanyl seizures (combined)
-5. CBP fentanyl seizures (Field Office/Sector)
-6. AMO fentanyl seizures (Branch)
+3. CNX shipments from US (chemical + HS code, state, year)
+4. Synthetic opioid overdose deaths (state-level estimated monthly)
+5. CBP + AMO fentanyl seizures (combined)
+6. CBP fentanyl seizures (Field Office/Sector)
+7. AMO fentanyl seizures (Branch)
 
 ## Key data files
 
@@ -53,22 +54,26 @@ Both dashboards currently support the following data sources:
   - Source file has only `12 month-ending` series.
   - Dashboard uses monthly estimates produced by recurrence/deconvolution with first-year seed assumptions.
 
-### CNX shipments (US receiver, state/year/chemical + HS code)
+### CNX shipments (US receiver + US sender, state/year/chemical + HS code)
 
 - Raw source file:
   - `cnx_transactions_us_sender_or_receiver.csv`
 - Docs derived files for GitHub Pages:
   - `docs/cnx_shipments_us_state_year_hs6.csv` (legacy HS aggregation)
-  - `docs/cnx_shipments_us_state_year_chemical_matches.csv` (active CNX Pages source)
+  - `docs/cnx_shipments_us_state_year_chemical_matches.csv` (US receiver, active CNX Pages source)
+  - `docs/cnx_shipments_us_sender_state_year_hs6.csv` (US sender, legacy HS aggregation)
+  - `docs/cnx_shipments_us_sender_state_year_chemical_matches.csv` (US sender, active CNX Pages source)
 - Build script:
   - `Fentanyl Data/build_cnx_shipments_pages_dataset.py`
 - Notes:
-  - Filtered to `receiver_country_iso2 = US`
-  - `state_abbr/state_name` derived from `receiver_address`
+  - Receiver flow filtered to `receiver_country_iso2 = US`
+  - Sender flow filtered to `sender_country_iso2 = US`
+  - Receiver flow `state_abbr/state_name` derived from `receiver_address`
+  - Sender flow `state_abbr/state_name` derived from `sender_address`
   - `year` derived from `transaction_date`
   - Chemical matching uses names from `Fentanyl Data/Fentanyl_Precursor_List_Combined_with_schedule_date.xlsx`
     against `goods_description` with exact phrase and fuzzy token-window matching
-  - Active Pages CNX view supports filtering by both matched `chemical_name` and `hs6`
+  - Active Pages CNX views support filtering by both matched `chemical_name` and `hs6`
 
 ### CBP / AMO source-specific files
 

@@ -146,9 +146,16 @@ def extract_state_from_address(address: object) -> str | None:
     return None
 
 
-def load_base_shipments(input_csv: Path) -> pd.DataFrame:
+def load_base_shipments(
+    input_csv: Path,
+    *,
+    country_iso2_col: str,
+    address_col: str,
+) -> pd.DataFrame:
     usecols = [
         "transaction_id",
+        "sender_country_iso2",
+        "sender_address",
         "receiver_country_iso2",
         "receiver_address",
         "transaction_date",
@@ -162,8 +169,8 @@ def load_base_shipments(input_csv: Path) -> pd.DataFrame:
         "est_usd_value",
     ]
     df = pd.read_csv(input_csv, usecols=usecols, low_memory=False)
-    df["receiver_country_iso2"] = df["receiver_country_iso2"].astype(str).str.strip().str.upper()
-    df = df[df["receiver_country_iso2"] == "US"].copy()
+    df[country_iso2_col] = df[country_iso2_col].astype(str).str.strip().str.upper()
+    df = df[df[country_iso2_col] == "US"].copy()
 
     df["transaction_date"] = pd.to_datetime(df["transaction_date"], errors="coerce")
     df["year"] = df["transaction_date"].dt.year.astype("Int64")
@@ -174,8 +181,8 @@ def load_base_shipments(input_csv: Path) -> pd.DataFrame:
         hs6_final = hs6_final.fillna(hs6_candidate)
     df["hs6"] = hs6_final
 
-    df["receiver_address"] = df["receiver_address"].astype(str)
-    df["state_abbr"] = df["receiver_address"].apply(extract_state_from_address)
+    df[address_col] = df[address_col].astype(str)
+    df["state_abbr"] = df[address_col].apply(extract_state_from_address)
     df["state_name"] = df["state_abbr"].map(US_STATE_ABBR_TO_NAME)
 
     df["kg_net"] = pd.to_numeric(df["kg_net"], errors="coerce")
@@ -462,13 +469,27 @@ def main() -> None:
     input_csv = root / "cnx_transactions_us_sender_or_receiver.csv"
     precursor_workbook = root / "Fentanyl Data" / "Fentanyl_Precursor_List_Combined_with_schedule_date.xlsx"
 
-    base_df = load_base_shipments(input_csv)
+    print("Building CNX US-receiver datasets...")
+    receiver_df = load_base_shipments(
+        input_csv,
+        country_iso2_col="receiver_country_iso2",
+        address_col="receiver_address",
+    )
+    receiver_hs_output_csv = root / "docs" / "cnx_shipments_us_state_year_hs6.csv"
+    build_pages_hs6_dataset(receiver_df, receiver_hs_output_csv)
+    receiver_chemical_output_csv = root / "docs" / "cnx_shipments_us_state_year_chemical_matches.csv"
+    build_pages_chemical_dataset(receiver_df, precursor_workbook, receiver_chemical_output_csv)
 
-    hs_output_csv = root / "docs" / "cnx_shipments_us_state_year_hs6.csv"
-    build_pages_hs6_dataset(base_df, hs_output_csv)
-
-    chemical_output_csv = root / "docs" / "cnx_shipments_us_state_year_chemical_matches.csv"
-    build_pages_chemical_dataset(base_df, precursor_workbook, chemical_output_csv)
+    print("\nBuilding CNX US-sender datasets...")
+    sender_df = load_base_shipments(
+        input_csv,
+        country_iso2_col="sender_country_iso2",
+        address_col="sender_address",
+    )
+    sender_hs_output_csv = root / "docs" / "cnx_shipments_us_sender_state_year_hs6.csv"
+    build_pages_hs6_dataset(sender_df, sender_hs_output_csv)
+    sender_chemical_output_csv = root / "docs" / "cnx_shipments_us_sender_state_year_chemical_matches.csv"
+    build_pages_chemical_dataset(sender_df, precursor_workbook, sender_chemical_output_csv)
 
 
 if __name__ == "__main__":
