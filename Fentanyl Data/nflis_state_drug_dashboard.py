@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+import re
 
 import pandas as pd
 import plotly.express as px
@@ -31,7 +32,88 @@ OVERDOSE_DATA_FILE = (
     Path(__file__).resolve().parent
     / "state_opioid_overdose_monthly_counts_estimated.csv"
 )
+CNX_SHIPMENTS_DATA_FILE = (
+    Path(__file__).resolve().parent.parent
+    / "cnx_transactions_us_sender_or_receiver.csv"
+)
 LIGHT_TO_DARK_SCALE = ["#fff7bc", "#fec44f", "#fe9929", "#d95f0e", "#8c2d04"]
+
+US_STATE_ABBR_TO_NAME = {
+    "AL": "Alabama",
+    "AK": "Alaska",
+    "AZ": "Arizona",
+    "AR": "Arkansas",
+    "CA": "California",
+    "CO": "Colorado",
+    "CT": "Connecticut",
+    "DE": "Delaware",
+    "FL": "Florida",
+    "GA": "Georgia",
+    "HI": "Hawaii",
+    "ID": "Idaho",
+    "IL": "Illinois",
+    "IN": "Indiana",
+    "IA": "Iowa",
+    "KS": "Kansas",
+    "KY": "Kentucky",
+    "LA": "Louisiana",
+    "ME": "Maine",
+    "MD": "Maryland",
+    "MA": "Massachusetts",
+    "MI": "Michigan",
+    "MN": "Minnesota",
+    "MS": "Mississippi",
+    "MO": "Missouri",
+    "MT": "Montana",
+    "NE": "Nebraska",
+    "NV": "Nevada",
+    "NH": "New Hampshire",
+    "NJ": "New Jersey",
+    "NM": "New Mexico",
+    "NY": "New York",
+    "NC": "North Carolina",
+    "ND": "North Dakota",
+    "OH": "Ohio",
+    "OK": "Oklahoma",
+    "OR": "Oregon",
+    "PA": "Pennsylvania",
+    "RI": "Rhode Island",
+    "SC": "South Carolina",
+    "SD": "South Dakota",
+    "TN": "Tennessee",
+    "TX": "Texas",
+    "UT": "Utah",
+    "VT": "Vermont",
+    "VA": "Virginia",
+    "WA": "Washington",
+    "WV": "West Virginia",
+    "WI": "Wisconsin",
+    "WY": "Wyoming",
+    "DC": "District of Columbia",
+}
+USA_STATE_CODES = set(US_STATE_ABBR_TO_NAME.keys())
+_STATE_NAME_TO_ABBR = {name.upper(): abbr for abbr, name in US_STATE_ABBR_TO_NAME.items()}
+_STATE_NAME_TO_ABBR.update(
+    {
+        "WASHINGTON DC": "DC",
+        "WASHINGTON D C": "DC",
+        "WASHINGTON, DC": "DC",
+        "DISTRICT OF COLUMBIA": "DC",
+    }
+)
+_STATE_ABBR_PATTERN = "|".join(sorted(USA_STATE_CODES, key=len, reverse=True))
+_STATE_NAME_PATTERN = "|".join(
+    re.escape(name) for name in sorted(_STATE_NAME_TO_ABBR.keys(), key=len, reverse=True)
+)
+_ZIP_STATE_RE = re.compile(
+    rf"\b({_STATE_ABBR_PATTERN})\s+\d{{5}}(?:-\d{{4}})?\b",
+    flags=re.IGNORECASE,
+)
+_COMMA_STATE_RE = re.compile(
+    rf",\s*({_STATE_ABBR_PATTERN})\s*(?:,|$)",
+    flags=re.IGNORECASE,
+)
+_STATE_NAME_RE = re.compile(rf"\b({_STATE_NAME_PATTERN})\b", flags=re.IGNORECASE)
 
 AOR_COORDS = {
     "ATLANTA FIELD OFFICE": (33.7490, -84.3880),
@@ -333,6 +415,123 @@ def load_overdose_data(path: Path) -> pd.DataFrame:
     df["year"] = df["date"].dt.year.astype(int)
     df["month_abbr"] = df["date"].dt.strftime("%b").str.upper()
     return df.sort_values(["date", "state_abbr"]).reset_index(drop=True)
+
+
+def _normalize_hs6(value: object) -> str | None:
+    if pd.isna(value):
+        return None
+    text = str(value).strip()
+    if text == "" or text.lower() in {"null", "none", "nan"}:
+        return None
+    digits_only = "".join(ch for ch in text if ch.isdigit())
+    if len(digits_only) < 6:
+        return None
+    return digits_only[:6]
+
+
+def _extract_state_from_receiver_address(address: object) -> str | None:
+    if not isinstance(address, str):
+        return None
+    text = address.strip()
+    if not text:
+        return None
+
+    normalized = re.sub(r"\s+", " ", text.upper().replace(".", " ")).strip()
+
+    zip_match = _ZIP_STATE_RE.search(normalized)
+    if zip_match:
+        return zip_match.group(1).upper()
+
+    comma_match = _COMMA_STATE_RE.search(normalized)
+    if comma_match:
+        return comma_match.group(1).upper()
+
+    name_match = _STATE_NAME_RE.search(normalized)
+    if name_match:
+        return _STATE_NAME_TO_ABBR[name_match.group(1).upper()]
+
+    tokens = [segment.strip() for segment in normalized.split(",") if segment.strip()]
+    for token in reversed(tokens):
+        if token in USA_STATE_CODES:
+            return token
+        if token in _STATE_NAME_TO_ABBR:
+            return _STATE_NAME_TO_ABBR[token]
+
+        token_abbr_match = re.match(r"^([A-Z]{2})(?:\s+\d{5}(?:-\d{4})?)?$", token)
+        if token_abbr_match:
+            candidate = token_abbr_match.group(1)
+            if candidate in USA_STATE_CODES:
+                return candidate
+
+        token_name_zip_match = re.match(r"^([A-Z ]+)\s+\d{5}(?:-\d{4})?\b", token)
+        if token_name_zip_match:
+            candidate = token_name_zip_match.group(1).strip()
+            if candidate in _STATE_NAME_TO_ABBR:
+                return _STATE_NAME_TO_ABBR[candidate]
+
+    return None
+
+
+@st.cache_data(show_spinner=False)
+def load_cnx_shipments_data(path: Path) -> pd.DataFrame:
+    usecols = [
+        "transaction_id",
+        "receiver_country_iso2",
+        "receiver_address",
+        "transaction_date",
+        "hs_code",
+        "hs6_code",
+        "predicted_hs6_codes_top_1",
+        "kg_net",
+        "kg_gross",
+        "analytical_value_usd",
+        "est_usd_value",
+    ]
+    df = pd.read_csv(path, usecols=usecols, low_memory=False)
+
+    df["receiver_country_iso2"] = df["receiver_country_iso2"].astype(str).str.strip().str.upper()
+    df = df[df["receiver_country_iso2"] == "US"].copy()
+
+    df["transaction_date"] = pd.to_datetime(df["transaction_date"], errors="coerce")
+    df["year"] = df["transaction_date"].dt.year.astype("Int64")
+
+    hs6_final = pd.Series([None] * len(df), index=df.index, dtype="object")
+    for col in ["hs6_code", "hs_code", "predicted_hs6_codes_top_1"]:
+        hs6_candidate = df[col].apply(_normalize_hs6)
+        hs6_final = hs6_final.fillna(hs6_candidate)
+    df["hs6"] = hs6_final
+
+    df["receiver_address"] = df["receiver_address"].astype(str)
+    df["state_abbr"] = df["receiver_address"].apply(_extract_state_from_receiver_address)
+    df["state_name"] = df["state_abbr"].map(US_STATE_ABBR_TO_NAME)
+
+    df["kg_net"] = pd.to_numeric(df["kg_net"], errors="coerce")
+    df["kg_gross"] = pd.to_numeric(df["kg_gross"], errors="coerce")
+    df["quantity_kg"] = df["kg_net"].where(df["kg_net"].notna(), df["kg_gross"])
+
+    df["analytical_value_usd"] = pd.to_numeric(df["analytical_value_usd"], errors="coerce")
+    df["est_usd_value"] = pd.to_numeric(df["est_usd_value"], errors="coerce")
+    df["value_usd"] = df["analytical_value_usd"].where(
+        df["analytical_value_usd"].notna(), df["est_usd_value"]
+    )
+
+    df = df.dropna(subset=["year", "hs6"]).copy()
+    df["year"] = df["year"].astype(int)
+    df["hs6"] = df["hs6"].astype(str)
+
+    return df[
+        [
+            "transaction_id",
+            "transaction_date",
+            "year",
+            "hs6",
+            "receiver_address",
+            "state_abbr",
+            "state_name",
+            "quantity_kg",
+            "value_usd",
+        ]
+    ].reset_index(drop=True)
 
 
 def run_nflis_view(df: pd.DataFrame) -> None:
@@ -946,6 +1145,188 @@ def run_ops_combined_view(df: pd.DataFrame) -> None:
     )
 
 
+def run_cnx_shipments_view(df: pd.DataFrame) -> None:
+    years = sorted(df["year"].unique().tolist())
+    hs_counts = df["hs6"].value_counts().sort_values(ascending=False)
+    hs_options = hs_counts.index.astype(str).tolist()
+    default_hs = ["293339"] if "293339" in hs_options else hs_options[:10]
+
+    states = (
+        df.dropna(subset=["state_abbr"])[["state_abbr", "state_name"]]
+        .drop_duplicates()
+        .sort_values(["state_name", "state_abbr"])
+    )
+    state_options = states["state_abbr"].tolist()
+    state_labels = {
+        row.state_abbr: f"{row.state_name} ({row.state_abbr})"
+        for row in states.itertuples(index=False)
+    }
+
+    with st.sidebar:
+        st.header("CNX Shipment Filters")
+        selected_years = st.multiselect(
+            "Years (from transaction_date)",
+            options=years,
+            default=years,
+            key="cnx_years",
+        )
+        include_all_hs = st.checkbox(
+            "Include all HS6 codes",
+            value=False,
+            key="cnx_all_hs",
+        )
+        selected_hs_codes = st.multiselect(
+            "HS6 code(s)",
+            options=hs_options,
+            default=default_hs,
+            key="cnx_hs6",
+            help=(
+                "When 'Include all HS6 codes' is unchecked, the dashboard filters to these codes. "
+                "HS6 values are normalized from hs6_code, then hs_code, then predicted_hs6_codes_top_1."
+            ),
+        )
+        selected_states = st.multiselect(
+            "Receiver state (parsed from receiver_address)",
+            options=state_options,
+            default=state_options,
+            format_func=lambda state: state_labels.get(state, state),
+            key="cnx_states",
+        )
+        metric_mode = st.radio(
+            "KPI/Map metric",
+            options=[
+                "Shipment records (count)",
+                "Total quantity (kg)",
+                "Total value (USD)",
+            ],
+            key="cnx_metric_mode",
+        )
+
+    if not selected_years:
+        st.info("Select at least one year.")
+        return
+    if not include_all_hs and not selected_hs_codes:
+        st.info("Select at least one HS6 code or enable 'Include all HS6 codes'.")
+        return
+    if not selected_states:
+        st.info("Select at least one state.")
+        return
+
+    filtered = df[df["year"].isin(selected_years)].copy()
+    if not include_all_hs:
+        filtered = filtered[filtered["hs6"].isin(selected_hs_codes)].copy()
+
+    if filtered.empty:
+        st.warning("No CNX shipment records match the selected year/HS filters.")
+        return
+
+    state_mapped = filtered[filtered["state_abbr"].notna()].copy()
+    state_filtered = state_mapped[state_mapped["state_abbr"].isin(selected_states)].copy()
+
+    if state_filtered.empty:
+        st.warning("No mapped U.S. state shipment records match the selected filters.")
+        return
+
+    state_values = (
+        state_filtered.groupby(["state_abbr", "state_name"], as_index=False)
+        .agg(
+            shipment_records=("transaction_id", "count"),
+            total_quantity_kg=("quantity_kg", "sum"),
+            total_value_usd=("value_usd", "sum"),
+            unique_hs6_codes=("hs6", "nunique"),
+        )
+        .fillna({"total_quantity_kg": 0.0, "total_value_usd": 0.0})
+    )
+
+    if metric_mode.startswith("Shipment records"):
+        state_values["metric_value"] = state_values["shipment_records"]
+        metric_label = "Shipment records"
+        value_format = ":,.0f"
+    elif metric_mode.startswith("Total quantity"):
+        state_values["metric_value"] = state_values["total_quantity_kg"]
+        metric_label = "Total quantity (kg)"
+        value_format = ":,.2f"
+    else:
+        state_values["metric_value"] = state_values["total_value_usd"]
+        metric_label = "Total value (USD)"
+        value_format = ":,.2f"
+
+    yearly = (
+        state_filtered.groupby("year", as_index=False)
+        .agg(
+            shipment_records=("transaction_id", "count"),
+            total_quantity_kg=("quantity_kg", "sum"),
+            total_value_usd=("value_usd", "sum"),
+        )
+        .fillna({"total_quantity_kg": 0.0, "total_value_usd": 0.0})
+        .sort_values("year")
+    )
+
+    trend_y = (
+        "shipment_records"
+        if metric_mode.startswith("Shipment records")
+        else "total_quantity_kg"
+        if metric_mode.startswith("Total quantity")
+        else "total_value_usd"
+    )
+
+    unmapped_rows = int(filtered["state_abbr"].isna().sum())
+    mapped_rows = int(filtered["state_abbr"].notna().sum())
+    c1, c2, c3 = st.columns(3)
+    c1.metric("Filtered shipment records", f"{len(filtered):,}")
+    c2.metric("Records mapped to a U.S. state", f"{mapped_rows:,}")
+    c3.metric(metric_label, f"{state_values['metric_value'].sum():,.0f}" if value_format == ":,.0f" else f"{state_values['metric_value'].sum():,.2f}")
+    st.caption(
+        "Shipments are filtered to receiver_country_iso2 = US and mapped to states from receiver_address. "
+        f"Unmapped records under current filters: {unmapped_rows:,}."
+    )
+
+    fig = px.choropleth(
+        state_values,
+        locations="state_abbr",
+        locationmode="USA-states",
+        color="metric_value",
+        scope="usa",
+        hover_name="state_name",
+        hover_data={
+            "state_abbr": True,
+            "shipment_records": ":,.0f",
+            "total_quantity_kg": ":,.2f",
+            "total_value_usd": ":,.2f",
+            "unique_hs6_codes": True,
+            "metric_value": value_format,
+        },
+        color_continuous_scale=LIGHT_TO_DARK_SCALE,
+        labels={"metric_value": metric_label},
+    )
+    fig.update_layout(
+        margin={"l": 0, "r": 0, "t": 10, "b": 0},
+        coloraxis_colorbar={"title": metric_label},
+    )
+    st.plotly_chart(fig, use_container_width=True)
+
+    trend_fig = px.line(
+        yearly,
+        x="year",
+        y=trend_y,
+        markers=True,
+        labels={"year": "Year", trend_y: metric_label},
+        title=f"Annual CNX shipment trend ({metric_label})",
+    )
+    trend_fig.update_layout(margin={"l": 0, "r": 0, "t": 40, "b": 0})
+    st.plotly_chart(trend_fig, use_container_width=True)
+
+    st.subheader("State Values")
+    table = state_values.sort_values("metric_value", ascending=False).reset_index(drop=True)
+    st.dataframe(table, use_container_width=True, hide_index=True)
+    st.download_button(
+        label="Download filtered CNX state totals (CSV)",
+        data=table.to_csv(index=False).encode("utf-8"),
+        file_name="cnx_shipments_us_state_totals.csv",
+        mime="text/csv",
+    )
+
+
 def run_overdose_view(df: pd.DataFrame) -> None:
     usa_state_codes = {
         "AL",
@@ -1195,7 +1576,7 @@ def main() -> None:
     st.title("U.S. Drug Seizure Dashboard")
     st.caption(
         "Switch between NFLIS state reports, a combined CBP + AMO fentanyl seizure dataset, "
-        "source-specific CBP/AMO views, and state-level overdose deaths."
+        "source-specific CBP/AMO views, CNX HS-based U.S. shipment flows, and state-level overdose deaths."
     )
 
     if not NFLIS_DATA_FILE.exists():
@@ -1231,6 +1612,7 @@ def main() -> None:
                 "CBP + AMO fentanyl seizures (Combined)",
                 "CBP fentanyl seizures (Field Office/Sector)",
                 "AMO fentanyl seizures (Branch)",
+                "CNX shipments to US (HS code, state, year)",
                 "Synthetic opioid overdose deaths (State-level estimated monthly)",
             ],
         )
@@ -1251,6 +1633,13 @@ def main() -> None:
         st.caption(f"Current source file: {AMO_DATA_FILE.name}")
         amo_df = load_amo_data(AMO_DATA_FILE)
         run_amo_view(amo_df)
+    elif data_source.startswith("CNX"):
+        if not CNX_SHIPMENTS_DATA_FILE.exists():
+            st.error(f"CNX shipment data file not found: {CNX_SHIPMENTS_DATA_FILE}")
+            st.stop()
+        st.caption(f"Current source file: {CNX_SHIPMENTS_DATA_FILE.name}")
+        cnx_df = load_cnx_shipments_data(CNX_SHIPMENTS_DATA_FILE)
+        run_cnx_shipments_view(cnx_df)
     else:
         st.caption(f"Current source file: {OVERDOSE_DATA_FILE.name}")
         overdose_df = load_overdose_data(OVERDOSE_DATA_FILE)
