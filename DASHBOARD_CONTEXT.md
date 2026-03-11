@@ -1,6 +1,6 @@
 # CNX Dashboard Context
 
-Last updated: 2026-03-05
+Last updated: 2026-03-11
 
 This file is a persistent context log for the active dashboard implementation in this repository.
 
@@ -12,10 +12,11 @@ This file is a persistent context log for the active dashboard implementation in
 Both dashboards currently support the following data sources:
 
 1. NFLIS state reports (all drugs)
-2. Synthetic opioid overdose deaths (state-level estimated monthly)
-3. CBP + AMO fentanyl seizures (combined)
-4. CBP fentanyl seizures (Field Office/Sector)
-5. AMO fentanyl seizures (Branch)
+2. CNX shipments to US (HS code, state, year)
+3. Synthetic opioid overdose deaths (state-level estimated monthly)
+4. CBP + AMO fentanyl seizures (combined)
+5. CBP fentanyl seizures (Field Office/Sector)
+6. AMO fentanyl seizures (Branch)
 
 ## Key data files
 
@@ -52,6 +53,20 @@ Both dashboards currently support the following data sources:
   - Source file has only `12 month-ending` series.
   - Dashboard uses monthly estimates produced by recurrence/deconvolution with first-year seed assumptions.
 
+### CNX shipments (US receiver, state/year/HS6)
+
+- Raw source file:
+  - `cnx_transactions_us_sender_or_receiver.csv`
+- Docs derived file for GitHub Pages:
+  - `docs/cnx_shipments_us_state_year_hs6.csv`
+- Build script:
+  - `Fentanyl Data/build_cnx_shipments_pages_dataset.py`
+- Notes:
+  - Filtered to `receiver_country_iso2 = US`
+  - `state_abbr/state_name` derived from `receiver_address`
+  - `year` derived from `transaction_date`
+  - `hs6` normalized from `hs6_code` fallback `hs_code` fallback `predicted_hs6_codes_top_1`
+
 ### CBP / AMO source-specific files
 
 - CBP normalized:
@@ -79,6 +94,8 @@ Both dashboards currently support the following data sources:
   - `Drug Border Seizures/build_cbp_amo_combined_fentanyl_dataset.py`
 - Overdose builder:
   - `Fentanyl Data/build_state_overdose_monthly_from_vsrr.py`
+- CNX shipments builder for Pages:
+  - `Fentanyl Data/build_cnx_shipments_pages_dataset.py`
 
 ### Raw CBP/AMO inputs (versioned)
 
@@ -98,6 +115,12 @@ Rebuild state-level overdose dataset:
 
 ```bash
 python3 "Fentanyl Data/build_state_overdose_monthly_from_vsrr.py"
+```
+
+Rebuild CNX shipments dataset for GitHub Pages:
+
+```bash
+.venv/bin/python "Fentanyl Data/build_cnx_shipments_pages_dataset.py"
 ```
 
 ## Overdose integration behavior
