@@ -4,6 +4,7 @@ from __future__ import annotations
 import re
 from pathlib import Path
 
+from openpyxl import load_workbook
 import pandas as pd
 
 
@@ -201,11 +202,60 @@ def build_pages_dataset(input_csv: Path, output_csv: Path) -> None:
     print(f"Year range: {grouped['year'].min()}-{grouped['year'].max()}")
 
 
+def extract_precursor_hs6_codes(precursor_workbook: Path) -> list[str]:
+    wb = load_workbook(precursor_workbook, data_only=True, read_only=True)
+    ws = wb[wb.sheetnames[0]]
+    rows = ws.iter_rows(values_only=True)
+
+    try:
+        headers = [str(v).strip() if v is not None else "" for v in next(rows)]
+    except StopIteration:
+        return []
+
+    header_idx = {name: i for i, name in enumerate(headers)}
+    idx_hs_inferred = header_idx.get("hs_code_inferred")
+    idx_hs_combined = header_idx.get("hs_codes_unique_combined")
+
+    hs_set: set[str] = set()
+    for row in rows:
+        if row is None:
+            continue
+        values = list(row)
+
+        if idx_hs_inferred is not None and idx_hs_inferred < len(values):
+            hs = normalize_hs6(values[idx_hs_inferred])
+            if hs:
+                hs_set.add(hs)
+
+        if idx_hs_combined is not None and idx_hs_combined < len(values):
+            combined = values[idx_hs_combined]
+            if combined is not None:
+                for token in re.split(r"[;,|]", str(combined)):
+                    hs = normalize_hs6(token)
+                    if hs:
+                        hs_set.add(hs)
+
+    return sorted(hs_set)
+
+
+def build_precursor_hs6_dataset(precursor_workbook: Path, output_csv: Path) -> None:
+    hs_codes = extract_precursor_hs6_codes(precursor_workbook)
+    out_df = pd.DataFrame({"hs6": hs_codes})
+    output_csv.parent.mkdir(parents=True, exist_ok=True)
+    out_df.to_csv(output_csv, index=False)
+    print(f"Wrote: {output_csv}")
+    print(f"Precursor HS6 codes: {len(hs_codes):,}")
+
+
 def main() -> None:
     root = Path(__file__).resolve().parent.parent
     input_csv = root / "cnx_transactions_us_sender_or_receiver.csv"
-    output_csv = root / "docs" / "cnx_shipments_us_state_year_hs6.csv"
-    build_pages_dataset(input_csv, output_csv)
+    cnx_output_csv = root / "docs" / "cnx_shipments_us_state_year_hs6.csv"
+    precursor_workbook = root / "Fentanyl Data" / "Fentanyl_Precursor_List_Combined_with_schedule_date.xlsx"
+    precursor_output_csv = root / "docs" / "fentanyl_precursor_hs6_codes.csv"
+
+    build_pages_dataset(input_csv, cnx_output_csv)
+    build_precursor_hs6_dataset(precursor_workbook, precursor_output_csv)
 
 
 if __name__ == "__main__":

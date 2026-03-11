@@ -59,6 +59,7 @@ Both dashboards currently support the following data sources:
   - `cnx_transactions_us_sender_or_receiver.csv`
 - Docs derived file for GitHub Pages:
   - `docs/cnx_shipments_us_state_year_hs6.csv`
+  - `docs/fentanyl_precursor_hs6_codes.csv`
 - Build script:
   - `Fentanyl Data/build_cnx_shipments_pages_dataset.py`
 - Notes:
@@ -66,6 +67,8 @@ Both dashboards currently support the following data sources:
   - `state_abbr/state_name` derived from `receiver_address`
   - `year` derived from `transaction_date`
   - `hs6` normalized from `hs6_code` fallback `hs_code` fallback `predicted_hs6_codes_top_1`
+  - GitHub Pages CNX controls include option to restrict to HS6 codes present in
+    `Fentanyl Data/Fentanyl_Precursor_List_Combined_with_schedule_date.xlsx`
 
 ### CBP / AMO source-specific files
 
