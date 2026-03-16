@@ -60,7 +60,7 @@
 
     .controls {
       display: grid;
-      grid-template-columns: repeat(3, minmax(180px, 1fr));
+      grid-template-columns: repeat(4, minmax(180px, 1fr));
       gap: 12px;
       margin-bottom: 12px;
     }
@@ -138,7 +138,7 @@
   <main class="wrap">
     <h1>Monthly Overdose Deaths by State</h1>
     <p class="subtitle">
-      All states are always displayed. Use region and/or state dropdowns to highlight selected lines.
+      All states are always displayed. Use Census subregion and/or state dropdowns to highlight selected lines.
     </p>
 
     <section class="panel">
@@ -148,8 +148,15 @@
           <select id="variableSelect"></select>
         </div>
         <div>
-          <label for="regionSelect">Highlight Region(s)</label>
-          <select id="regionSelect" multiple></select>
+          <label for="metricSelect">Metric</label>
+          <select id="metricSelect">
+            <option value="count">Monthly deaths</option>
+            <option value="per100k">Monthly deaths per 100k</option>
+          </select>
+        </div>
+        <div>
+          <label for="subregionSelect">Highlight Census Subregion(s)</label>
+          <select id="subregionSelect" multiple></select>
         </div>
         <div>
           <label for="stateSelect">Highlight State(s)</label>
@@ -165,41 +172,56 @@
       <div id="status" class="status">Loading overdose data...</div>
       <div id="chart"></div>
       <p class="legend-note">Hint: hold <strong>Command</strong> (Mac) or <strong>Ctrl</strong> (Windows) to select multiple items in a dropdown.</p>
+      <p class="legend-note">Per-capita mode uses Census ACS annual estimates (2015-2019, 2021-2024), 2020 Decennial Census counts, and a 2024 carry-forward for 2025.</p>
     </section>
   </main>
 
   <script>
     const DATA_FILE = "./state_opioid_overdose_monthly_counts_estimated.csv";
+    const POPULATION_FILE = "./us_census_state_population_annual_2015_2025.csv";
 
-    const REGION_TO_STATES = {
-      Northeast: ["CT", "ME", "MA", "NH", "RI", "VT", "NJ", "NY", "PA"],
-      Midwest: ["IL", "IN", "MI", "OH", "WI", "IA", "KS", "MN", "MO", "NE", "ND", "SD"],
-      South: ["DE", "FL", "GA", "MD", "NC", "SC", "VA", "WV", "AL", "KY", "MS", "TN", "AR", "LA", "OK", "TX"],
-      West: ["AZ", "CO", "ID", "MT", "NV", "NM", "UT", "WY", "AK", "CA", "HI", "OR", "WA"]
+    // U.S. Census divisions (subregions), based on Census reference map.
+    const SUBREGION_TO_STATES = {
+      "New England": ["CT", "ME", "MA", "NH", "RI", "VT"],
+      "Middle Atlantic": ["NJ", "NY", "PA"],
+      "East North Central": ["IL", "IN", "MI", "OH", "WI"],
+      "West North Central": ["IA", "KS", "MN", "MO", "NE", "ND", "SD"],
+      "South Atlantic": ["DE", "FL", "GA", "MD", "NC", "SC", "VA", "WV"],
+      "East South Central": ["AL", "KY", "MS", "TN"],
+      "West South Central": ["AR", "LA", "OK", "TX"],
+      Mountain: ["AZ", "CO", "ID", "MT", "NV", "NM", "UT", "WY"],
+      Pacific: ["AK", "CA", "HI", "OR", "WA"]
     };
 
-    const REGION_COLORS = {
-      Northeast: "#0f766e",
-      Midwest: "#8b5cf6",
-      South: "#dc2626",
-      West: "#2563eb"
+    const SUBREGION_COLORS = {
+      "New England": "#0f766e",
+      "Middle Atlantic": "#0ea5e9",
+      "East North Central": "#8b5cf6",
+      "West North Central": "#6366f1",
+      "South Atlantic": "#dc2626",
+      "East South Central": "#f97316",
+      "West South Central": "#b91c1c",
+      Mountain: "#15803d",
+      Pacific: "#2563eb"
     };
 
-    const STATE_TO_REGION = Object.entries(REGION_TO_STATES).reduce((acc, [region, states]) => {
-      states.forEach((s) => { acc[s] = region; });
+    const STATE_TO_SUBREGION = Object.entries(SUBREGION_TO_STATES).reduce((acc, [subregion, states]) => {
+      states.forEach((s) => { acc[s] = subregion; });
       return acc;
     }, {});
 
-    const STATE_ABBRS = new Set(Object.keys(STATE_TO_REGION));
+    const STATE_ABBRS = new Set(Object.keys(STATE_TO_SUBREGION));
 
     const store = {
       rows: [],
       variables: [],
-      stateNameByAbbr: new Map()
+      stateNameByAbbr: new Map(),
+      populationByStateYear: new Map()
     };
 
     const variableSelect = document.getElementById("variableSelect");
-    const regionSelect = document.getElementById("regionSelect");
+    const metricSelect = document.getElementById("metricSelect");
+    const subregionSelect = document.getElementById("subregionSelect");
     const stateSelect = document.getElementById("stateSelect");
     const statusEl = document.getElementById("status");
 
@@ -223,77 +245,104 @@
       });
     }
 
-    function loadData() {
-      Papa.parse(DATA_FILE, {
-        download: true,
-        header: true,
-        skipEmptyLines: true,
-        complete: ({ data, errors }) => {
-          if (errors.length) {
-            setStatus("Failed to parse overdose CSV.");
-            return;
-          }
-
-          const variableSet = new Set();
-
-          for (const row of data) {
-            const stateAbbr = String(row.state_abbr || "").trim().toUpperCase();
-            if (!STATE_ABBRS.has(stateAbbr)) continue;
-
-            const dateStr = String(row.date || "").trim();
-            const variable = String(row.variable || "").trim();
-            const stateName = String(row.state_name || stateAbbr).trim();
-            const count = Number(row.count);
-            if (!dateStr || !variable || !Number.isFinite(count)) continue;
-
-            const date = new Date(dateStr);
-            if (Number.isNaN(date.getTime())) continue;
-
-            variableSet.add(variable);
-            store.stateNameByAbbr.set(stateAbbr, stateName);
-            store.rows.push({
-              stateAbbr,
-              stateName,
-              region: STATE_TO_REGION[stateAbbr],
-              variable,
-              date,
-              count
-            });
-          }
-
-          store.variables = [...variableSet].sort((a, b) => a.localeCompare(b));
-          if (!store.variables.length || !store.rows.length) {
-            setStatus("No valid overdose records found.");
-            return;
-          }
-
-          setOptions(variableSelect, store.variables, ["Synthetic opioids, excl. methadone (T40.4)"]);
-          if (!variableSelect.value) variableSelect.selectedIndex = 0;
-
-          const regions = Object.keys(REGION_TO_STATES);
-          setOptions(regionSelect, regions, []);
-
-          const stateLabels = [...store.stateNameByAbbr.entries()]
-            .map(([abbr, name]) => ({ abbr, label: `${name} (${abbr})` }))
-            .sort((a, b) => a.label.localeCompare(b.label));
-
-          stateSelect.innerHTML = "";
-          stateLabels.forEach(({ abbr, label }) => {
-            const opt = document.createElement("option");
-            opt.value = abbr;
-            opt.textContent = label;
-            stateSelect.appendChild(opt);
-          });
-
-          drawChart();
-        },
-        error: () => setStatus("Failed to load overdose CSV file.")
+    function parseCsv(path) {
+      return new Promise((resolve, reject) => {
+        Papa.parse(path, {
+          download: true,
+          header: true,
+          skipEmptyLines: true,
+          complete: ({ data, errors }) => {
+            if (errors && errors.length) {
+              reject(new Error(`Failed to parse ${path}`));
+              return;
+            }
+            resolve(data);
+          },
+          error: (err) => reject(err)
+        });
       });
+    }
+
+    async function loadData() {
+      try {
+        const [overdoseRows, populationRows] = await Promise.all([
+          parseCsv(DATA_FILE),
+          parseCsv(POPULATION_FILE)
+        ]);
+
+        const variableSet = new Set();
+
+        for (const row of overdoseRows) {
+          const stateAbbr = String(row.state_abbr || "").trim().toUpperCase();
+          if (!STATE_ABBRS.has(stateAbbr)) continue;
+
+          const dateStr = String(row.date || "").trim();
+          const variable = String(row.variable || "").trim();
+          const stateName = String(row.state_name || stateAbbr).trim();
+          const count = Number(row.count);
+          const year = Number(row.year);
+          if (!dateStr || !variable || !Number.isFinite(count) || !Number.isFinite(year)) continue;
+
+          const date = new Date(dateStr);
+          if (Number.isNaN(date.getTime())) continue;
+
+          variableSet.add(variable);
+          store.stateNameByAbbr.set(stateAbbr, stateName);
+          store.rows.push({
+            stateAbbr,
+            stateName,
+            subregion: STATE_TO_SUBREGION[stateAbbr],
+            variable,
+            date,
+            year,
+            count
+          });
+        }
+
+        for (const row of populationRows) {
+          const stateAbbr = String(row.state_abbr || "").trim().toUpperCase();
+          const year = Number(row.year);
+          const population = Number(row.population);
+          if (!STATE_ABBRS.has(stateAbbr) || !Number.isFinite(year) || !Number.isFinite(population) || population <= 0) {
+            continue;
+          }
+          store.populationByStateYear.set(`${stateAbbr}-${year}`, population);
+        }
+
+        store.variables = [...variableSet].sort((a, b) => a.localeCompare(b));
+        if (!store.variables.length || !store.rows.length) {
+          setStatus("No valid overdose records found.");
+          return;
+        }
+
+        setOptions(variableSelect, store.variables, ["Synthetic opioids, excl. methadone (T40.4)"]);
+        if (!variableSelect.value) variableSelect.selectedIndex = 0;
+
+        const subregions = Object.keys(SUBREGION_TO_STATES);
+        setOptions(subregionSelect, subregions, []);
+
+        const stateLabels = [...store.stateNameByAbbr.entries()]
+          .map(([abbr, name]) => ({ abbr, label: `${name} (${abbr})` }))
+          .sort((a, b) => a.label.localeCompare(b.label));
+
+        stateSelect.innerHTML = "";
+        stateLabels.forEach(({ abbr, label }) => {
+          const opt = document.createElement("option");
+          opt.value = abbr;
+          opt.textContent = label;
+          stateSelect.appendChild(opt);
+        });
+
+        drawChart();
+      } catch (err) {
+        setStatus(`Failed to load dashboard data: ${err && err.message ? err.message : String(err)}`);
+      }
     }
 
     function drawChart() {
       const variable = variableSelect.value;
-      const selectedRegions = new Set(selectedValues(regionSelect));
+      const metric = metricSelect.value;
+      const selectedSubregions = new Set(selectedValues(subregionSelect));
       const selectedStates = new Set(selectedValues(stateSelect));
 
       const filtered = store.rows.filter((r) => r.variable === variable);
@@ -309,12 +358,15 @@
         byState.get(row.stateAbbr).push(row);
       }
 
-      const highlightedByRegion = new Set();
-      selectedRegions.forEach((region) => {
-        (REGION_TO_STATES[region] || []).forEach((abbr) => highlightedByRegion.add(abbr));
+      const highlightedBySubregion = new Set();
+      selectedSubregions.forEach((subregion) => {
+        (SUBREGION_TO_STATES[subregion] || []).forEach((abbr) => highlightedBySubregion.add(abbr));
       });
 
-      const highlightSet = new Set([...highlightedByRegion, ...selectedStates]);
+      const highlightSet = new Set([...highlightedBySubregion, ...selectedStates]);
+      const yAxisTitle = metric === "per100k" ? "Deaths per 100,000 residents" : "Deaths (estimated monthly count)";
+      const yValueLabel = metric === "per100k" ? "Deaths per 100k" : "Deaths";
+      const yHoverFormat = metric === "per100k" ? "%{y:.2f}" : "%{y:,.0f}";
 
       const traces = [...byState.keys()]
         .sort((a, b) => {
@@ -324,20 +376,35 @@
         })
         .map((abbr) => {
           const rows = byState.get(abbr).slice().sort((a, b) => a.date - b.date);
-          const region = STATE_TO_REGION[abbr] || "Other";
+          const subregion = STATE_TO_SUBREGION[abbr] || "Other";
           const stateName = store.stateNameByAbbr.get(abbr) || abbr;
           const highlighted = highlightSet.has(abbr);
 
           const explicitState = selectedStates.has(abbr);
           const lineWidth = explicitState ? 3.6 : highlighted ? 2.6 : 1.1;
-          const lineColor = highlighted ? (REGION_COLORS[region] || "#1d4ed8") : "#9aa3af";
+          const lineColor = highlighted ? (SUBREGION_COLORS[subregion] || "#1d4ed8") : "#9aa3af";
           const opacity = highlighted ? 0.95 : 0.22;
+          const xVals = [];
+          const yVals = [];
+          for (const row of rows) {
+            if (metric === "per100k") {
+              const pop = store.populationByStateYear.get(`${abbr}-${row.year}`);
+              if (!pop) continue;
+              xVals.push(row.date);
+              yVals.push((row.count / pop) * 100000);
+            } else {
+              xVals.push(row.date);
+              yVals.push(row.count);
+            }
+          }
+
+          if (!xVals.length) return null;
 
           return {
             type: "scatter",
             mode: "lines",
-            x: rows.map((r) => r.date),
-            y: rows.map((r) => r.count),
+            x: xVals,
+            y: yVals,
             name: `${stateName} (${abbr})`,
             showlegend: highlighted,
             opacity,
@@ -348,10 +415,11 @@
             hovertemplate:
               "<b>%{fullData.name}</b><br>" +
               "Month: %{x|%b %Y}<br>" +
-              "Deaths: %{y:,.0f}<br>" +
-              `Region: ${region}<extra></extra>`
+              `${yValueLabel}: ${yHoverFormat}<br>` +
+              `Census subregion: ${subregion}<extra></extra>`
           };
-        });
+        })
+        .filter(Boolean);
 
       const highlightedCount = highlightSet.size;
       const totalStates = traces.length;
@@ -367,7 +435,7 @@
         traces,
         {
           title: {
-            text: `Monthly overdose deaths by state: ${variable}`,
+            text: `Monthly overdose deaths by state: ${variable} (${metric === "per100k" ? "per 100k" : "count"})`,
             font: { size: 18 }
           },
           xaxis: {
@@ -377,7 +445,7 @@
             gridcolor: "#e5e7eb"
           },
           yaxis: {
-            title: "Deaths (estimated monthly count)",
+            title: yAxisTitle,
             rangemode: "tozero",
             showgrid: true,
             gridcolor: "#e5e7eb"
@@ -388,7 +456,7 @@
             x: 0,
             y: -0.2
           },
-          hovermode: "x unified",
+          hovermode: "closest",
           margin: { l: 60, r: 20, t: 65, b: 110 },
           paper_bgcolor: "#ffffff",
           plot_bgcolor: "#ffffff"
@@ -398,11 +466,12 @@
     }
 
     variableSelect.addEventListener("change", drawChart);
-    regionSelect.addEventListener("change", drawChart);
+    metricSelect.addEventListener("change", drawChart);
+    subregionSelect.addEventListener("change", drawChart);
     stateSelect.addEventListener("change", drawChart);
 
     document.getElementById("clearHighlightsBtn").addEventListener("click", () => {
-      [...regionSelect.options].forEach((opt) => { opt.selected = false; });
+      [...subregionSelect.options].forEach((opt) => { opt.selected = false; });
       [...stateSelect.options].forEach((opt) => { opt.selected = false; });
       drawChart();
     });

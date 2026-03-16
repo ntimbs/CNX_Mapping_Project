@@ -1,0 +1,551 @@
+state_abbr,state_name,year,population,source_dataset,source_url,source_note
+AK,Alaska,2015,738432,ACS 1-year B01003_001E,"https://api.census.gov/data/2015/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+AK,Alaska,2016,741894,ACS 1-year B01003_001E,"https://api.census.gov/data/2016/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+AK,Alaska,2017,739795,ACS 1-year B01003_001E,"https://api.census.gov/data/2017/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+AK,Alaska,2018,737438,ACS 1-year B01003_001E,"https://api.census.gov/data/2018/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+AK,Alaska,2019,731545,ACS 1-year B01003_001E,"https://api.census.gov/data/2019/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+AK,Alaska,2020,733391,2020 Census PL P1_001N,"https://api.census.gov/data/2020/dec/pl?get=NAME,P1_001N&for=state:*",Decennial census count
+AK,Alaska,2021,732673,ACS 1-year B01003_001E,"https://api.census.gov/data/2021/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+AK,Alaska,2022,733583,ACS 1-year B01003_001E,"https://api.census.gov/data/2022/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+AK,Alaska,2023,733406,ACS 1-year B01003_001E,"https://api.census.gov/data/2023/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+AK,Alaska,2024,740133,ACS 1-year B01003_001E,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+AK,Alaska,2025,740133,Carry-forward from 2024 ACS,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Used for 2025 monthly normalization
+AL,Alabama,2015,4858979,ACS 1-year B01003_001E,"https://api.census.gov/data/2015/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+AL,Alabama,2016,4863300,ACS 1-year B01003_001E,"https://api.census.gov/data/2016/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+AL,Alabama,2017,4874747,ACS 1-year B01003_001E,"https://api.census.gov/data/2017/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+AL,Alabama,2018,4887871,ACS 1-year B01003_001E,"https://api.census.gov/data/2018/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+AL,Alabama,2019,4903185,ACS 1-year B01003_001E,"https://api.census.gov/data/2019/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+AL,Alabama,2020,5024279,2020 Census PL P1_001N,"https://api.census.gov/data/2020/dec/pl?get=NAME,P1_001N&for=state:*",Decennial census count
+AL,Alabama,2021,5039877,ACS 1-year B01003_001E,"https://api.census.gov/data/2021/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+AL,Alabama,2022,5074296,ACS 1-year B01003_001E,"https://api.census.gov/data/2022/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+AL,Alabama,2023,5108468,ACS 1-year B01003_001E,"https://api.census.gov/data/2023/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+AL,Alabama,2024,5157699,ACS 1-year B01003_001E,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+AL,Alabama,2025,5157699,Carry-forward from 2024 ACS,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Used for 2025 monthly normalization
+AR,Arkansas,2015,2978204,ACS 1-year B01003_001E,"https://api.census.gov/data/2015/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+AR,Arkansas,2016,2988248,ACS 1-year B01003_001E,"https://api.census.gov/data/2016/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+AR,Arkansas,2017,3004279,ACS 1-year B01003_001E,"https://api.census.gov/data/2017/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+AR,Arkansas,2018,3013825,ACS 1-year B01003_001E,"https://api.census.gov/data/2018/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+AR,Arkansas,2019,3017804,ACS 1-year B01003_001E,"https://api.census.gov/data/2019/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+AR,Arkansas,2020,3011524,2020 Census PL P1_001N,"https://api.census.gov/data/2020/dec/pl?get=NAME,P1_001N&for=state:*",Decennial census count
+AR,Arkansas,2021,3025891,ACS 1-year B01003_001E,"https://api.census.gov/data/2021/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+AR,Arkansas,2022,3045637,ACS 1-year B01003_001E,"https://api.census.gov/data/2022/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+AR,Arkansas,2023,3067732,ACS 1-year B01003_001E,"https://api.census.gov/data/2023/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+AR,Arkansas,2024,3088354,ACS 1-year B01003_001E,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+AR,Arkansas,2025,3088354,Carry-forward from 2024 ACS,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Used for 2025 monthly normalization
+AZ,Arizona,2015,6828065,ACS 1-year B01003_001E,"https://api.census.gov/data/2015/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+AZ,Arizona,2016,6931071,ACS 1-year B01003_001E,"https://api.census.gov/data/2016/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+AZ,Arizona,2017,7016270,ACS 1-year B01003_001E,"https://api.census.gov/data/2017/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+AZ,Arizona,2018,7171646,ACS 1-year B01003_001E,"https://api.census.gov/data/2018/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+AZ,Arizona,2019,7278717,ACS 1-year B01003_001E,"https://api.census.gov/data/2019/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+AZ,Arizona,2020,7151502,2020 Census PL P1_001N,"https://api.census.gov/data/2020/dec/pl?get=NAME,P1_001N&for=state:*",Decennial census count
+AZ,Arizona,2021,7276316,ACS 1-year B01003_001E,"https://api.census.gov/data/2021/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+AZ,Arizona,2022,7359197,ACS 1-year B01003_001E,"https://api.census.gov/data/2022/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+AZ,Arizona,2023,7431344,ACS 1-year B01003_001E,"https://api.census.gov/data/2023/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+AZ,Arizona,2024,7582384,ACS 1-year B01003_001E,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+AZ,Arizona,2025,7582384,Carry-forward from 2024 ACS,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Used for 2025 monthly normalization
+CA,California,2015,39144818,ACS 1-year B01003_001E,"https://api.census.gov/data/2015/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+CA,California,2016,39250017,ACS 1-year B01003_001E,"https://api.census.gov/data/2016/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+CA,California,2017,39536653,ACS 1-year B01003_001E,"https://api.census.gov/data/2017/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+CA,California,2018,39557045,ACS 1-year B01003_001E,"https://api.census.gov/data/2018/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+CA,California,2019,39512223,ACS 1-year B01003_001E,"https://api.census.gov/data/2019/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+CA,California,2020,39538223,2020 Census PL P1_001N,"https://api.census.gov/data/2020/dec/pl?get=NAME,P1_001N&for=state:*",Decennial census count
+CA,California,2021,39237836,ACS 1-year B01003_001E,"https://api.census.gov/data/2021/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+CA,California,2022,39029342,ACS 1-year B01003_001E,"https://api.census.gov/data/2022/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+CA,California,2023,38965193,ACS 1-year B01003_001E,"https://api.census.gov/data/2023/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+CA,California,2024,39431263,ACS 1-year B01003_001E,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+CA,California,2025,39431263,Carry-forward from 2024 ACS,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Used for 2025 monthly normalization
+CO,Colorado,2015,5456574,ACS 1-year B01003_001E,"https://api.census.gov/data/2015/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+CO,Colorado,2016,5540545,ACS 1-year B01003_001E,"https://api.census.gov/data/2016/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+CO,Colorado,2017,5607154,ACS 1-year B01003_001E,"https://api.census.gov/data/2017/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+CO,Colorado,2018,5695564,ACS 1-year B01003_001E,"https://api.census.gov/data/2018/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+CO,Colorado,2019,5758736,ACS 1-year B01003_001E,"https://api.census.gov/data/2019/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+CO,Colorado,2020,5773714,2020 Census PL P1_001N,"https://api.census.gov/data/2020/dec/pl?get=NAME,P1_001N&for=state:*",Decennial census count
+CO,Colorado,2021,5812069,ACS 1-year B01003_001E,"https://api.census.gov/data/2021/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+CO,Colorado,2022,5839926,ACS 1-year B01003_001E,"https://api.census.gov/data/2022/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+CO,Colorado,2023,5877610,ACS 1-year B01003_001E,"https://api.census.gov/data/2023/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+CO,Colorado,2024,5957494,ACS 1-year B01003_001E,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+CO,Colorado,2025,5957494,Carry-forward from 2024 ACS,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Used for 2025 monthly normalization
+CT,Connecticut,2015,3590886,ACS 1-year B01003_001E,"https://api.census.gov/data/2015/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+CT,Connecticut,2016,3576452,ACS 1-year B01003_001E,"https://api.census.gov/data/2016/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+CT,Connecticut,2017,3588184,ACS 1-year B01003_001E,"https://api.census.gov/data/2017/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+CT,Connecticut,2018,3572665,ACS 1-year B01003_001E,"https://api.census.gov/data/2018/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+CT,Connecticut,2019,3565287,ACS 1-year B01003_001E,"https://api.census.gov/data/2019/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+CT,Connecticut,2020,3605944,2020 Census PL P1_001N,"https://api.census.gov/data/2020/dec/pl?get=NAME,P1_001N&for=state:*",Decennial census count
+CT,Connecticut,2021,3605597,ACS 1-year B01003_001E,"https://api.census.gov/data/2021/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+CT,Connecticut,2022,3626205,ACS 1-year B01003_001E,"https://api.census.gov/data/2022/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+CT,Connecticut,2023,3617176,ACS 1-year B01003_001E,"https://api.census.gov/data/2023/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+CT,Connecticut,2024,3675069,ACS 1-year B01003_001E,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+CT,Connecticut,2025,3675069,Carry-forward from 2024 ACS,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Used for 2025 monthly normalization
+DE,Delaware,2015,945934,ACS 1-year B01003_001E,"https://api.census.gov/data/2015/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+DE,Delaware,2016,952065,ACS 1-year B01003_001E,"https://api.census.gov/data/2016/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+DE,Delaware,2017,961939,ACS 1-year B01003_001E,"https://api.census.gov/data/2017/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+DE,Delaware,2018,967171,ACS 1-year B01003_001E,"https://api.census.gov/data/2018/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+DE,Delaware,2019,973764,ACS 1-year B01003_001E,"https://api.census.gov/data/2019/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+DE,Delaware,2020,989948,2020 Census PL P1_001N,"https://api.census.gov/data/2020/dec/pl?get=NAME,P1_001N&for=state:*",Decennial census count
+DE,Delaware,2021,1003384,ACS 1-year B01003_001E,"https://api.census.gov/data/2021/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+DE,Delaware,2022,1018396,ACS 1-year B01003_001E,"https://api.census.gov/data/2022/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+DE,Delaware,2023,1031890,ACS 1-year B01003_001E,"https://api.census.gov/data/2023/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+DE,Delaware,2024,1051917,ACS 1-year B01003_001E,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+DE,Delaware,2025,1051917,Carry-forward from 2024 ACS,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Used for 2025 monthly normalization
+FL,Florida,2015,20271272,ACS 1-year B01003_001E,"https://api.census.gov/data/2015/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+FL,Florida,2016,20612439,ACS 1-year B01003_001E,"https://api.census.gov/data/2016/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+FL,Florida,2017,20984400,ACS 1-year B01003_001E,"https://api.census.gov/data/2017/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+FL,Florida,2018,21299325,ACS 1-year B01003_001E,"https://api.census.gov/data/2018/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+FL,Florida,2019,21477737,ACS 1-year B01003_001E,"https://api.census.gov/data/2019/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+FL,Florida,2020,21538187,2020 Census PL P1_001N,"https://api.census.gov/data/2020/dec/pl?get=NAME,P1_001N&for=state:*",Decennial census count
+FL,Florida,2021,21781128,ACS 1-year B01003_001E,"https://api.census.gov/data/2021/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+FL,Florida,2022,22244823,ACS 1-year B01003_001E,"https://api.census.gov/data/2022/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+FL,Florida,2023,22610726,ACS 1-year B01003_001E,"https://api.census.gov/data/2023/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+FL,Florida,2024,23372215,ACS 1-year B01003_001E,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+FL,Florida,2025,23372215,Carry-forward from 2024 ACS,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Used for 2025 monthly normalization
+GA,Georgia,2015,10214860,ACS 1-year B01003_001E,"https://api.census.gov/data/2015/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+GA,Georgia,2016,10310371,ACS 1-year B01003_001E,"https://api.census.gov/data/2016/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+GA,Georgia,2017,10429379,ACS 1-year B01003_001E,"https://api.census.gov/data/2017/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+GA,Georgia,2018,10519475,ACS 1-year B01003_001E,"https://api.census.gov/data/2018/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+GA,Georgia,2019,10617423,ACS 1-year B01003_001E,"https://api.census.gov/data/2019/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+GA,Georgia,2020,10711908,2020 Census PL P1_001N,"https://api.census.gov/data/2020/dec/pl?get=NAME,P1_001N&for=state:*",Decennial census count
+GA,Georgia,2021,10799566,ACS 1-year B01003_001E,"https://api.census.gov/data/2021/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+GA,Georgia,2022,10912876,ACS 1-year B01003_001E,"https://api.census.gov/data/2022/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+GA,Georgia,2023,11029227,ACS 1-year B01003_001E,"https://api.census.gov/data/2023/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+GA,Georgia,2024,11180878,ACS 1-year B01003_001E,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+GA,Georgia,2025,11180878,Carry-forward from 2024 ACS,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Used for 2025 monthly normalization
+HI,Hawaii,2015,1431603,ACS 1-year B01003_001E,"https://api.census.gov/data/2015/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+HI,Hawaii,2016,1428557,ACS 1-year B01003_001E,"https://api.census.gov/data/2016/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+HI,Hawaii,2017,1427538,ACS 1-year B01003_001E,"https://api.census.gov/data/2017/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+HI,Hawaii,2018,1420491,ACS 1-year B01003_001E,"https://api.census.gov/data/2018/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+HI,Hawaii,2019,1415872,ACS 1-year B01003_001E,"https://api.census.gov/data/2019/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+HI,Hawaii,2020,1455271,2020 Census PL P1_001N,"https://api.census.gov/data/2020/dec/pl?get=NAME,P1_001N&for=state:*",Decennial census count
+HI,Hawaii,2021,1441553,ACS 1-year B01003_001E,"https://api.census.gov/data/2021/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+HI,Hawaii,2022,1440196,ACS 1-year B01003_001E,"https://api.census.gov/data/2022/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+HI,Hawaii,2023,1435138,ACS 1-year B01003_001E,"https://api.census.gov/data/2023/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+HI,Hawaii,2024,1446146,ACS 1-year B01003_001E,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+HI,Hawaii,2025,1446146,Carry-forward from 2024 ACS,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Used for 2025 monthly normalization
+IA,Iowa,2015,3123899,ACS 1-year B01003_001E,"https://api.census.gov/data/2015/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+IA,Iowa,2016,3134693,ACS 1-year B01003_001E,"https://api.census.gov/data/2016/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+IA,Iowa,2017,3145711,ACS 1-year B01003_001E,"https://api.census.gov/data/2017/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+IA,Iowa,2018,3156145,ACS 1-year B01003_001E,"https://api.census.gov/data/2018/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+IA,Iowa,2019,3155070,ACS 1-year B01003_001E,"https://api.census.gov/data/2019/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+IA,Iowa,2020,3190369,2020 Census PL P1_001N,"https://api.census.gov/data/2020/dec/pl?get=NAME,P1_001N&for=state:*",Decennial census count
+IA,Iowa,2021,3193079,ACS 1-year B01003_001E,"https://api.census.gov/data/2021/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+IA,Iowa,2022,3200517,ACS 1-year B01003_001E,"https://api.census.gov/data/2022/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+IA,Iowa,2023,3207004,ACS 1-year B01003_001E,"https://api.census.gov/data/2023/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+IA,Iowa,2024,3241488,ACS 1-year B01003_001E,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+IA,Iowa,2025,3241488,Carry-forward from 2024 ACS,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Used for 2025 monthly normalization
+ID,Idaho,2015,1654930,ACS 1-year B01003_001E,"https://api.census.gov/data/2015/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+ID,Idaho,2016,1683140,ACS 1-year B01003_001E,"https://api.census.gov/data/2016/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+ID,Idaho,2017,1716943,ACS 1-year B01003_001E,"https://api.census.gov/data/2017/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+ID,Idaho,2018,1754208,ACS 1-year B01003_001E,"https://api.census.gov/data/2018/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+ID,Idaho,2019,1787065,ACS 1-year B01003_001E,"https://api.census.gov/data/2019/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+ID,Idaho,2020,1839106,2020 Census PL P1_001N,"https://api.census.gov/data/2020/dec/pl?get=NAME,P1_001N&for=state:*",Decennial census count
+ID,Idaho,2021,1900923,ACS 1-year B01003_001E,"https://api.census.gov/data/2021/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+ID,Idaho,2022,1939033,ACS 1-year B01003_001E,"https://api.census.gov/data/2022/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+ID,Idaho,2023,1964726,ACS 1-year B01003_001E,"https://api.census.gov/data/2023/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+ID,Idaho,2024,2001619,ACS 1-year B01003_001E,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+ID,Idaho,2025,2001619,Carry-forward from 2024 ACS,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Used for 2025 monthly normalization
+IL,Illinois,2015,12859995,ACS 1-year B01003_001E,"https://api.census.gov/data/2015/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+IL,Illinois,2016,12801539,ACS 1-year B01003_001E,"https://api.census.gov/data/2016/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+IL,Illinois,2017,12802023,ACS 1-year B01003_001E,"https://api.census.gov/data/2017/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+IL,Illinois,2018,12741080,ACS 1-year B01003_001E,"https://api.census.gov/data/2018/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+IL,Illinois,2019,12671821,ACS 1-year B01003_001E,"https://api.census.gov/data/2019/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+IL,Illinois,2020,12812508,2020 Census PL P1_001N,"https://api.census.gov/data/2020/dec/pl?get=NAME,P1_001N&for=state:*",Decennial census count
+IL,Illinois,2021,12671469,ACS 1-year B01003_001E,"https://api.census.gov/data/2021/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+IL,Illinois,2022,12582032,ACS 1-year B01003_001E,"https://api.census.gov/data/2022/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+IL,Illinois,2023,12549689,ACS 1-year B01003_001E,"https://api.census.gov/data/2023/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+IL,Illinois,2024,12710158,ACS 1-year B01003_001E,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+IL,Illinois,2025,12710158,Carry-forward from 2024 ACS,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Used for 2025 monthly normalization
+IN,Indiana,2015,6619680,ACS 1-year B01003_001E,"https://api.census.gov/data/2015/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+IN,Indiana,2016,6633053,ACS 1-year B01003_001E,"https://api.census.gov/data/2016/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+IN,Indiana,2017,6666818,ACS 1-year B01003_001E,"https://api.census.gov/data/2017/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+IN,Indiana,2018,6691878,ACS 1-year B01003_001E,"https://api.census.gov/data/2018/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+IN,Indiana,2019,6732219,ACS 1-year B01003_001E,"https://api.census.gov/data/2019/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+IN,Indiana,2020,6785528,2020 Census PL P1_001N,"https://api.census.gov/data/2020/dec/pl?get=NAME,P1_001N&for=state:*",Decennial census count
+IN,Indiana,2021,6805985,ACS 1-year B01003_001E,"https://api.census.gov/data/2021/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+IN,Indiana,2022,6833037,ACS 1-year B01003_001E,"https://api.census.gov/data/2022/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+IN,Indiana,2023,6862199,ACS 1-year B01003_001E,"https://api.census.gov/data/2023/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+IN,Indiana,2024,6924275,ACS 1-year B01003_001E,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+IN,Indiana,2025,6924275,Carry-forward from 2024 ACS,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Used for 2025 monthly normalization
+KS,Kansas,2015,2911641,ACS 1-year B01003_001E,"https://api.census.gov/data/2015/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+KS,Kansas,2016,2907289,ACS 1-year B01003_001E,"https://api.census.gov/data/2016/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+KS,Kansas,2017,2913123,ACS 1-year B01003_001E,"https://api.census.gov/data/2017/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+KS,Kansas,2018,2911510,ACS 1-year B01003_001E,"https://api.census.gov/data/2018/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+KS,Kansas,2019,2913314,ACS 1-year B01003_001E,"https://api.census.gov/data/2019/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+KS,Kansas,2020,2937880,2020 Census PL P1_001N,"https://api.census.gov/data/2020/dec/pl?get=NAME,P1_001N&for=state:*",Decennial census count
+KS,Kansas,2021,2934582,ACS 1-year B01003_001E,"https://api.census.gov/data/2021/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+KS,Kansas,2022,2937150,ACS 1-year B01003_001E,"https://api.census.gov/data/2022/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+KS,Kansas,2023,2940547,ACS 1-year B01003_001E,"https://api.census.gov/data/2023/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+KS,Kansas,2024,2970606,ACS 1-year B01003_001E,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+KS,Kansas,2025,2970606,Carry-forward from 2024 ACS,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Used for 2025 monthly normalization
+KY,Kentucky,2015,4425092,ACS 1-year B01003_001E,"https://api.census.gov/data/2015/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+KY,Kentucky,2016,4436974,ACS 1-year B01003_001E,"https://api.census.gov/data/2016/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+KY,Kentucky,2017,4454189,ACS 1-year B01003_001E,"https://api.census.gov/data/2017/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+KY,Kentucky,2018,4468402,ACS 1-year B01003_001E,"https://api.census.gov/data/2018/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+KY,Kentucky,2019,4467673,ACS 1-year B01003_001E,"https://api.census.gov/data/2019/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+KY,Kentucky,2020,4505836,2020 Census PL P1_001N,"https://api.census.gov/data/2020/dec/pl?get=NAME,P1_001N&for=state:*",Decennial census count
+KY,Kentucky,2021,4509394,ACS 1-year B01003_001E,"https://api.census.gov/data/2021/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+KY,Kentucky,2022,4512310,ACS 1-year B01003_001E,"https://api.census.gov/data/2022/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+KY,Kentucky,2023,4526154,ACS 1-year B01003_001E,"https://api.census.gov/data/2023/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+KY,Kentucky,2024,4588372,ACS 1-year B01003_001E,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+KY,Kentucky,2025,4588372,Carry-forward from 2024 ACS,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Used for 2025 monthly normalization
+LA,Louisiana,2015,4670724,ACS 1-year B01003_001E,"https://api.census.gov/data/2015/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+LA,Louisiana,2016,4681666,ACS 1-year B01003_001E,"https://api.census.gov/data/2016/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+LA,Louisiana,2017,4684333,ACS 1-year B01003_001E,"https://api.census.gov/data/2017/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+LA,Louisiana,2018,4659978,ACS 1-year B01003_001E,"https://api.census.gov/data/2018/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+LA,Louisiana,2019,4648794,ACS 1-year B01003_001E,"https://api.census.gov/data/2019/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+LA,Louisiana,2020,4657757,2020 Census PL P1_001N,"https://api.census.gov/data/2020/dec/pl?get=NAME,P1_001N&for=state:*",Decennial census count
+LA,Louisiana,2021,4624047,ACS 1-year B01003_001E,"https://api.census.gov/data/2021/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+LA,Louisiana,2022,4590241,ACS 1-year B01003_001E,"https://api.census.gov/data/2022/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+LA,Louisiana,2023,4573749,ACS 1-year B01003_001E,"https://api.census.gov/data/2023/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+LA,Louisiana,2024,4597740,ACS 1-year B01003_001E,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+LA,Louisiana,2025,4597740,Carry-forward from 2024 ACS,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Used for 2025 monthly normalization
+MA,Massachusetts,2015,6794422,ACS 1-year B01003_001E,"https://api.census.gov/data/2015/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MA,Massachusetts,2016,6811779,ACS 1-year B01003_001E,"https://api.census.gov/data/2016/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MA,Massachusetts,2017,6859819,ACS 1-year B01003_001E,"https://api.census.gov/data/2017/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MA,Massachusetts,2018,6902149,ACS 1-year B01003_001E,"https://api.census.gov/data/2018/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MA,Massachusetts,2019,6892503,ACS 1-year B01003_001E,"https://api.census.gov/data/2019/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MA,Massachusetts,2020,7029917,2020 Census PL P1_001N,"https://api.census.gov/data/2020/dec/pl?get=NAME,P1_001N&for=state:*",Decennial census count
+MA,Massachusetts,2021,6984723,ACS 1-year B01003_001E,"https://api.census.gov/data/2021/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MA,Massachusetts,2022,6981974,ACS 1-year B01003_001E,"https://api.census.gov/data/2022/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MA,Massachusetts,2023,7001399,ACS 1-year B01003_001E,"https://api.census.gov/data/2023/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MA,Massachusetts,2024,7136171,ACS 1-year B01003_001E,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MA,Massachusetts,2025,7136171,Carry-forward from 2024 ACS,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Used for 2025 monthly normalization
+MD,Maryland,2015,6006401,ACS 1-year B01003_001E,"https://api.census.gov/data/2015/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MD,Maryland,2016,6016447,ACS 1-year B01003_001E,"https://api.census.gov/data/2016/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MD,Maryland,2017,6052177,ACS 1-year B01003_001E,"https://api.census.gov/data/2017/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MD,Maryland,2018,6042718,ACS 1-year B01003_001E,"https://api.census.gov/data/2018/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MD,Maryland,2019,6045680,ACS 1-year B01003_001E,"https://api.census.gov/data/2019/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MD,Maryland,2020,6177224,2020 Census PL P1_001N,"https://api.census.gov/data/2020/dec/pl?get=NAME,P1_001N&for=state:*",Decennial census count
+MD,Maryland,2021,6165129,ACS 1-year B01003_001E,"https://api.census.gov/data/2021/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MD,Maryland,2022,6164660,ACS 1-year B01003_001E,"https://api.census.gov/data/2022/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MD,Maryland,2023,6180253,ACS 1-year B01003_001E,"https://api.census.gov/data/2023/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MD,Maryland,2024,6263220,ACS 1-year B01003_001E,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MD,Maryland,2025,6263220,Carry-forward from 2024 ACS,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Used for 2025 monthly normalization
+ME,Maine,2015,1329328,ACS 1-year B01003_001E,"https://api.census.gov/data/2015/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+ME,Maine,2016,1331479,ACS 1-year B01003_001E,"https://api.census.gov/data/2016/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+ME,Maine,2017,1335907,ACS 1-year B01003_001E,"https://api.census.gov/data/2017/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+ME,Maine,2018,1338404,ACS 1-year B01003_001E,"https://api.census.gov/data/2018/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+ME,Maine,2019,1344212,ACS 1-year B01003_001E,"https://api.census.gov/data/2019/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+ME,Maine,2020,1362359,2020 Census PL P1_001N,"https://api.census.gov/data/2020/dec/pl?get=NAME,P1_001N&for=state:*",Decennial census count
+ME,Maine,2021,1372247,ACS 1-year B01003_001E,"https://api.census.gov/data/2021/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+ME,Maine,2022,1385340,ACS 1-year B01003_001E,"https://api.census.gov/data/2022/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+ME,Maine,2023,1395722,ACS 1-year B01003_001E,"https://api.census.gov/data/2023/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+ME,Maine,2024,1405012,ACS 1-year B01003_001E,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+ME,Maine,2025,1405012,Carry-forward from 2024 ACS,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Used for 2025 monthly normalization
+MI,Michigan,2015,9922576,ACS 1-year B01003_001E,"https://api.census.gov/data/2015/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MI,Michigan,2016,9928300,ACS 1-year B01003_001E,"https://api.census.gov/data/2016/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MI,Michigan,2017,9962311,ACS 1-year B01003_001E,"https://api.census.gov/data/2017/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MI,Michigan,2018,9995915,ACS 1-year B01003_001E,"https://api.census.gov/data/2018/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MI,Michigan,2019,9986857,ACS 1-year B01003_001E,"https://api.census.gov/data/2019/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MI,Michigan,2020,10077331,2020 Census PL P1_001N,"https://api.census.gov/data/2020/dec/pl?get=NAME,P1_001N&for=state:*",Decennial census count
+MI,Michigan,2021,10050811,ACS 1-year B01003_001E,"https://api.census.gov/data/2021/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MI,Michigan,2022,10034118,ACS 1-year B01003_001E,"https://api.census.gov/data/2022/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MI,Michigan,2023,10037261,ACS 1-year B01003_001E,"https://api.census.gov/data/2023/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MI,Michigan,2024,10140459,ACS 1-year B01003_001E,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MI,Michigan,2025,10140459,Carry-forward from 2024 ACS,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Used for 2025 monthly normalization
+MN,Minnesota,2015,5489594,ACS 1-year B01003_001E,"https://api.census.gov/data/2015/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MN,Minnesota,2016,5519952,ACS 1-year B01003_001E,"https://api.census.gov/data/2016/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MN,Minnesota,2017,5576606,ACS 1-year B01003_001E,"https://api.census.gov/data/2017/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MN,Minnesota,2018,5611179,ACS 1-year B01003_001E,"https://api.census.gov/data/2018/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MN,Minnesota,2019,5639632,ACS 1-year B01003_001E,"https://api.census.gov/data/2019/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MN,Minnesota,2020,5706494,2020 Census PL P1_001N,"https://api.census.gov/data/2020/dec/pl?get=NAME,P1_001N&for=state:*",Decennial census count
+MN,Minnesota,2021,5707390,ACS 1-year B01003_001E,"https://api.census.gov/data/2021/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MN,Minnesota,2022,5717184,ACS 1-year B01003_001E,"https://api.census.gov/data/2022/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MN,Minnesota,2023,5737915,ACS 1-year B01003_001E,"https://api.census.gov/data/2023/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MN,Minnesota,2024,5793151,ACS 1-year B01003_001E,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MN,Minnesota,2025,5793151,Carry-forward from 2024 ACS,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Used for 2025 monthly normalization
+MO,Missouri,2015,6083672,ACS 1-year B01003_001E,"https://api.census.gov/data/2015/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MO,Missouri,2016,6093000,ACS 1-year B01003_001E,"https://api.census.gov/data/2016/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MO,Missouri,2017,6113532,ACS 1-year B01003_001E,"https://api.census.gov/data/2017/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MO,Missouri,2018,6126452,ACS 1-year B01003_001E,"https://api.census.gov/data/2018/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MO,Missouri,2019,6137428,ACS 1-year B01003_001E,"https://api.census.gov/data/2019/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MO,Missouri,2020,6154913,2020 Census PL P1_001N,"https://api.census.gov/data/2020/dec/pl?get=NAME,P1_001N&for=state:*",Decennial census count
+MO,Missouri,2021,6168187,ACS 1-year B01003_001E,"https://api.census.gov/data/2021/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MO,Missouri,2022,6177957,ACS 1-year B01003_001E,"https://api.census.gov/data/2022/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MO,Missouri,2023,6196156,ACS 1-year B01003_001E,"https://api.census.gov/data/2023/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MO,Missouri,2024,6245466,ACS 1-year B01003_001E,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MO,Missouri,2025,6245466,Carry-forward from 2024 ACS,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Used for 2025 monthly normalization
+MS,Mississippi,2015,2992333,ACS 1-year B01003_001E,"https://api.census.gov/data/2015/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MS,Mississippi,2016,2988726,ACS 1-year B01003_001E,"https://api.census.gov/data/2016/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MS,Mississippi,2017,2984100,ACS 1-year B01003_001E,"https://api.census.gov/data/2017/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MS,Mississippi,2018,2986530,ACS 1-year B01003_001E,"https://api.census.gov/data/2018/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MS,Mississippi,2019,2976149,ACS 1-year B01003_001E,"https://api.census.gov/data/2019/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MS,Mississippi,2020,2961279,2020 Census PL P1_001N,"https://api.census.gov/data/2020/dec/pl?get=NAME,P1_001N&for=state:*",Decennial census count
+MS,Mississippi,2021,2949965,ACS 1-year B01003_001E,"https://api.census.gov/data/2021/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MS,Mississippi,2022,2940057,ACS 1-year B01003_001E,"https://api.census.gov/data/2022/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MS,Mississippi,2023,2939690,ACS 1-year B01003_001E,"https://api.census.gov/data/2023/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MS,Mississippi,2024,2943045,ACS 1-year B01003_001E,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MS,Mississippi,2025,2943045,Carry-forward from 2024 ACS,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Used for 2025 monthly normalization
+MT,Montana,2015,1032949,ACS 1-year B01003_001E,"https://api.census.gov/data/2015/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MT,Montana,2016,1042520,ACS 1-year B01003_001E,"https://api.census.gov/data/2016/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MT,Montana,2017,1050493,ACS 1-year B01003_001E,"https://api.census.gov/data/2017/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MT,Montana,2018,1062305,ACS 1-year B01003_001E,"https://api.census.gov/data/2018/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MT,Montana,2019,1068778,ACS 1-year B01003_001E,"https://api.census.gov/data/2019/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MT,Montana,2020,1084225,2020 Census PL P1_001N,"https://api.census.gov/data/2020/dec/pl?get=NAME,P1_001N&for=state:*",Decennial census count
+MT,Montana,2021,1104271,ACS 1-year B01003_001E,"https://api.census.gov/data/2021/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MT,Montana,2022,1122867,ACS 1-year B01003_001E,"https://api.census.gov/data/2022/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MT,Montana,2023,1132812,ACS 1-year B01003_001E,"https://api.census.gov/data/2023/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MT,Montana,2024,1137233,ACS 1-year B01003_001E,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+MT,Montana,2025,1137233,Carry-forward from 2024 ACS,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Used for 2025 monthly normalization
+NC,North Carolina,2015,10042802,ACS 1-year B01003_001E,"https://api.census.gov/data/2015/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NC,North Carolina,2016,10146788,ACS 1-year B01003_001E,"https://api.census.gov/data/2016/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NC,North Carolina,2017,10273419,ACS 1-year B01003_001E,"https://api.census.gov/data/2017/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NC,North Carolina,2018,10383620,ACS 1-year B01003_001E,"https://api.census.gov/data/2018/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NC,North Carolina,2019,10488084,ACS 1-year B01003_001E,"https://api.census.gov/data/2019/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NC,North Carolina,2020,10439388,2020 Census PL P1_001N,"https://api.census.gov/data/2020/dec/pl?get=NAME,P1_001N&for=state:*",Decennial census count
+NC,North Carolina,2021,10551162,ACS 1-year B01003_001E,"https://api.census.gov/data/2021/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NC,North Carolina,2022,10698973,ACS 1-year B01003_001E,"https://api.census.gov/data/2022/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NC,North Carolina,2023,10835491,ACS 1-year B01003_001E,"https://api.census.gov/data/2023/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NC,North Carolina,2024,11046024,ACS 1-year B01003_001E,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NC,North Carolina,2025,11046024,Carry-forward from 2024 ACS,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Used for 2025 monthly normalization
+ND,North Dakota,2015,756928,ACS 1-year B01003_001E,"https://api.census.gov/data/2015/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+ND,North Dakota,2016,757953,ACS 1-year B01003_001E,"https://api.census.gov/data/2016/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+ND,North Dakota,2017,755393,ACS 1-year B01003_001E,"https://api.census.gov/data/2017/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+ND,North Dakota,2018,760077,ACS 1-year B01003_001E,"https://api.census.gov/data/2018/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+ND,North Dakota,2019,762062,ACS 1-year B01003_001E,"https://api.census.gov/data/2019/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+ND,North Dakota,2020,779094,2020 Census PL P1_001N,"https://api.census.gov/data/2020/dec/pl?get=NAME,P1_001N&for=state:*",Decennial census count
+ND,North Dakota,2021,774948,ACS 1-year B01003_001E,"https://api.census.gov/data/2021/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+ND,North Dakota,2022,779261,ACS 1-year B01003_001E,"https://api.census.gov/data/2022/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+ND,North Dakota,2023,783926,ACS 1-year B01003_001E,"https://api.census.gov/data/2023/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+ND,North Dakota,2024,796568,ACS 1-year B01003_001E,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+ND,North Dakota,2025,796568,Carry-forward from 2024 ACS,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Used for 2025 monthly normalization
+NE,Nebraska,2015,1896190,ACS 1-year B01003_001E,"https://api.census.gov/data/2015/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NE,Nebraska,2016,1907116,ACS 1-year B01003_001E,"https://api.census.gov/data/2016/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NE,Nebraska,2017,1920076,ACS 1-year B01003_001E,"https://api.census.gov/data/2017/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NE,Nebraska,2018,1929268,ACS 1-year B01003_001E,"https://api.census.gov/data/2018/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NE,Nebraska,2019,1934408,ACS 1-year B01003_001E,"https://api.census.gov/data/2019/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NE,Nebraska,2020,1961504,2020 Census PL P1_001N,"https://api.census.gov/data/2020/dec/pl?get=NAME,P1_001N&for=state:*",Decennial census count
+NE,Nebraska,2021,1963692,ACS 1-year B01003_001E,"https://api.census.gov/data/2021/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NE,Nebraska,2022,1967923,ACS 1-year B01003_001E,"https://api.census.gov/data/2022/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NE,Nebraska,2023,1978379,ACS 1-year B01003_001E,"https://api.census.gov/data/2023/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NE,Nebraska,2024,2005466,ACS 1-year B01003_001E,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NE,Nebraska,2025,2005466,Carry-forward from 2024 ACS,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Used for 2025 monthly normalization
+NH,New Hampshire,2015,1330608,ACS 1-year B01003_001E,"https://api.census.gov/data/2015/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NH,New Hampshire,2016,1334795,ACS 1-year B01003_001E,"https://api.census.gov/data/2016/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NH,New Hampshire,2017,1342795,ACS 1-year B01003_001E,"https://api.census.gov/data/2017/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NH,New Hampshire,2018,1356458,ACS 1-year B01003_001E,"https://api.census.gov/data/2018/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NH,New Hampshire,2019,1359711,ACS 1-year B01003_001E,"https://api.census.gov/data/2019/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NH,New Hampshire,2020,1377529,2020 Census PL P1_001N,"https://api.census.gov/data/2020/dec/pl?get=NAME,P1_001N&for=state:*",Decennial census count
+NH,New Hampshire,2021,1388992,ACS 1-year B01003_001E,"https://api.census.gov/data/2021/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NH,New Hampshire,2022,1395231,ACS 1-year B01003_001E,"https://api.census.gov/data/2022/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NH,New Hampshire,2023,1402054,ACS 1-year B01003_001E,"https://api.census.gov/data/2023/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NH,New Hampshire,2024,1409032,ACS 1-year B01003_001E,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NH,New Hampshire,2025,1409032,Carry-forward from 2024 ACS,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Used for 2025 monthly normalization
+NJ,New Jersey,2015,8958013,ACS 1-year B01003_001E,"https://api.census.gov/data/2015/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NJ,New Jersey,2016,8944469,ACS 1-year B01003_001E,"https://api.census.gov/data/2016/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NJ,New Jersey,2017,9005644,ACS 1-year B01003_001E,"https://api.census.gov/data/2017/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NJ,New Jersey,2018,8908520,ACS 1-year B01003_001E,"https://api.census.gov/data/2018/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NJ,New Jersey,2019,8882190,ACS 1-year B01003_001E,"https://api.census.gov/data/2019/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NJ,New Jersey,2020,9288994,2020 Census PL P1_001N,"https://api.census.gov/data/2020/dec/pl?get=NAME,P1_001N&for=state:*",Decennial census count
+NJ,New Jersey,2021,9267130,ACS 1-year B01003_001E,"https://api.census.gov/data/2021/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NJ,New Jersey,2022,9261699,ACS 1-year B01003_001E,"https://api.census.gov/data/2022/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NJ,New Jersey,2023,9290841,ACS 1-year B01003_001E,"https://api.census.gov/data/2023/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NJ,New Jersey,2024,9500851,ACS 1-year B01003_001E,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NJ,New Jersey,2025,9500851,Carry-forward from 2024 ACS,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Used for 2025 monthly normalization
+NM,New Mexico,2015,2085109,ACS 1-year B01003_001E,"https://api.census.gov/data/2015/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NM,New Mexico,2016,2081015,ACS 1-year B01003_001E,"https://api.census.gov/data/2016/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NM,New Mexico,2017,2088070,ACS 1-year B01003_001E,"https://api.census.gov/data/2017/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NM,New Mexico,2018,2095428,ACS 1-year B01003_001E,"https://api.census.gov/data/2018/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NM,New Mexico,2019,2096829,ACS 1-year B01003_001E,"https://api.census.gov/data/2019/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NM,New Mexico,2020,2117522,2020 Census PL P1_001N,"https://api.census.gov/data/2020/dec/pl?get=NAME,P1_001N&for=state:*",Decennial census count
+NM,New Mexico,2021,2115877,ACS 1-year B01003_001E,"https://api.census.gov/data/2021/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NM,New Mexico,2022,2113344,ACS 1-year B01003_001E,"https://api.census.gov/data/2022/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NM,New Mexico,2023,2114371,ACS 1-year B01003_001E,"https://api.census.gov/data/2023/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NM,New Mexico,2024,2130256,ACS 1-year B01003_001E,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NM,New Mexico,2025,2130256,Carry-forward from 2024 ACS,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Used for 2025 monthly normalization
+NV,Nevada,2015,2890845,ACS 1-year B01003_001E,"https://api.census.gov/data/2015/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NV,Nevada,2016,2940058,ACS 1-year B01003_001E,"https://api.census.gov/data/2016/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NV,Nevada,2017,2998039,ACS 1-year B01003_001E,"https://api.census.gov/data/2017/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NV,Nevada,2018,3034392,ACS 1-year B01003_001E,"https://api.census.gov/data/2018/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NV,Nevada,2019,3080156,ACS 1-year B01003_001E,"https://api.census.gov/data/2019/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NV,Nevada,2020,3104614,2020 Census PL P1_001N,"https://api.census.gov/data/2020/dec/pl?get=NAME,P1_001N&for=state:*",Decennial census count
+NV,Nevada,2021,3143991,ACS 1-year B01003_001E,"https://api.census.gov/data/2021/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NV,Nevada,2022,3177772,ACS 1-year B01003_001E,"https://api.census.gov/data/2022/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NV,Nevada,2023,3194176,ACS 1-year B01003_001E,"https://api.census.gov/data/2023/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NV,Nevada,2024,3267467,ACS 1-year B01003_001E,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NV,Nevada,2025,3267467,Carry-forward from 2024 ACS,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Used for 2025 monthly normalization
+NY,New York,2015,19795791,ACS 1-year B01003_001E,"https://api.census.gov/data/2015/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NY,New York,2016,19745289,ACS 1-year B01003_001E,"https://api.census.gov/data/2016/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NY,New York,2017,19849399,ACS 1-year B01003_001E,"https://api.census.gov/data/2017/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NY,New York,2018,19542209,ACS 1-year B01003_001E,"https://api.census.gov/data/2018/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NY,New York,2019,19453561,ACS 1-year B01003_001E,"https://api.census.gov/data/2019/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NY,New York,2020,20201249,2020 Census PL P1_001N,"https://api.census.gov/data/2020/dec/pl?get=NAME,P1_001N&for=state:*",Decennial census count
+NY,New York,2021,19835913,ACS 1-year B01003_001E,"https://api.census.gov/data/2021/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NY,New York,2022,19677151,ACS 1-year B01003_001E,"https://api.census.gov/data/2022/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NY,New York,2023,19571216,ACS 1-year B01003_001E,"https://api.census.gov/data/2023/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NY,New York,2024,19867248,ACS 1-year B01003_001E,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+NY,New York,2025,19867248,Carry-forward from 2024 ACS,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Used for 2025 monthly normalization
+OH,Ohio,2015,11613423,ACS 1-year B01003_001E,"https://api.census.gov/data/2015/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+OH,Ohio,2016,11614373,ACS 1-year B01003_001E,"https://api.census.gov/data/2016/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+OH,Ohio,2017,11658609,ACS 1-year B01003_001E,"https://api.census.gov/data/2017/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+OH,Ohio,2018,11689442,ACS 1-year B01003_001E,"https://api.census.gov/data/2018/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+OH,Ohio,2019,11689100,ACS 1-year B01003_001E,"https://api.census.gov/data/2019/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+OH,Ohio,2020,11799448,2020 Census PL P1_001N,"https://api.census.gov/data/2020/dec/pl?get=NAME,P1_001N&for=state:*",Decennial census count
+OH,Ohio,2021,11780017,ACS 1-year B01003_001E,"https://api.census.gov/data/2021/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+OH,Ohio,2022,11756058,ACS 1-year B01003_001E,"https://api.census.gov/data/2022/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+OH,Ohio,2023,11785935,ACS 1-year B01003_001E,"https://api.census.gov/data/2023/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+OH,Ohio,2024,11883304,ACS 1-year B01003_001E,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+OH,Ohio,2025,11883304,Carry-forward from 2024 ACS,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Used for 2025 monthly normalization
+OK,Oklahoma,2015,3911338,ACS 1-year B01003_001E,"https://api.census.gov/data/2015/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+OK,Oklahoma,2016,3923561,ACS 1-year B01003_001E,"https://api.census.gov/data/2016/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+OK,Oklahoma,2017,3930864,ACS 1-year B01003_001E,"https://api.census.gov/data/2017/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+OK,Oklahoma,2018,3943079,ACS 1-year B01003_001E,"https://api.census.gov/data/2018/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+OK,Oklahoma,2019,3956971,ACS 1-year B01003_001E,"https://api.census.gov/data/2019/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+OK,Oklahoma,2020,3959353,2020 Census PL P1_001N,"https://api.census.gov/data/2020/dec/pl?get=NAME,P1_001N&for=state:*",Decennial census count
+OK,Oklahoma,2021,3986639,ACS 1-year B01003_001E,"https://api.census.gov/data/2021/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+OK,Oklahoma,2022,4019800,ACS 1-year B01003_001E,"https://api.census.gov/data/2022/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+OK,Oklahoma,2023,4053824,ACS 1-year B01003_001E,"https://api.census.gov/data/2023/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+OK,Oklahoma,2024,4095393,ACS 1-year B01003_001E,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+OK,Oklahoma,2025,4095393,Carry-forward from 2024 ACS,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Used for 2025 monthly normalization
+OR,Oregon,2015,4028977,ACS 1-year B01003_001E,"https://api.census.gov/data/2015/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+OR,Oregon,2016,4093465,ACS 1-year B01003_001E,"https://api.census.gov/data/2016/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+OR,Oregon,2017,4142776,ACS 1-year B01003_001E,"https://api.census.gov/data/2017/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+OR,Oregon,2018,4190713,ACS 1-year B01003_001E,"https://api.census.gov/data/2018/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+OR,Oregon,2019,4217737,ACS 1-year B01003_001E,"https://api.census.gov/data/2019/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+OR,Oregon,2020,4237256,2020 Census PL P1_001N,"https://api.census.gov/data/2020/dec/pl?get=NAME,P1_001N&for=state:*",Decennial census count
+OR,Oregon,2021,4246155,ACS 1-year B01003_001E,"https://api.census.gov/data/2021/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+OR,Oregon,2022,4240137,ACS 1-year B01003_001E,"https://api.census.gov/data/2022/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+OR,Oregon,2023,4233358,ACS 1-year B01003_001E,"https://api.census.gov/data/2023/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+OR,Oregon,2024,4272371,ACS 1-year B01003_001E,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+OR,Oregon,2025,4272371,Carry-forward from 2024 ACS,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Used for 2025 monthly normalization
+PA,Pennsylvania,2015,12802503,ACS 1-year B01003_001E,"https://api.census.gov/data/2015/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+PA,Pennsylvania,2016,12784227,ACS 1-year B01003_001E,"https://api.census.gov/data/2016/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+PA,Pennsylvania,2017,12805537,ACS 1-year B01003_001E,"https://api.census.gov/data/2017/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+PA,Pennsylvania,2018,12807060,ACS 1-year B01003_001E,"https://api.census.gov/data/2018/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+PA,Pennsylvania,2019,12801989,ACS 1-year B01003_001E,"https://api.census.gov/data/2019/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+PA,Pennsylvania,2020,13002700,2020 Census PL P1_001N,"https://api.census.gov/data/2020/dec/pl?get=NAME,P1_001N&for=state:*",Decennial census count
+PA,Pennsylvania,2021,12964056,ACS 1-year B01003_001E,"https://api.census.gov/data/2021/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+PA,Pennsylvania,2022,12972008,ACS 1-year B01003_001E,"https://api.census.gov/data/2022/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+PA,Pennsylvania,2023,12961683,ACS 1-year B01003_001E,"https://api.census.gov/data/2023/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+PA,Pennsylvania,2024,13078751,ACS 1-year B01003_001E,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+PA,Pennsylvania,2025,13078751,Carry-forward from 2024 ACS,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Used for 2025 monthly normalization
+RI,Rhode Island,2015,1056298,ACS 1-year B01003_001E,"https://api.census.gov/data/2015/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+RI,Rhode Island,2016,1056426,ACS 1-year B01003_001E,"https://api.census.gov/data/2016/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+RI,Rhode Island,2017,1059639,ACS 1-year B01003_001E,"https://api.census.gov/data/2017/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+RI,Rhode Island,2018,1057315,ACS 1-year B01003_001E,"https://api.census.gov/data/2018/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+RI,Rhode Island,2019,1059361,ACS 1-year B01003_001E,"https://api.census.gov/data/2019/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+RI,Rhode Island,2020,1097379,2020 Census PL P1_001N,"https://api.census.gov/data/2020/dec/pl?get=NAME,P1_001N&for=state:*",Decennial census count
+RI,Rhode Island,2021,1095610,ACS 1-year B01003_001E,"https://api.census.gov/data/2021/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+RI,Rhode Island,2022,1093734,ACS 1-year B01003_001E,"https://api.census.gov/data/2022/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+RI,Rhode Island,2023,1095962,ACS 1-year B01003_001E,"https://api.census.gov/data/2023/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+RI,Rhode Island,2024,1112308,ACS 1-year B01003_001E,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+RI,Rhode Island,2025,1112308,Carry-forward from 2024 ACS,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Used for 2025 monthly normalization
+SC,South Carolina,2015,4896146,ACS 1-year B01003_001E,"https://api.census.gov/data/2015/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+SC,South Carolina,2016,4961119,ACS 1-year B01003_001E,"https://api.census.gov/data/2016/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+SC,South Carolina,2017,5024369,ACS 1-year B01003_001E,"https://api.census.gov/data/2017/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+SC,South Carolina,2018,5084127,ACS 1-year B01003_001E,"https://api.census.gov/data/2018/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+SC,South Carolina,2019,5148714,ACS 1-year B01003_001E,"https://api.census.gov/data/2019/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+SC,South Carolina,2020,5118425,2020 Census PL P1_001N,"https://api.census.gov/data/2020/dec/pl?get=NAME,P1_001N&for=state:*",Decennial census count
+SC,South Carolina,2021,5190705,ACS 1-year B01003_001E,"https://api.census.gov/data/2021/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+SC,South Carolina,2022,5282634,ACS 1-year B01003_001E,"https://api.census.gov/data/2022/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+SC,South Carolina,2023,5373555,ACS 1-year B01003_001E,"https://api.census.gov/data/2023/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+SC,South Carolina,2024,5478831,ACS 1-year B01003_001E,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+SC,South Carolina,2025,5478831,Carry-forward from 2024 ACS,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Used for 2025 monthly normalization
+SD,South Dakota,2015,858469,ACS 1-year B01003_001E,"https://api.census.gov/data/2015/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+SD,South Dakota,2016,865454,ACS 1-year B01003_001E,"https://api.census.gov/data/2016/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+SD,South Dakota,2017,869666,ACS 1-year B01003_001E,"https://api.census.gov/data/2017/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+SD,South Dakota,2018,882235,ACS 1-year B01003_001E,"https://api.census.gov/data/2018/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+SD,South Dakota,2019,884659,ACS 1-year B01003_001E,"https://api.census.gov/data/2019/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+SD,South Dakota,2020,886667,2020 Census PL P1_001N,"https://api.census.gov/data/2020/dec/pl?get=NAME,P1_001N&for=state:*",Decennial census count
+SD,South Dakota,2021,895376,ACS 1-year B01003_001E,"https://api.census.gov/data/2021/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+SD,South Dakota,2022,909824,ACS 1-year B01003_001E,"https://api.census.gov/data/2022/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+SD,South Dakota,2023,919318,ACS 1-year B01003_001E,"https://api.census.gov/data/2023/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+SD,South Dakota,2024,924669,ACS 1-year B01003_001E,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+SD,South Dakota,2025,924669,Carry-forward from 2024 ACS,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Used for 2025 monthly normalization
+TN,Tennessee,2015,6600299,ACS 1-year B01003_001E,"https://api.census.gov/data/2015/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+TN,Tennessee,2016,6651194,ACS 1-year B01003_001E,"https://api.census.gov/data/2016/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+TN,Tennessee,2017,6715984,ACS 1-year B01003_001E,"https://api.census.gov/data/2017/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+TN,Tennessee,2018,6770010,ACS 1-year B01003_001E,"https://api.census.gov/data/2018/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+TN,Tennessee,2019,6829174,ACS 1-year B01003_001E,"https://api.census.gov/data/2019/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+TN,Tennessee,2020,6910840,2020 Census PL P1_001N,"https://api.census.gov/data/2020/dec/pl?get=NAME,P1_001N&for=state:*",Decennial census count
+TN,Tennessee,2021,6975218,ACS 1-year B01003_001E,"https://api.census.gov/data/2021/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+TN,Tennessee,2022,7051339,ACS 1-year B01003_001E,"https://api.census.gov/data/2022/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+TN,Tennessee,2023,7126489,ACS 1-year B01003_001E,"https://api.census.gov/data/2023/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+TN,Tennessee,2024,7227750,ACS 1-year B01003_001E,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+TN,Tennessee,2025,7227750,Carry-forward from 2024 ACS,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Used for 2025 monthly normalization
+TX,Texas,2015,27469114,ACS 1-year B01003_001E,"https://api.census.gov/data/2015/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+TX,Texas,2016,27862596,ACS 1-year B01003_001E,"https://api.census.gov/data/2016/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+TX,Texas,2017,28304596,ACS 1-year B01003_001E,"https://api.census.gov/data/2017/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+TX,Texas,2018,28701845,ACS 1-year B01003_001E,"https://api.census.gov/data/2018/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+TX,Texas,2019,28995881,ACS 1-year B01003_001E,"https://api.census.gov/data/2019/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+TX,Texas,2020,29145505,2020 Census PL P1_001N,"https://api.census.gov/data/2020/dec/pl?get=NAME,P1_001N&for=state:*",Decennial census count
+TX,Texas,2021,29527941,ACS 1-year B01003_001E,"https://api.census.gov/data/2021/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+TX,Texas,2022,30029572,ACS 1-year B01003_001E,"https://api.census.gov/data/2022/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+TX,Texas,2023,30503301,ACS 1-year B01003_001E,"https://api.census.gov/data/2023/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+TX,Texas,2024,31290831,ACS 1-year B01003_001E,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+TX,Texas,2025,31290831,Carry-forward from 2024 ACS,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Used for 2025 monthly normalization
+UT,Utah,2015,2995919,ACS 1-year B01003_001E,"https://api.census.gov/data/2015/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+UT,Utah,2016,3051217,ACS 1-year B01003_001E,"https://api.census.gov/data/2016/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+UT,Utah,2017,3101833,ACS 1-year B01003_001E,"https://api.census.gov/data/2017/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+UT,Utah,2018,3161105,ACS 1-year B01003_001E,"https://api.census.gov/data/2018/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+UT,Utah,2019,3205958,ACS 1-year B01003_001E,"https://api.census.gov/data/2019/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+UT,Utah,2020,3271616,2020 Census PL P1_001N,"https://api.census.gov/data/2020/dec/pl?get=NAME,P1_001N&for=state:*",Decennial census count
+UT,Utah,2021,3337975,ACS 1-year B01003_001E,"https://api.census.gov/data/2021/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+UT,Utah,2022,3380800,ACS 1-year B01003_001E,"https://api.census.gov/data/2022/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+UT,Utah,2023,3417734,ACS 1-year B01003_001E,"https://api.census.gov/data/2023/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+UT,Utah,2024,3503613,ACS 1-year B01003_001E,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+UT,Utah,2025,3503613,Carry-forward from 2024 ACS,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Used for 2025 monthly normalization
+VA,Virginia,2015,8382993,ACS 1-year B01003_001E,"https://api.census.gov/data/2015/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+VA,Virginia,2016,8411808,ACS 1-year B01003_001E,"https://api.census.gov/data/2016/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+VA,Virginia,2017,8470020,ACS 1-year B01003_001E,"https://api.census.gov/data/2017/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+VA,Virginia,2018,8517685,ACS 1-year B01003_001E,"https://api.census.gov/data/2018/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+VA,Virginia,2019,8535519,ACS 1-year B01003_001E,"https://api.census.gov/data/2019/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+VA,Virginia,2020,8631393,2020 Census PL P1_001N,"https://api.census.gov/data/2020/dec/pl?get=NAME,P1_001N&for=state:*",Decennial census count
+VA,Virginia,2021,8642274,ACS 1-year B01003_001E,"https://api.census.gov/data/2021/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+VA,Virginia,2022,8683619,ACS 1-year B01003_001E,"https://api.census.gov/data/2022/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+VA,Virginia,2023,8715698,ACS 1-year B01003_001E,"https://api.census.gov/data/2023/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+VA,Virginia,2024,8811195,ACS 1-year B01003_001E,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+VA,Virginia,2025,8811195,Carry-forward from 2024 ACS,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Used for 2025 monthly normalization
+VT,Vermont,2015,626042,ACS 1-year B01003_001E,"https://api.census.gov/data/2015/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+VT,Vermont,2016,624594,ACS 1-year B01003_001E,"https://api.census.gov/data/2016/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+VT,Vermont,2017,623657,ACS 1-year B01003_001E,"https://api.census.gov/data/2017/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+VT,Vermont,2018,626299,ACS 1-year B01003_001E,"https://api.census.gov/data/2018/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+VT,Vermont,2019,623989,ACS 1-year B01003_001E,"https://api.census.gov/data/2019/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+VT,Vermont,2020,643077,2020 Census PL P1_001N,"https://api.census.gov/data/2020/dec/pl?get=NAME,P1_001N&for=state:*",Decennial census count
+VT,Vermont,2021,645570,ACS 1-year B01003_001E,"https://api.census.gov/data/2021/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+VT,Vermont,2022,647064,ACS 1-year B01003_001E,"https://api.census.gov/data/2022/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+VT,Vermont,2023,647464,ACS 1-year B01003_001E,"https://api.census.gov/data/2023/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+VT,Vermont,2024,648493,ACS 1-year B01003_001E,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+VT,Vermont,2025,648493,Carry-forward from 2024 ACS,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Used for 2025 monthly normalization
+WA,Washington,2015,7170351,ACS 1-year B01003_001E,"https://api.census.gov/data/2015/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+WA,Washington,2016,7288000,ACS 1-year B01003_001E,"https://api.census.gov/data/2016/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+WA,Washington,2017,7405743,ACS 1-year B01003_001E,"https://api.census.gov/data/2017/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+WA,Washington,2018,7535591,ACS 1-year B01003_001E,"https://api.census.gov/data/2018/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+WA,Washington,2019,7614893,ACS 1-year B01003_001E,"https://api.census.gov/data/2019/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+WA,Washington,2020,7705281,2020 Census PL P1_001N,"https://api.census.gov/data/2020/dec/pl?get=NAME,P1_001N&for=state:*",Decennial census count
+WA,Washington,2021,7738692,ACS 1-year B01003_001E,"https://api.census.gov/data/2021/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+WA,Washington,2022,7785786,ACS 1-year B01003_001E,"https://api.census.gov/data/2022/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+WA,Washington,2023,7812880,ACS 1-year B01003_001E,"https://api.census.gov/data/2023/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+WA,Washington,2024,7958180,ACS 1-year B01003_001E,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+WA,Washington,2025,7958180,Carry-forward from 2024 ACS,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Used for 2025 monthly normalization
+WI,Wisconsin,2015,5771337,ACS 1-year B01003_001E,"https://api.census.gov/data/2015/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+WI,Wisconsin,2016,5778709,ACS 1-year B01003_001E,"https://api.census.gov/data/2016/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+WI,Wisconsin,2017,5795483,ACS 1-year B01003_001E,"https://api.census.gov/data/2017/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+WI,Wisconsin,2018,5813568,ACS 1-year B01003_001E,"https://api.census.gov/data/2018/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+WI,Wisconsin,2019,5822434,ACS 1-year B01003_001E,"https://api.census.gov/data/2019/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+WI,Wisconsin,2020,5893718,2020 Census PL P1_001N,"https://api.census.gov/data/2020/dec/pl?get=NAME,P1_001N&for=state:*",Decennial census count
+WI,Wisconsin,2021,5895908,ACS 1-year B01003_001E,"https://api.census.gov/data/2021/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+WI,Wisconsin,2022,5892539,ACS 1-year B01003_001E,"https://api.census.gov/data/2022/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+WI,Wisconsin,2023,5910955,ACS 1-year B01003_001E,"https://api.census.gov/data/2023/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+WI,Wisconsin,2024,5960975,ACS 1-year B01003_001E,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+WI,Wisconsin,2025,5960975,Carry-forward from 2024 ACS,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Used for 2025 monthly normalization
+WV,West Virginia,2015,1844128,ACS 1-year B01003_001E,"https://api.census.gov/data/2015/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+WV,West Virginia,2016,1831102,ACS 1-year B01003_001E,"https://api.census.gov/data/2016/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+WV,West Virginia,2017,1815857,ACS 1-year B01003_001E,"https://api.census.gov/data/2017/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+WV,West Virginia,2018,1805832,ACS 1-year B01003_001E,"https://api.census.gov/data/2018/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+WV,West Virginia,2019,1792147,ACS 1-year B01003_001E,"https://api.census.gov/data/2019/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+WV,West Virginia,2020,1793716,2020 Census PL P1_001N,"https://api.census.gov/data/2020/dec/pl?get=NAME,P1_001N&for=state:*",Decennial census count
+WV,West Virginia,2021,1782959,ACS 1-year B01003_001E,"https://api.census.gov/data/2021/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+WV,West Virginia,2022,1775156,ACS 1-year B01003_001E,"https://api.census.gov/data/2022/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+WV,West Virginia,2023,1770071,ACS 1-year B01003_001E,"https://api.census.gov/data/2023/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+WV,West Virginia,2024,1769979,ACS 1-year B01003_001E,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+WV,West Virginia,2025,1769979,Carry-forward from 2024 ACS,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Used for 2025 monthly normalization
+WY,Wyoming,2015,586107,ACS 1-year B01003_001E,"https://api.census.gov/data/2015/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+WY,Wyoming,2016,585501,ACS 1-year B01003_001E,"https://api.census.gov/data/2016/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+WY,Wyoming,2017,579315,ACS 1-year B01003_001E,"https://api.census.gov/data/2017/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+WY,Wyoming,2018,577737,ACS 1-year B01003_001E,"https://api.census.gov/data/2018/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+WY,Wyoming,2019,578759,ACS 1-year B01003_001E,"https://api.census.gov/data/2019/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+WY,Wyoming,2020,576851,2020 Census PL P1_001N,"https://api.census.gov/data/2020/dec/pl?get=NAME,P1_001N&for=state:*",Decennial census count
+WY,Wyoming,2021,578803,ACS 1-year B01003_001E,"https://api.census.gov/data/2021/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+WY,Wyoming,2022,581381,ACS 1-year B01003_001E,"https://api.census.gov/data/2022/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+WY,Wyoming,2023,584057,ACS 1-year B01003_001E,"https://api.census.gov/data/2023/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+WY,Wyoming,2024,587618,ACS 1-year B01003_001E,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Annual estimate
+WY,Wyoming,2025,587618,Carry-forward from 2024 ACS,"https://api.census.gov/data/2024/acs/acs1?get=NAME,B01003_001E&for=state:*",Used for 2025 monthly normalization
