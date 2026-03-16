@@ -60,7 +60,7 @@
 
     .controls {
       display: grid;
-      grid-template-columns: repeat(4, minmax(180px, 1fr));
+      grid-template-columns: repeat(5, minmax(150px, 1fr));
       gap: 12px;
       margin-bottom: 12px;
     }
@@ -138,7 +138,7 @@
   <main class="wrap">
     <h1>Monthly Overdose Deaths by State</h1>
     <p class="subtitle">
-      All states are always displayed. Use Census subregion and/or state dropdowns to highlight selected lines.
+      Switch between all-state lines and Census region sums. Use Census subregion and/or state dropdowns to highlight state lines.
     </p>
 
     <section class="panel">
@@ -152,6 +152,13 @@
           <select id="metricSelect">
             <option value="count">Monthly deaths</option>
             <option value="per100k">Monthly deaths per 100k</option>
+          </select>
+        </div>
+        <div>
+          <label for="plotModeSelect">Plot Mode</label>
+          <select id="plotModeSelect">
+            <option value="state_lines">All state lines</option>
+            <option value="region_sum">Census region sum lines</option>
           </select>
         </div>
         <div>
@@ -205,8 +212,39 @@
       Pacific: "#2563eb"
     };
 
+    const SUBREGION_TO_REGION = {
+      "New England": "Northeast",
+      "Middle Atlantic": "Northeast",
+      "East North Central": "Midwest",
+      "West North Central": "Midwest",
+      "South Atlantic": "South",
+      "East South Central": "South",
+      "West South Central": "South",
+      Mountain: "West",
+      Pacific: "West"
+    };
+
+    const REGION_TO_SUBREGIONS = {
+      Northeast: ["New England", "Middle Atlantic"],
+      Midwest: ["East North Central", "West North Central"],
+      South: ["South Atlantic", "East South Central", "West South Central"],
+      West: ["Mountain", "Pacific"]
+    };
+
+    const REGION_COLORS = {
+      Northeast: "#0f766e",
+      Midwest: "#6d28d9",
+      South: "#b91c1c",
+      West: "#1d4ed8"
+    };
+
     const STATE_TO_SUBREGION = Object.entries(SUBREGION_TO_STATES).reduce((acc, [subregion, states]) => {
       states.forEach((s) => { acc[s] = subregion; });
+      return acc;
+    }, {});
+
+    const STATE_TO_REGION = Object.entries(STATE_TO_SUBREGION).reduce((acc, [state, subregion]) => {
+      acc[state] = SUBREGION_TO_REGION[subregion];
       return acc;
     }, {});
 
@@ -221,8 +259,11 @@
 
     const variableSelect = document.getElementById("variableSelect");
     const metricSelect = document.getElementById("metricSelect");
+    const plotModeSelect = document.getElementById("plotModeSelect");
     const subregionSelect = document.getElementById("subregionSelect");
     const stateSelect = document.getElementById("stateSelect");
+    const clearHighlightsBtn = document.getElementById("clearHighlightsBtn");
+    const highlightAllBtn = document.getElementById("highlightAllBtn");
     const statusEl = document.getElementById("status");
 
     function setStatus(message) {
@@ -292,6 +333,7 @@
             stateAbbr,
             stateName,
             subregion: STATE_TO_SUBREGION[stateAbbr],
+            region: STATE_TO_REGION[stateAbbr],
             variable,
             date,
             year,
@@ -333,22 +375,147 @@
           stateSelect.appendChild(opt);
         });
 
+        updateHighlightControlsState();
         drawChart();
       } catch (err) {
         setStatus(`Failed to load dashboard data: ${err && err.message ? err.message : String(err)}`);
       }
     }
 
+    function updateHighlightControlsState() {
+      const stateMode = plotModeSelect.value === "state_lines";
+      subregionSelect.disabled = !stateMode;
+      stateSelect.disabled = !stateMode;
+      clearHighlightsBtn.disabled = !stateMode;
+      highlightAllBtn.disabled = !stateMode;
+    }
+
+    function drawRegionSumChart(filtered, variable, metric, yAxisTitle, yValueLabel, yHoverFormat) {
+      const byRegionDate = new Map();
+
+      for (const row of filtered) {
+        const region = row.region || "Other";
+        if (!byRegionDate.has(region)) byRegionDate.set(region, new Map());
+        const dateKey = row.date.getTime();
+        const regionDateMap = byRegionDate.get(region);
+        if (!regionDateMap.has(dateKey)) {
+          regionDateMap.set(dateKey, { date: row.date, deaths: 0, population: 0 });
+        }
+        const point = regionDateMap.get(dateKey);
+
+        if (metric === "per100k") {
+          const pop = store.populationByStateYear.get(`${row.stateAbbr}-${row.year}`);
+          if (!pop) continue;
+          point.deaths += row.count;
+          point.population += pop;
+        } else {
+          point.deaths += row.count;
+        }
+      }
+
+      const regionOrder = Object.keys(REGION_TO_SUBREGIONS);
+      const traces = regionOrder
+        .filter((region) => byRegionDate.has(region))
+        .map((region) => {
+          const points = [...byRegionDate.get(region).values()].sort((a, b) => a.date - b.date);
+          const xVals = [];
+          const yVals = [];
+          for (const point of points) {
+            if (metric === "per100k") {
+              if (!point.population) continue;
+              xVals.push(point.date);
+              yVals.push((point.deaths / point.population) * 100000);
+            } else {
+              xVals.push(point.date);
+              yVals.push(point.deaths);
+            }
+          }
+          if (!xVals.length) return null;
+
+          return {
+            type: "scatter",
+            mode: "lines",
+            x: xVals,
+            y: yVals,
+            name: region,
+            line: {
+              color: REGION_COLORS[region] || "#374151",
+              width: 3.5
+            },
+            hovertemplate:
+              "<b>%{fullData.name}</b><br>" +
+              "Month: %{x|%b %Y}<br>" +
+              `${yValueLabel}: ${yHoverFormat}<br>` +
+              "Aggregation: Sum of states in region<extra></extra>"
+          };
+        })
+        .filter(Boolean);
+
+      if (!traces.length) {
+        setStatus("No region-level values available for the selected settings.");
+        Plotly.newPlot("chart", [], { margin: { l: 40, r: 20, t: 30, b: 40 } }, { responsive: true, displayModeBar: false });
+        return;
+      }
+
+      setStatus(`Showing ${traces.length} Census region sum lines.`);
+
+      Plotly.newPlot(
+        "chart",
+        traces,
+        {
+          title: {
+            text: `Monthly overdose deaths by Census region (sum of states): ${variable} (${metric === "per100k" ? "per 100k" : "count"})`,
+            font: { size: 18 }
+          },
+          xaxis: {
+            title: "Month",
+            tickformat: "%Y-%m",
+            showgrid: true,
+            gridcolor: "#e5e7eb"
+          },
+          yaxis: {
+            title: yAxisTitle,
+            rangemode: "tozero",
+            showgrid: true,
+            gridcolor: "#e5e7eb"
+          },
+          legend: {
+            title: { text: "Census regions" },
+            orientation: "h",
+            x: 0,
+            y: -0.2
+          },
+          hovermode: "closest",
+          margin: { l: 60, r: 20, t: 65, b: 110 },
+          paper_bgcolor: "#ffffff",
+          plot_bgcolor: "#ffffff"
+        },
+        { responsive: true, displaylogo: false }
+      );
+    }
+
     function drawChart() {
       const variable = variableSelect.value;
       const metric = metricSelect.value;
+      const plotMode = plotModeSelect.value;
       const selectedSubregions = new Set(selectedValues(subregionSelect));
       const selectedStates = new Set(selectedValues(stateSelect));
+
+      updateHighlightControlsState();
 
       const filtered = store.rows.filter((r) => r.variable === variable);
       if (!filtered.length) {
         setStatus("No records match the selected indicator.");
         Plotly.newPlot("chart", [], { margin: { l: 40, r: 20, t: 30, b: 40 } }, { responsive: true, displayModeBar: false });
+        return;
+      }
+
+      const yAxisTitle = metric === "per100k" ? "Deaths per 100,000 residents" : "Deaths (estimated monthly count)";
+      const yValueLabel = metric === "per100k" ? "Deaths per 100k" : "Deaths";
+      const yHoverFormat = metric === "per100k" ? "%{y:.2f}" : "%{y:,.0f}";
+
+      if (plotMode === "region_sum") {
+        drawRegionSumChart(filtered, variable, metric, yAxisTitle, yValueLabel, yHoverFormat);
         return;
       }
 
@@ -364,9 +531,6 @@
       });
 
       const highlightSet = new Set([...highlightedBySubregion, ...selectedStates]);
-      const yAxisTitle = metric === "per100k" ? "Deaths per 100,000 residents" : "Deaths (estimated monthly count)";
-      const yValueLabel = metric === "per100k" ? "Deaths per 100k" : "Deaths";
-      const yHoverFormat = metric === "per100k" ? "%{y:.2f}" : "%{y:,.0f}";
 
       const traces = [...byState.keys()]
         .sort((a, b) => {
@@ -467,16 +631,17 @@
 
     variableSelect.addEventListener("change", drawChart);
     metricSelect.addEventListener("change", drawChart);
+    plotModeSelect.addEventListener("change", drawChart);
     subregionSelect.addEventListener("change", drawChart);
     stateSelect.addEventListener("change", drawChart);
 
-    document.getElementById("clearHighlightsBtn").addEventListener("click", () => {
+    clearHighlightsBtn.addEventListener("click", () => {
       [...subregionSelect.options].forEach((opt) => { opt.selected = false; });
       [...stateSelect.options].forEach((opt) => { opt.selected = false; });
       drawChart();
     });
 
-    document.getElementById("highlightAllBtn").addEventListener("click", () => {
+    highlightAllBtn.addEventListener("click", () => {
       [...stateSelect.options].forEach((opt) => { opt.selected = true; });
       drawChart();
     });
