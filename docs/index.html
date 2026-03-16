@@ -55,6 +55,31 @@
         font-size: 0.98rem;
       }
 
+      .page-links {
+        margin-top: 12px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .page-links a {
+        display: inline-block;
+        text-decoration: none;
+        color: #1f3148;
+        background: #ffffff;
+        border: 1px solid #cbd9e8;
+        border-radius: 999px;
+        padding: 6px 12px;
+        font-size: 0.88rem;
+        font-weight: 600;
+      }
+
+      .page-links a.active {
+        background: #17202c;
+        color: #fff;
+        border-color: #17202c;
+      }
+
       .grid {
         margin-top: 18px;
         display: grid;
@@ -243,6 +268,11 @@
       <h1>U.S. Drug Seizure Dashboard</h1>
       <div class="subtitle">
         Combined dashboard with NFLIS state reports, operational seizure data, CNX shipment flows, and state-level synthetic opioid overdose estimates.
+      </div>
+      <div class="page-links">
+        <a class="active" href="./index.html">Main Multi-Source Dashboard</a>
+        <a href="./overdose_state_lines_dashboard.html">Monthly Overdose Lines Dashboard</a>
+        <a href="./dashboards.html">Dashboard Hub</a>
       </div>
 
       <div class="grid">
