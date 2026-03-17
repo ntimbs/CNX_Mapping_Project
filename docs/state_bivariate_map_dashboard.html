@@ -779,6 +779,7 @@
         legendNote.textContent =
           `Colors show low/medium/high bins for ${yearLabel}. ` +
           `Bottom-left means lower values on both metrics; top-right means higher values on both. ` +
+          "Gray states indicate no data for at least one selected metric. " +
           `${isRange ? "For ranges, each state value is averaged across selected years. " : ""}` +
           `Binning method: ${binMethod === "quantile" ? "Quantiles (terciles)" : "Equal-width intervals"}.`;
       }

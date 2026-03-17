@@ -722,6 +722,60 @@
       ];
 
       const MONTH_ORDER = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+      const MAP_US_STATE_CODES = [
+        "AL",
+        "AK",
+        "AZ",
+        "AR",
+        "CA",
+        "CO",
+        "CT",
+        "DE",
+        "FL",
+        "GA",
+        "HI",
+        "ID",
+        "IL",
+        "IN",
+        "IA",
+        "KS",
+        "KY",
+        "LA",
+        "ME",
+        "MD",
+        "MA",
+        "MI",
+        "MN",
+        "MS",
+        "MO",
+        "MT",
+        "NE",
+        "NV",
+        "NH",
+        "NJ",
+        "NM",
+        "NY",
+        "NC",
+        "ND",
+        "OH",
+        "OK",
+        "OR",
+        "PA",
+        "RI",
+        "SC",
+        "SD",
+        "TN",
+        "TX",
+        "UT",
+        "VT",
+        "VA",
+        "WA",
+        "WV",
+        "WI",
+        "WY",
+        "DC",
+      ];
+      const MAP_US_STATE_CODE_SET = new Set(MAP_US_STATE_CODES);
 
       const AOR_COORDS = {
         "ATLANTA FIELD OFFICE": [33.749, -84.388],
@@ -895,6 +949,36 @@
 
       function formatNum(value, digits = 0) {
         return Number(value || 0).toLocaleString(undefined, { maximumFractionDigits: digits });
+      }
+
+      function toMapStateCodes(codes) {
+        const seen = new Set();
+        const out = [];
+        for (const code of codes || []) {
+          const normalized = String(code || "").trim().toUpperCase();
+          if (!MAP_US_STATE_CODE_SET.has(normalized) || seen.has(normalized)) continue;
+          seen.add(normalized);
+          out.push(normalized);
+        }
+        return out;
+      }
+
+      function buildNoDataChoroplethTrace(noDataStateCodes, noDataMessage) {
+        return {
+          type: "choropleth",
+          locationmode: "USA-states",
+          locations: noDataStateCodes,
+          z: noDataStateCodes.map(() => 1),
+          colorscale: [
+            [0, "#cfd6e2"],
+            [1, "#cfd6e2"],
+          ],
+          zmin: 0,
+          zmax: 1,
+          showscale: false,
+          marker: { line: { color: "#ffffff", width: 0.7 } },
+          hovertemplate: "%{location}<br>" + noDataMessage + "<extra></extra>",
+        };
       }
 
       function parseCsv(url) {
@@ -1664,18 +1748,22 @@
 
         const yearSet = new Set(years);
         const drugSet = new Set(drugs);
+        const knownStateCodes = toMapStateCodes(store.nflisMeta.states.map((s) => s.state_abbr));
+        const stateNameByAbbr = new Map(store.nflisMeta.states.map((s) => [s.state_abbr, s.state_name]));
+        const coverageStateSet = new Set();
         const totals = new Map();
-
-        for (const state of store.nflisMeta.states) {
-          totals.set(state.state_abbr, {
-            state_abbr: state.state_abbr,
-            state_name: state.state_name,
-            metric_value: 0,
-          });
-        }
 
         for (const row of store.nflisRows) {
           if (!yearSet.has(row.year) || !drugSet.has(row.drug_name)) continue;
+          if (!MAP_US_STATE_CODE_SET.has(row.state_abbr)) continue;
+          coverageStateSet.add(row.state_abbr);
+          if (!totals.has(row.state_abbr)) {
+            totals.set(row.state_abbr, {
+              state_abbr: row.state_abbr,
+              state_name: stateNameByAbbr.get(row.state_abbr) || row.state_name || row.state_abbr,
+              metric_value: 0,
+            });
+          }
           const rec = totals.get(row.state_abbr);
           if (rec) rec.metric_value += row.reports_count;
         }
@@ -1689,6 +1777,7 @@
         if (nflisHideZero.checked) {
           rows = rows.filter((r) => r.metric_value > 0);
         }
+        const noDataStateCodes = knownStateCodes.filter((code) => !coverageStateSet.has(code));
 
         const metricLabel = mode === "avg" ? "Average annual reports" : "Total reports";
         const total = rows.reduce((sum, r) => sum + r.metric_value, 0);
@@ -1702,22 +1791,27 @@
         );
 
         const hoverFmt = mode === "avg" ? "%{z:,.2f}" : "%{z:,.0f}";
+        const traces = [];
+        if (noDataStateCodes.length) {
+          traces.push(buildNoDataChoroplethTrace(noDataStateCodes, "No data for selected years/drugs"));
+        }
+        if (rows.length) {
+          traces.push({
+            type: "choropleth",
+            locationmode: "USA-states",
+            locations: rows.map((r) => r.state_abbr),
+            z: rows.map((r) => r.metric_value),
+            text: rows.map((r) => r.state_name),
+            colorscale: LIGHT_TO_DARK_SCALE,
+            reversescale: false,
+            marker: { line: { color: "#ffffff", width: 0.7 } },
+            colorbar: { title: metricLabel },
+            hovertemplate: "%{text} (%{location})<br>" + metricLabel + ": " + hoverFmt + "<extra></extra>",
+          });
+        }
         Plotly.newPlot(
           "map",
-          [
-            {
-              type: "choropleth",
-              locationmode: "USA-states",
-              locations: rows.map((r) => r.state_abbr),
-              z: rows.map((r) => r.metric_value),
-              text: rows.map((r) => r.state_name),
-              colorscale: LIGHT_TO_DARK_SCALE,
-              reversescale: false,
-              marker: { line: { color: "#ffffff", width: 0.7 } },
-              colorbar: { title: metricLabel },
-              hovertemplate: "%{text} (%{location})<br>" + metricLabel + ": " + hoverFmt + "<extra></extra>",
-            },
-          ],
+          traces,
           {
             geo: { scope: "usa", bgcolor: "rgba(0,0,0,0)" },
             margin: { l: 0, r: 0, t: 12, b: 0 },
@@ -1799,7 +1893,13 @@
             "Shipment records",
             "0"
           );
-          Plotly.newPlot("map", [], { geo: { scope: "usa" } }, { responsive: true, displayModeBar: false });
+          const noDataStateCodes = toMapStateCodes(states);
+          Plotly.newPlot(
+            "map",
+            noDataStateCodes.length ? [buildNoDataChoroplethTrace(noDataStateCodes, "No data for selected filters")] : [],
+            { geo: { scope: "usa" } },
+            { responsive: true, displayModeBar: false }
+          );
           Plotly.newPlot("trend", [], { margin: { l: 0, r: 0, t: 10, b: 0 } }, { responsive: true, displayModeBar: false });
           setTable([], [
             { key: "state_name", header: "State" },
@@ -1862,6 +1962,9 @@
               ? row.total_quantity_kg
               : row.total_value_usd;
         }
+        const knownStateCodes = toMapStateCodes(states);
+        const coveredStateCodes = new Set(stateRows.map((r) => r.state_abbr));
+        const noDataStateCodes = knownStateCodes.filter((code) => !coveredStateCodes.has(code));
 
         const yearlyMap = new Map();
         for (const row of filteredRows) {
@@ -1896,6 +1999,9 @@
         Plotly.newPlot(
           "map",
           [
+            ...(noDataStateCodes.length
+              ? [buildNoDataChoroplethTrace(noDataStateCodes, "No data for selected filters")]
+              : []),
             {
               type: "choropleth",
               locationmode: "USA-states",
@@ -1994,59 +2100,6 @@
         const months = selectedValues(odMonthSelect);
         const states = selectedValues(odStateSelect);
         const metricMode = document.querySelector("input[name='odMetricMode']:checked").value;
-        const usaStateCodes = new Set([
-          "AL",
-          "AK",
-          "AZ",
-          "AR",
-          "CA",
-          "CO",
-          "CT",
-          "DE",
-          "FL",
-          "GA",
-          "HI",
-          "ID",
-          "IL",
-          "IN",
-          "IA",
-          "KS",
-          "KY",
-          "LA",
-          "ME",
-          "MD",
-          "MA",
-          "MI",
-          "MN",
-          "MS",
-          "MO",
-          "MT",
-          "NE",
-          "NV",
-          "NH",
-          "NJ",
-          "NM",
-          "NY",
-          "NC",
-          "ND",
-          "OH",
-          "OK",
-          "OR",
-          "PA",
-          "RI",
-          "SC",
-          "SD",
-          "TN",
-          "TX",
-          "UT",
-          "VT",
-          "VA",
-          "WA",
-          "WV",
-          "WI",
-          "WY",
-          "DC",
-        ]);
 
         if (!variables.length || !years.length || !months.length || !states.length) {
           setStatus("Select at least one value for each overdose filter.");
@@ -2080,7 +2133,13 @@
         if (!filtered.length) {
           setStatus("No overdose records match the selected filters.");
           setKpis("Selected Months", "0", "Calendar Span", "N/A", "Total deaths", "0");
-          Plotly.newPlot("map", [], { geo: { scope: "usa" } }, { responsive: true, displayModeBar: false });
+          const noDataStateCodes = toMapStateCodes(states);
+          Plotly.newPlot(
+            "map",
+            noDataStateCodes.length ? [buildNoDataChoroplethTrace(noDataStateCodes, "No data for selected filters")] : [],
+            { geo: { scope: "usa" } },
+            { responsive: true, displayModeBar: false }
+          );
           Plotly.newPlot("trend", [], { margin: { l: 0, r: 0, t: 10, b: 0 } }, { responsive: true, displayModeBar: false });
           setTable([], [
             { key: "state_name", header: "State/Territory" },
@@ -2166,11 +2225,17 @@
           formatNum(metricValue, metricDigits)
         );
 
-        const mapRows = stateRows.filter((r) => usaStateCodes.has(r.state_abbr));
+        const knownStateCodes = toMapStateCodes(states);
+        const mapRows = stateRows.filter((r) => MAP_US_STATE_CODE_SET.has(r.state_abbr));
+        const coveredStateCodes = new Set(mapRows.map((r) => r.state_abbr));
+        const noDataStateCodes = knownStateCodes.filter((code) => !coveredStateCodes.has(code));
 
         Plotly.newPlot(
           "map",
           [
+            ...(noDataStateCodes.length
+              ? [buildNoDataChoroplethTrace(noDataStateCodes, "No data for selected filters")]
+              : []),
             {
               type: "choropleth",
               locationmode: "USA-states",
