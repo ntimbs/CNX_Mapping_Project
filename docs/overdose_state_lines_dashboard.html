@@ -60,7 +60,7 @@
 
     .controls {
       display: grid;
-      grid-template-columns: repeat(5, minmax(150px, 1fr));
+      grid-template-columns: repeat(6, minmax(150px, 1fr));
       gap: 12px;
       margin-bottom: 12px;
     }
@@ -88,6 +88,51 @@
     select[multiple] {
       min-height: 126px;
       padding: 4px;
+    }
+
+    .range-stack {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 10px;
+      background: #fff;
+    }
+
+    .range-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .range-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .range-row span {
+      min-width: 38px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #374151;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .range-row input[type="range"] {
+      width: 100%;
+    }
+
+    .range-value {
+      min-width: 28px;
+      text-align: right;
+      font-size: 0.86rem;
+      color: #111827;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .range-note {
+      margin-top: 6px;
+      font-size: 0.78rem;
+      color: var(--muted);
     }
 
     .actions {
@@ -155,7 +200,7 @@
   <main class="wrap">
     <h1>Monthly Overdose Deaths by State</h1>
     <p class="subtitle">
-      Switch between all-state lines and Census region sums. Use Census subregion and/or state dropdowns to highlight state lines.
+      Switch between all-state lines and Census region sums. Use Census subregion and/or state dropdowns to highlight state lines, and filter lines by fentanyl-specific policy count.
     </p>
 
     <section class="panel">
@@ -186,6 +231,22 @@
           <label for="stateSelect">Highlight State(s)</label>
           <select id="stateSelect" multiple></select>
         </div>
+        <div>
+          <label for="policyMinRange">Filter: Fentanyl Policy Count</label>
+          <div class="range-stack">
+            <div class="range-row">
+              <span>Min</span>
+              <input id="policyMinRange" type="range" min="0" max="0" step="1" value="0" />
+              <div id="policyMinValue" class="range-value">0</div>
+            </div>
+            <div class="range-row">
+              <span>Max</span>
+              <input id="policyMaxRange" type="range" min="0" max="0" step="1" value="0" />
+              <div id="policyMaxValue" class="range-value">0</div>
+            </div>
+            <div id="policyRangeNote" class="range-note">Loading policy counts...</div>
+          </div>
+        </div>
       </div>
 
       <div class="actions">
@@ -204,6 +265,7 @@
   <script>
     const DATA_FILE = "./state_opioid_overdose_monthly_counts_estimated.csv";
     const POPULATION_FILE = "./us_census_state_population_annual_2015_2025.csv";
+    const POLICY_COUNT_FILE = "./fentanyl_specific_law_counts_by_state_simple.csv";
 
     // U.S. Census divisions (subregions), based on Census reference map.
     const SUBREGION_TO_STATES = {
@@ -272,7 +334,10 @@
       rows: [],
       variables: [],
       stateNameByAbbr: new Map(),
-      populationByStateYear: new Map()
+      populationByStateYear: new Map(),
+      policyCountByStateAbbr: new Map(),
+      policyCountMin: 0,
+      policyCountMax: 0
     };
 
     const variableSelect = document.getElementById("variableSelect");
@@ -282,6 +347,11 @@
     const stateSelect = document.getElementById("stateSelect");
     const clearHighlightsBtn = document.getElementById("clearHighlightsBtn");
     const highlightAllBtn = document.getElementById("highlightAllBtn");
+    const policyMinRange = document.getElementById("policyMinRange");
+    const policyMaxRange = document.getElementById("policyMaxRange");
+    const policyMinValue = document.getElementById("policyMinValue");
+    const policyMaxValue = document.getElementById("policyMaxValue");
+    const policyRangeNote = document.getElementById("policyRangeNote");
     const statusEl = document.getElementById("status");
 
     function setStatus(message) {
@@ -322,11 +392,64 @@
       });
     }
 
+    function normalizeStateName(name) {
+      return String(name || "")
+        .trim()
+        .toLowerCase()
+        .replace(/\./g, "")
+        .replace(/\s+/g, " ");
+    }
+
+    function getPolicyRange() {
+      let min = Number(policyMinRange.value);
+      let max = Number(policyMaxRange.value);
+      if (!Number.isFinite(min)) min = store.policyCountMin;
+      if (!Number.isFinite(max)) max = store.policyCountMax;
+      if (min > max) [min, max] = [max, min];
+      return { min, max };
+    }
+
+    function refreshPolicyRangeUI() {
+      const { min, max } = getPolicyRange();
+      policyMinRange.value = String(min);
+      policyMaxRange.value = String(max);
+      policyMinValue.textContent = String(min);
+      policyMaxValue.textContent = String(max);
+
+      const availableStates = [...store.stateNameByAbbr.keys()];
+      const includedStates = availableStates.filter((abbr) => {
+        const count = Number(store.policyCountByStateAbbr.get(abbr) ?? 0);
+        return count >= min && count <= max;
+      }).length;
+      policyRangeNote.textContent = `Showing states with ${min} to ${max} policies (${includedStates} states in range).`;
+    }
+
+    function initializePolicyRange() {
+      const counts = [...store.stateNameByAbbr.keys()].map((abbr) => Number(store.policyCountByStateAbbr.get(abbr) ?? 0));
+      const min = counts.length ? Math.min(...counts) : 0;
+      const max = counts.length ? Math.max(...counts) : 0;
+      store.policyCountMin = min;
+      store.policyCountMax = max;
+
+      policyMinRange.min = String(min);
+      policyMinRange.max = String(max);
+      policyMinRange.step = "1";
+      policyMinRange.value = String(min);
+
+      policyMaxRange.min = String(min);
+      policyMaxRange.max = String(max);
+      policyMaxRange.step = "1";
+      policyMaxRange.value = String(max);
+
+      refreshPolicyRangeUI();
+    }
+
     async function loadData() {
       try {
-        const [overdoseRows, populationRows] = await Promise.all([
+        const [overdoseRows, populationRows, policyRows] = await Promise.all([
           parseCsv(DATA_FILE),
-          parseCsv(POPULATION_FILE)
+          parseCsv(POPULATION_FILE),
+          parseCsv(POLICY_COUNT_FILE)
         ]);
 
         const variableSet = new Set();
@@ -369,6 +492,25 @@
           store.populationByStateYear.set(`${stateAbbr}-${year}`, population);
         }
 
+        const abbrByNormalizedName = new Map();
+        for (const [abbr, name] of store.stateNameByAbbr.entries()) {
+          abbrByNormalizedName.set(normalizeStateName(name), abbr);
+        }
+
+        for (const row of policyRows) {
+          const stateName = normalizeStateName(row.state);
+          const abbr = abbrByNormalizedName.get(stateName);
+          const count = Number(row.fentanyl_specific_law_count);
+          if (!abbr || !Number.isFinite(count)) continue;
+          store.policyCountByStateAbbr.set(abbr, count);
+        }
+
+        for (const abbr of store.stateNameByAbbr.keys()) {
+          if (!store.policyCountByStateAbbr.has(abbr)) {
+            store.policyCountByStateAbbr.set(abbr, 0);
+          }
+        }
+
         store.variables = [...variableSet].sort((a, b) => a.localeCompare(b));
         if (!store.variables.length || !store.rows.length) {
           setStatus("No valid overdose records found.");
@@ -393,6 +535,7 @@
           stateSelect.appendChild(opt);
         });
 
+        initializePolicyRange();
         updateHighlightControlsState();
         drawChart();
       } catch (err) {
@@ -406,6 +549,13 @@
       stateSelect.disabled = !stateMode;
       clearHighlightsBtn.disabled = !stateMode;
       highlightAllBtn.disabled = !stateMode;
+      policyMinRange.disabled = !stateMode;
+      policyMaxRange.disabled = !stateMode;
+      if (!stateMode) {
+        policyRangeNote.textContent = "Policy-count filter applies to state-line mode.";
+      } else {
+        refreshPolicyRangeUI();
+      }
     }
 
     function drawRegionSumChart(filtered, variable, metric, yAxisTitle, yValueLabel, yHoverFormat) {
@@ -518,6 +668,7 @@
       const plotMode = plotModeSelect.value;
       const selectedSubregions = new Set(selectedValues(subregionSelect));
       const selectedStates = new Set(selectedValues(stateSelect));
+      const { min: policyMin, max: policyMax } = getPolicyRange();
 
       updateHighlightControlsState();
 
@@ -537,8 +688,19 @@
         return;
       }
 
+      const filteredForStateLines = filtered.filter((row) => {
+        const count = Number(store.policyCountByStateAbbr.get(row.stateAbbr) ?? 0);
+        return count >= policyMin && count <= policyMax;
+      });
+
+      if (!filteredForStateLines.length) {
+        setStatus(`No state records match the policy-count range (${policyMin} to ${policyMax}).`);
+        Plotly.newPlot("chart", [], { margin: { l: 40, r: 20, t: 30, b: 40 } }, { responsive: true, displayModeBar: false });
+        return;
+      }
+
       const byState = new Map();
-      for (const row of filtered) {
+      for (const row of filteredForStateLines) {
         if (!byState.has(row.stateAbbr)) byState.set(row.stateAbbr, []);
         byState.get(row.stateAbbr).push(row);
       }
@@ -560,6 +722,7 @@
           const rows = byState.get(abbr).slice().sort((a, b) => a.date - b.date);
           const subregion = STATE_TO_SUBREGION[abbr] || "Other";
           const stateName = store.stateNameByAbbr.get(abbr) || abbr;
+          const policyCount = Number(store.policyCountByStateAbbr.get(abbr) ?? 0);
           const highlighted = highlightSet.has(abbr);
 
           const explicitState = selectedStates.has(abbr);
@@ -598,18 +761,23 @@
               "<b>%{fullData.name}</b><br>" +
               "Month: %{x|%b %Y}<br>" +
               `${yValueLabel}: ${yHoverFormat}<br>` +
-              `Census subregion: ${subregion}<extra></extra>`
+              `Census subregion: ${subregion}<br>` +
+              `Fentanyl policy count: ${policyCount}<extra></extra>`
           };
         })
         .filter(Boolean);
 
-      const highlightedCount = highlightSet.size;
+      const visibleStateSet = new Set(traces.map((t) => {
+        const match = /\(([A-Z]{2})\)$/.exec(t.name || "");
+        return match ? match[1] : null;
+      }).filter(Boolean));
+      const highlightedCount = [...highlightSet].filter((abbr) => visibleStateSet.has(abbr)).length;
       const totalStates = traces.length;
 
       setStatus(
         highlightedCount
-          ? `Showing ${totalStates} states. Highlighted ${highlightedCount} state lines.`
-          : `Showing ${totalStates} states. No highlights selected.`
+          ? `Showing ${totalStates} states (policy count ${policyMin}-${policyMax}). Highlighted ${highlightedCount} state lines.`
+          : `Showing ${totalStates} states (policy count ${policyMin}-${policyMax}). No highlights selected.`
       );
 
       Plotly.newPlot(
@@ -652,6 +820,20 @@
     plotModeSelect.addEventListener("change", drawChart);
     subregionSelect.addEventListener("change", drawChart);
     stateSelect.addEventListener("change", drawChart);
+    policyMinRange.addEventListener("input", () => {
+      if (Number(policyMinRange.value) > Number(policyMaxRange.value)) {
+        policyMaxRange.value = policyMinRange.value;
+      }
+      refreshPolicyRangeUI();
+      drawChart();
+    });
+    policyMaxRange.addEventListener("input", () => {
+      if (Number(policyMaxRange.value) < Number(policyMinRange.value)) {
+        policyMinRange.value = policyMaxRange.value;
+      }
+      refreshPolicyRangeUI();
+      drawChart();
+    });
 
     clearHighlightsBtn.addEventListener("click", () => {
       [...subregionSelect.options].forEach((opt) => { opt.selected = false; });
