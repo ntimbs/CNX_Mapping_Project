@@ -225,17 +225,22 @@
       .legend-grid {
         margin-top: 6px;
         display: grid;
-        grid-template-columns: 16px 1fr;
+        grid-template-columns: 30px 1fr;
         gap: 8px;
-        align-items: center;
+        align-items: stretch;
       }
 
-      .legend-y-label {
-        writing-mode: vertical-rl;
-        transform: rotate(180deg);
-        font-size: 0.78rem;
+      .legend-y-scale {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: flex-end;
+        padding: 1px 0;
+        font-size: 0.72rem;
         color: #24354d;
         font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
       }
 
       .legend-cells {
@@ -250,18 +255,22 @@
       }
 
       .legend-x-axis {
-        margin-top: 8px;
+        margin-top: 4px;
         font-size: 0.78rem;
         color: #24354d;
         font-weight: 700;
+        text-align: center;
       }
 
       .legend-low-high {
         display: flex;
         justify-content: space-between;
-        margin-top: 3px;
+        margin-top: 8px;
         font-size: 0.72rem;
-        color: var(--muted);
+        color: #24354d;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
       }
 
       .legend-note {
@@ -390,14 +399,17 @@
               <div class="legend-wrap">
                 <div class="legend-axis" id="yAxisLabel">Y metric</div>
                 <div class="legend-grid">
-                  <div class="legend-y-label">High</div>
+                  <div class="legend-y-scale">
+                    <span>High</span>
+                    <span>Low</span>
+                  </div>
                   <div class="legend-cells" id="legendCells"></div>
                 </div>
-                <div class="legend-x-axis" id="xAxisLabel">X metric</div>
                 <div class="legend-low-high">
                   <span>Low</span>
                   <span>High</span>
                 </div>
+                <div class="legend-x-axis" id="xAxisLabel">X metric</div>
                 <div class="legend-note" id="legendNote"></div>
               </div>
             </div>
