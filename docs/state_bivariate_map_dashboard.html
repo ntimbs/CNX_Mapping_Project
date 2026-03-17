@@ -125,6 +125,51 @@
         font-size: 0.8rem;
       }
 
+      .range-stack {
+        border: 1px solid #c8d6e5;
+        border-radius: 10px;
+        padding: 8px 10px;
+        background: #fbfdff;
+      }
+
+      .range-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 6px;
+      }
+
+      .range-row:last-child {
+        margin-bottom: 0;
+      }
+
+      .range-row span {
+        min-width: 42px;
+        font-size: 0.76rem;
+        color: #304259;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+
+      .range-row input[type="range"] {
+        width: 100%;
+      }
+
+      .range-value {
+        min-width: 36px;
+        text-align: right;
+        font-size: 0.83rem;
+        color: #17202c;
+        font-variant-numeric: tabular-nums;
+      }
+
+      .range-note {
+        margin-top: 6px;
+        font-size: 0.75rem;
+        color: var(--muted);
+      }
+
       .meta {
         margin-top: 8px;
         font-size: 0.79rem;
@@ -297,8 +342,20 @@
           </div>
 
           <div class="section">
-            <label class="label" for="yearSelect">Year</label>
-            <select id="yearSelect"></select>
+            <label class="label">Year Filter (Single Year or Range)</label>
+            <div class="range-stack">
+              <div class="range-row">
+                <span>Start</span>
+                <input id="yearStartRange" type="range" min="0" max="0" step="1" value="0" />
+                <div id="yearStartValue" class="range-value">0</div>
+              </div>
+              <div class="range-row">
+                <span>End</span>
+                <input id="yearEndRange" type="range" min="0" max="0" step="1" value="0" />
+                <div id="yearEndValue" class="range-value">0</div>
+              </div>
+              <div id="yearRangeNote" class="range-note">Loading year range...</div>
+            </div>
           </div>
 
           <div class="section">
@@ -416,6 +473,7 @@
         { key: "cnx_send_chem_shipments_year", label: "CNX Sender: Chemical-matched shipments (selected year)", group: "CNX Sender", fmt: "num1" },
         { key: "cnx_send_chem_unique_chemicals_year", label: "CNX Sender: Unique matched chemicals (selected year)", group: "CNX Sender", fmt: "int" }
       ];
+      const METRIC_KEYS = METRICS.map((metric) => metric.key);
 
       const PRESETS = [
         { label: "OD (Synthetic monthly deaths) vs Fentanyl laws (total)", x: "od_synth_latest_month_count_year", y: "fentanyl_laws_total" },
@@ -433,7 +491,11 @@
       };
 
       const presetSelect = document.getElementById("presetSelect");
-      const yearSelect = document.getElementById("yearSelect");
+      const yearStartRange = document.getElementById("yearStartRange");
+      const yearEndRange = document.getElementById("yearEndRange");
+      const yearStartValue = document.getElementById("yearStartValue");
+      const yearEndValue = document.getElementById("yearEndValue");
+      const yearRangeNote = document.getElementById("yearRangeNote");
       const xMetricSelect = document.getElementById("xMetricSelect");
       const yMetricSelect = document.getElementById("yMetricSelect");
       const binningSelect = document.getElementById("binningSelect");
@@ -519,14 +581,108 @@
         });
       }
 
-      function populateYears() {
-        yearSelect.innerHTML = "";
-        store.years.forEach((year, idx) => {
-          const opt = document.createElement("option");
-          opt.value = String(year);
-          opt.textContent = String(year);
-          if (idx === 0) opt.selected = true;
-          yearSelect.appendChild(opt);
+      function getSelectedYearRange() {
+        let startYear = parseInt(yearStartRange.value, 10);
+        let endYear = parseInt(yearEndRange.value, 10);
+        if (!Number.isFinite(startYear) || !Number.isFinite(endYear)) {
+          const fallback = store.years[store.years.length - 1];
+          return { startYear: fallback, endYear: fallback };
+        }
+        if (startYear > endYear) [startYear, endYear] = [endYear, startYear];
+        return { startYear, endYear };
+      }
+
+      function refreshYearRangeUI() {
+        const { startYear, endYear } = getSelectedYearRange();
+        yearStartRange.value = String(startYear);
+        yearEndRange.value = String(endYear);
+        yearStartValue.textContent = String(startYear);
+        yearEndValue.textContent = String(endYear);
+        if (startYear === endYear) {
+          yearRangeNote.textContent = `Single-year mode: ${startYear}.`;
+          return;
+        }
+        yearRangeNote.textContent = `Range mode: ${startYear} to ${endYear} (state values are averaged across selected years).`;
+      }
+
+      function initializeYearRangeControls() {
+        const minYear = store.years[0];
+        const maxYear = store.years[store.years.length - 1];
+        yearStartRange.min = String(minYear);
+        yearStartRange.max = String(maxYear);
+        yearStartRange.step = "1";
+        yearStartRange.value = String(maxYear);
+
+        yearEndRange.min = String(minYear);
+        yearEndRange.max = String(maxYear);
+        yearEndRange.step = "1";
+        yearEndRange.value = String(maxYear);
+
+        refreshYearRangeUI();
+      }
+
+      function onYearRangeInput(changed) {
+        let startYear = parseInt(yearStartRange.value, 10);
+        let endYear = parseInt(yearEndRange.value, 10);
+        if (!Number.isFinite(startYear) || !Number.isFinite(endYear)) return;
+        if (startYear > endYear) {
+          if (changed === "start") {
+            endYear = startYear;
+            yearEndRange.value = String(endYear);
+          } else {
+            startYear = endYear;
+            yearStartRange.value = String(startYear);
+          }
+        }
+        refreshYearRangeUI();
+        draw();
+      }
+
+      function getRowsForYearRange(startYear, endYear) {
+        const stateMap = new Map();
+        store.years.forEach((year) => {
+          if (year < startYear || year > endYear) return;
+          const yearRows = store.rowsByYear.get(year) || [];
+          yearRows.forEach((row) => {
+            let acc = stateMap.get(row.stateAbbr);
+            if (!acc) {
+              acc = {
+                stateAbbr: row.stateAbbr,
+                stateName: row.stateName,
+                census_region: row.census_region,
+                census_subregion: row.census_subregion,
+                _sum: {},
+                _count: {}
+              };
+              METRIC_KEYS.forEach((key) => {
+                acc._sum[key] = 0;
+                acc._count[key] = 0;
+              });
+              stateMap.set(row.stateAbbr, acc);
+            }
+            METRIC_KEYS.forEach((key) => {
+              const value = row[key];
+              if (Number.isFinite(value)) {
+                acc._sum[key] += value;
+                acc._count[key] += 1;
+              }
+            });
+          });
+        });
+
+        const yearLabel = startYear === endYear ? String(startYear) : `${startYear}-${endYear}`;
+        return [...stateMap.values()].map((acc) => {
+          const out = {
+            stateAbbr: acc.stateAbbr,
+            stateName: acc.stateName,
+            census_region: acc.census_region,
+            census_subregion: acc.census_subregion,
+            yearLabel
+          };
+          METRIC_KEYS.forEach((key) => {
+            out[key] = acc._count[key] > 0 ? acc._sum[key] / acc._count[key] : null;
+          });
+          return out;
         });
       }
 
@@ -606,7 +762,7 @@
         return scale;
       }
 
-      function updateLegend(xMetric, yMetric, binMethod) {
+      function updateLegend(xMetric, yMetric, binMethod, yearLabel, isRange) {
         xAxisLabel.textContent = `X: ${xMetric.label}`;
         yAxisLabel.textContent = `Y: ${yMetric.label}`;
 
@@ -621,8 +777,9 @@
         }
 
         legendNote.textContent =
-          `Colors show low/medium/high bins for each metric in the selected year. ` +
+          `Colors show low/medium/high bins for ${yearLabel}. ` +
           `Bottom-left means lower values on both metrics; top-right means higher values on both. ` +
+          `${isRange ? "For ranges, each state value is averaged across selected years. " : ""}` +
           `Binning method: ${binMethod === "quantile" ? "Quantiles (terciles)" : "Equal-width intervals"}.`;
       }
 
@@ -652,15 +809,13 @@
       }
 
       function draw() {
-        const selectedYear = parseInt(yearSelect.value, 10);
-        if (!Number.isFinite(selectedYear)) {
-          setStatus("Select a year.");
-          return;
-        }
+        const { startYear, endYear } = getSelectedYearRange();
+        const isRange = startYear !== endYear;
+        const yearLabel = isRange ? `${startYear}-${endYear}` : `${startYear}`;
 
-        const activeRows = store.rowsByYear.get(selectedYear) || [];
+        const activeRows = getRowsForYearRange(startYear, endYear);
         if (!activeRows.length) {
-          setStatus(`No rows loaded for ${selectedYear}.`);
+          setStatus(`No rows loaded for ${yearLabel}.`);
           return;
         }
 
@@ -679,8 +834,8 @@
         const missingRows = activeRows.filter((row) => !Number.isFinite(row[xKey]) || !Number.isFinite(row[yKey]));
 
         if (!validRows.length) {
-          setStatus(`No states have data for the selected metric pair in ${selectedYear}.`);
-          updateLegend(xMetric, yMetric, binMethod);
+          setStatus(`No states have data for the selected metric pair in ${yearLabel}.`);
+          updateLegend(xMetric, yMetric, binMethod, yearLabel, isRange);
           updateTable(
             activeRows.map((row) => ({
               ...row,
@@ -733,7 +888,7 @@
           customdata: rowsWithData.map((row) => [
             row.stateName,
             row.stateAbbr,
-            row.year,
+            row.yearLabel,
             fmt(row.xValue, xMetric.fmt),
             fmt(row.yValue, yMetric.fmt),
             row.census_region,
@@ -758,7 +913,7 @@
           colorscale: [[0, "#d4d9e2"], [1, "#d4d9e2"]],
           showscale: false,
           marker: { line: { color: "rgba(255,255,255,0.65)", width: 0.6 } },
-          customdata: rowsNoData.map((row) => [row.stateName, row.stateAbbr, row.year]),
+          customdata: rowsNoData.map((row) => [row.stateName, row.stateAbbr, row.yearLabel]),
           hovertemplate: "<b>%{customdata[0]} (%{customdata[1]})</b><br>Year: %{customdata[2]}<br>No data for selected metric pair<extra></extra>"
         };
 
@@ -782,14 +937,14 @@
           { responsive: true, displayModeBar: false }
         );
 
-        updateLegend(xMetric, yMetric, binMethod);
+        updateLegend(xMetric, yMetric, binMethod, yearLabel, isRange);
         updateTable(classifiedRows, xMetric, yMetric);
 
         const r = pearson(rowsWithData.map((row) => row.xValue), rowsWithData.map((row) => row.yValue));
         const rText = Number.isFinite(r) ? r.toFixed(3) : "N/A";
         setStatus(
-          `Year ${selectedYear}: ${rowsWithData.length} states with complete data (${rowsNoData.length} missing). ` +
-            `Pearson r = ${rText}.`
+          `${isRange ? "Years" : "Year"} ${yearLabel}: ${rowsWithData.length} states with complete data (${rowsNoData.length} missing). ` +
+            `Pearson r = ${rText}. ${isRange ? "Values shown are averages across selected years." : ""}`
         );
       }
 
@@ -805,7 +960,6 @@
       async function init() {
         try {
           const rawRows = await parseCsv(DATA_FILE_BY_YEAR);
-          const metricKeys = new Set(METRICS.map((metric) => metric.key));
           const rowsByYear = new Map();
 
           rawRows.forEach((row) => {
@@ -821,7 +975,7 @@
               year
             };
 
-            metricKeys.forEach((key) => {
+            METRIC_KEYS.forEach((key) => {
               parsed[key] = parseNum(row[key]);
             });
 
@@ -830,7 +984,7 @@
           });
 
           store.rowsByYear = rowsByYear;
-          store.years = [...rowsByYear.keys()].sort((a, b) => b - a);
+          store.years = [...rowsByYear.keys()].sort((a, b) => a - b);
 
           if (!store.years.length) {
             setStatus("No year rows loaded.");
@@ -839,7 +993,7 @@
           }
 
           populatePresets();
-          populateYears();
+          initializeYearRangeControls();
           populateMetricSelect(xMetricSelect, PRESETS[0].x);
           populateMetricSelect(yMetricSelect, PRESETS[0].y);
 
@@ -848,10 +1002,11 @@
           const totalRows = [...store.rowsByYear.values()].reduce((acc, rows) => acc + rows.length, 0);
           controlMeta.textContent =
             `Loaded ${totalRows} state-year rows across ${store.years.length} years (${minYear}-${maxYear}). ` +
-            `Use the Year filter to refresh all year-based metrics.`;
+            `Use the year slider to choose a single year or a range.`;
 
           presetSelect.addEventListener("change", onPresetChange);
-          yearSelect.addEventListener("change", draw);
+          yearStartRange.addEventListener("input", () => onYearRangeInput("start"));
+          yearEndRange.addEventListener("input", () => onYearRangeInput("end"));
           xMetricSelect.addEventListener("change", draw);
           yMetricSelect.addEventListener("change", draw);
           binningSelect.addEventListener("change", draw);
