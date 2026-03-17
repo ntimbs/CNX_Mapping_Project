@@ -1,0 +1,895 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>State Bivariate Drug Metrics Map</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+    <style>
+      :root {
+        --ink: #17202c;
+        --muted: #56647a;
+        --line: #d6deea;
+        --card: #ffffff;
+        --accent: #0b6e4f;
+        --accent-2: #cf5d17;
+        --paper: #f8f7f4;
+        --shadow: 0 10px 30px rgba(20, 38, 63, 0.12);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Space Grotesk", sans-serif;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at 8% 14%, #fbeed9 0%, rgba(251, 238, 217, 0) 45%),
+          radial-gradient(circle at 90% 6%, #dcedfb 0%, rgba(220, 237, 251, 0) 42%),
+          linear-gradient(160deg, #f7fafc 0%, #f3f0eb 100%);
+        min-height: 100vh;
+      }
+
+      .shell {
+        max-width: 1320px;
+        margin: 0 auto;
+        padding: 24px 16px 28px;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(1.45rem, 2.5vw, 2.25rem);
+      }
+
+      .subtitle {
+        margin-top: 8px;
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      .page-links {
+        margin-top: 12px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .page-links a {
+        display: inline-block;
+        text-decoration: none;
+        color: #1f3148;
+        background: #fff;
+        border: 1px solid #cbd9e8;
+        border-radius: 999px;
+        padding: 6px 12px;
+        font-size: 0.88rem;
+        font-weight: 600;
+      }
+
+      .page-links a.active {
+        background: #17202c;
+        color: #fff;
+        border-color: #17202c;
+      }
+
+      .layout {
+        margin-top: 16px;
+        display: grid;
+        grid-template-columns: 340px 1fr;
+        gap: 16px;
+      }
+
+      .card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        box-shadow: var(--shadow);
+      }
+
+      .controls {
+        padding: 14px;
+      }
+
+      .section {
+        margin-bottom: 12px;
+      }
+
+      .section:last-child {
+        margin-bottom: 0;
+      }
+
+      .label {
+        display: block;
+        margin-bottom: 6px;
+        font-size: 0.86rem;
+        color: #25344b;
+        font-weight: 700;
+      }
+
+      select {
+        width: 100%;
+        border: 1px solid #c8d6e5;
+        border-radius: 10px;
+        padding: 8px;
+        background: #fbfdff;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.8rem;
+      }
+
+      .meta {
+        margin-top: 8px;
+        font-size: 0.79rem;
+        color: var(--muted);
+        line-height: 1.4;
+      }
+
+      .panel {
+        padding: 14px;
+      }
+
+      .status {
+        margin-bottom: 10px;
+        color: #3b4d64;
+        font-size: 0.9rem;
+      }
+
+      .charts {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 290px;
+        gap: 12px;
+      }
+
+      #map {
+        width: 100%;
+        height: 620px;
+        border: 1px solid #d8e1ec;
+        border-radius: 12px;
+        overflow: hidden;
+      }
+
+      .legend-card {
+        border: 1px solid #d8e1ec;
+        border-radius: 12px;
+        padding: 10px;
+        background: #fcfeff;
+      }
+
+      .legend-title {
+        font-size: 0.86rem;
+        font-weight: 700;
+      }
+
+      .legend-wrap {
+        margin-top: 10px;
+      }
+
+      .legend-axis {
+        font-size: 0.78rem;
+        color: var(--muted);
+      }
+
+      .legend-grid {
+        margin-top: 6px;
+        display: grid;
+        grid-template-columns: 16px 1fr;
+        gap: 8px;
+        align-items: center;
+      }
+
+      .legend-y-label {
+        writing-mode: vertical-rl;
+        transform: rotate(180deg);
+        font-size: 0.78rem;
+        color: #24354d;
+        font-weight: 700;
+      }
+
+      .legend-cells {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(3, 32px);
+        gap: 2px;
+      }
+
+      .legend-cell {
+        border: 1px solid rgba(23, 32, 44, 0.08);
+      }
+
+      .legend-x-axis {
+        margin-top: 8px;
+        font-size: 0.78rem;
+        color: #24354d;
+        font-weight: 700;
+      }
+
+      .legend-low-high {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 3px;
+        font-size: 0.72rem;
+        color: var(--muted);
+      }
+
+      .legend-note {
+        margin-top: 8px;
+        color: var(--muted);
+        font-size: 0.76rem;
+        line-height: 1.3;
+      }
+
+      .table-wrap {
+        margin-top: 12px;
+        border: 1px solid #d7e0ec;
+        border-radius: 12px;
+        overflow: auto;
+        max-height: 310px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.84rem;
+      }
+
+      th,
+      td {
+        padding: 8px 9px;
+        border-bottom: 1px solid #e6edf5;
+        text-align: left;
+      }
+
+      th {
+        position: sticky;
+        top: 0;
+        background: #f8fbff;
+      }
+
+      .source-line {
+        margin-top: 10px;
+        color: var(--muted);
+        font-size: 0.78rem;
+      }
+
+      @media (max-width: 1080px) {
+        .layout {
+          grid-template-columns: 1fr;
+        }
+
+        .charts {
+          grid-template-columns: 1fr;
+        }
+
+        #map {
+          height: 500px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <h1>State Bivariate Drug Metrics Map</h1>
+      <div class="subtitle">
+        Compare two state-level dimensions at once with bivariate choropleth coloring (3x3 bins). Switch metric pairs to explore overdose,
+        fentanyl-specific laws, NFLIS reports, and CNX shipment indicators together.
+      </div>
+
+      <div class="page-links">
+        <a href="./index.html">Main Multi-Source Dashboard</a>
+        <a href="./overdose_state_lines_dashboard.html">Monthly Overdose Lines Dashboard</a>
+        <a class="active" href="./state_bivariate_map_dashboard.html">State Bivariate Map Dashboard</a>
+        <a href="./dashboards.html">Dashboard Hub</a>
+      </div>
+
+      <div class="layout">
+        <aside class="card controls">
+          <div class="section">
+            <label class="label" for="presetSelect">Preset Pair</label>
+            <select id="presetSelect"></select>
+          </div>
+
+          <div class="section">
+            <label class="label" for="xMetricSelect">X Axis Metric</label>
+            <select id="xMetricSelect"></select>
+          </div>
+
+          <div class="section">
+            <label class="label" for="yMetricSelect">Y Axis Metric</label>
+            <select id="yMetricSelect"></select>
+          </div>
+
+          <div class="section">
+            <label class="label" for="binningSelect">Binning Method</label>
+            <select id="binningSelect">
+              <option value="quantile">Quantiles (terciles)</option>
+              <option value="equal">Equal-width intervals</option>
+            </select>
+          </div>
+
+          <div class="meta" id="controlMeta">Loading combined state metrics...</div>
+        </aside>
+
+        <section class="card panel">
+          <div id="status" class="status">Loading map data...</div>
+
+          <div class="charts">
+            <div id="map"></div>
+
+            <div class="legend-card">
+              <div class="legend-title">Bivariate Legend</div>
+              <div class="legend-wrap">
+                <div class="legend-axis" id="yAxisLabel">Y metric</div>
+                <div class="legend-grid">
+                  <div class="legend-y-label">High</div>
+                  <div class="legend-cells" id="legendCells"></div>
+                </div>
+                <div class="legend-x-axis" id="xAxisLabel">X metric</div>
+                <div class="legend-low-high">
+                  <span>Low</span>
+                  <span>High</span>
+                </div>
+                <div class="legend-note" id="legendNote"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>State</th>
+                  <th id="tableXHeader">X Value</th>
+                  <th id="tableYHeader">Y Value</th>
+                  <th>Class</th>
+                </tr>
+              </thead>
+              <tbody id="tableBody"></tbody>
+            </table>
+          </div>
+
+          <div class="source-line">
+            Data source file: <code>docs/state_dashboard_combined_metrics.csv</code>. Combined from overdose estimates, Census population,
+            fentanyl-specific law counts, NFLIS, and CNX shipment aggregates.
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <script>
+      const DATA_FILE = "./state_dashboard_combined_metrics.csv";
+
+      const BIVARIATE_COLORS = [
+        ["#e8e8e8", "#b5c0da", "#6c83b5"],
+        ["#b8d6be", "#90b2b3", "#567994"],
+        ["#73ae80", "#5a9178", "#2a5a5b"]
+      ];
+
+      const METRICS = [
+        { key: "od_synth_latest_month_count", label: "OD: Synthetic opioids latest monthly deaths", group: "Overdose", fmt: "num1" },
+        { key: "od_synth_latest_month_per100k", label: "OD: Synthetic opioids latest monthly deaths per 100k", group: "Overdose", fmt: "num3" },
+        { key: "od_synth_latest_12mo_count", label: "OD: Synthetic opioids latest 12-mo rolling deaths", group: "Overdose", fmt: "num1" },
+        { key: "od_synth_latest_12mo_per100k", label: "OD: Synthetic opioids latest 12-mo rolling deaths per 100k", group: "Overdose", fmt: "num3" },
+        { key: "od_all_latest_month_count", label: "OD: All opioids latest monthly deaths", group: "Overdose", fmt: "num1" },
+        { key: "od_all_latest_month_per100k", label: "OD: All opioids latest monthly deaths per 100k", group: "Overdose", fmt: "num3" },
+        { key: "od_all_latest_12mo_count", label: "OD: All opioids latest 12-mo rolling deaths", group: "Overdose", fmt: "num1" },
+        { key: "od_all_latest_12mo_per100k", label: "OD: All opioids latest 12-mo rolling deaths per 100k", group: "Overdose", fmt: "num3" },
+
+        { key: "fentanyl_laws_total", label: "Policy: Fentanyl-specific law count (total)", group: "Policy", fmt: "int" },
+        { key: "fentanyl_laws_possession", label: "Policy: Fentanyl-specific law count (possession)", group: "Policy", fmt: "int" },
+        {
+          key: "fentanyl_laws_distribution_delivery",
+          label: "Policy: Fentanyl-specific law count (distribution/delivery)",
+          group: "Policy",
+          fmt: "int"
+        },
+        { key: "fentanyl_laws_exposing_others", label: "Policy: Fentanyl-specific law count (exposing others)", group: "Policy", fmt: "int" },
+        { key: "fentanyl_laws_other", label: "Policy: Fentanyl-specific law count (other)", group: "Policy", fmt: "int" },
+        { key: "fentanyl_laws_sum_by_type", label: "Policy: Fentanyl-specific law count (sum by type)", group: "Policy", fmt: "int" },
+
+        { key: "nflis_reports_latest_year", label: "NFLIS: Fentanyl reports in latest year", group: "NFLIS", fmt: "num1" },
+        { key: "nflis_reports_all_years", label: "NFLIS: Fentanyl reports all years", group: "NFLIS", fmt: "num1" },
+        { key: "nflis_reports_annual_average", label: "NFLIS: Fentanyl reports annual average", group: "NFLIS", fmt: "num1" },
+        { key: "nflis_unique_substances_latest_year", label: "NFLIS: Unique fentanyl-related substances in latest year", group: "NFLIS", fmt: "int" },
+        { key: "nflis_unique_bases_latest_year", label: "NFLIS: Unique fentanyl-related base compounds in latest year", group: "NFLIS", fmt: "int" },
+
+        { key: "cnx_recv_shipments_latest_year", label: "CNX Receiver: Shipment records latest year", group: "CNX Receiver", fmt: "num1" },
+        { key: "cnx_recv_shipments_all_years", label: "CNX Receiver: Shipment records all years", group: "CNX Receiver", fmt: "num1" },
+        { key: "cnx_recv_unique_hs6_latest_year", label: "CNX Receiver: Unique HS6 latest year", group: "CNX Receiver", fmt: "int" },
+        { key: "cnx_recv_unique_hs6_all_years", label: "CNX Receiver: Unique HS6 all years", group: "CNX Receiver", fmt: "int" },
+        { key: "cnx_recv_chem_shipments_latest_year", label: "CNX Receiver: Chemical-matched shipments latest year", group: "CNX Receiver" , fmt: "num1" },
+        { key: "cnx_recv_chem_shipments_all_years", label: "CNX Receiver: Chemical-matched shipments all years", group: "CNX Receiver", fmt: "num1" },
+        { key: "cnx_recv_chem_unique_chemicals_latest_year", label: "CNX Receiver: Unique matched chemicals latest year", group: "CNX Receiver", fmt: "int" },
+        { key: "cnx_recv_chem_unique_chemicals_all_years", label: "CNX Receiver: Unique matched chemicals all years", group: "CNX Receiver", fmt: "int" },
+
+        { key: "cnx_send_shipments_latest_year", label: "CNX Sender: Shipment records latest year", group: "CNX Sender", fmt: "num1" },
+        { key: "cnx_send_shipments_all_years", label: "CNX Sender: Shipment records all years", group: "CNX Sender", fmt: "num1" },
+        { key: "cnx_send_unique_hs6_latest_year", label: "CNX Sender: Unique HS6 latest year", group: "CNX Sender", fmt: "int" },
+        { key: "cnx_send_unique_hs6_all_years", label: "CNX Sender: Unique HS6 all years", group: "CNX Sender", fmt: "int" },
+        { key: "cnx_send_chem_shipments_latest_year", label: "CNX Sender: Chemical-matched shipments latest year", group: "CNX Sender", fmt: "num1" },
+        { key: "cnx_send_chem_shipments_all_years", label: "CNX Sender: Chemical-matched shipments all years", group: "CNX Sender", fmt: "num1" },
+        { key: "cnx_send_chem_unique_chemicals_latest_year", label: "CNX Sender: Unique matched chemicals latest year", group: "CNX Sender", fmt: "int" },
+        { key: "cnx_send_chem_unique_chemicals_all_years", label: "CNX Sender: Unique matched chemicals all years", group: "CNX Sender", fmt: "int" }
+      ];
+
+      const PRESETS = [
+        {
+          label: "OD (Synthetic monthly deaths) vs Fentanyl laws (total)",
+          x: "od_synth_latest_month_count",
+          y: "fentanyl_laws_total"
+        },
+        {
+          label: "OD (Synthetic monthly per 100k) vs Fentanyl laws (total)",
+          x: "od_synth_latest_month_per100k",
+          y: "fentanyl_laws_total"
+        },
+        {
+          label: "OD (Synthetic monthly deaths) vs NFLIS reports (latest year)",
+          x: "od_synth_latest_month_count",
+          y: "nflis_reports_latest_year"
+        },
+        {
+          label: "OD (Synthetic monthly deaths) vs CNX receiver chemical shipments", 
+          x: "od_synth_latest_month_count",
+          y: "cnx_recv_chem_shipments_all_years"
+        },
+        {
+          label: "Fentanyl laws (total) vs CNX receiver shipments", 
+          x: "fentanyl_laws_total",
+          y: "cnx_recv_shipments_all_years"
+        },
+        {
+          label: "Fentanyl laws (distribution/delivery) vs CNX sender shipments",
+          x: "fentanyl_laws_distribution_delivery",
+          y: "cnx_send_shipments_all_years"
+        }
+      ];
+
+      const store = {
+        rows: [],
+        metricByKey: new Map(METRICS.map((m) => [m.key, m]))
+      };
+
+      const presetSelect = document.getElementById("presetSelect");
+      const xMetricSelect = document.getElementById("xMetricSelect");
+      const yMetricSelect = document.getElementById("yMetricSelect");
+      const binningSelect = document.getElementById("binningSelect");
+      const statusEl = document.getElementById("status");
+      const controlMeta = document.getElementById("controlMeta");
+      const legendCells = document.getElementById("legendCells");
+      const legendNote = document.getElementById("legendNote");
+      const xAxisLabel = document.getElementById("xAxisLabel");
+      const yAxisLabel = document.getElementById("yAxisLabel");
+      const tableXHeader = document.getElementById("tableXHeader");
+      const tableYHeader = document.getElementById("tableYHeader");
+      const tableBody = document.getElementById("tableBody");
+
+      function setStatus(text) {
+        statusEl.textContent = text;
+      }
+
+      function parseCsv(path) {
+        return new Promise((resolve, reject) => {
+          Papa.parse(path, {
+            download: true,
+            header: true,
+            skipEmptyLines: true,
+            complete: ({ data, errors }) => {
+              if (errors && errors.length) {
+                reject(new Error(`Failed to parse ${path}`));
+                return;
+              }
+              resolve(data);
+            },
+            error: (err) => reject(err)
+          });
+        });
+      }
+
+      function parseNum(value) {
+        const v = Number(value);
+        if (!Number.isFinite(v)) return null;
+        return v;
+      }
+
+      function fmt(value, fmtKind) {
+        if (!Number.isFinite(value)) return "No data";
+        if (fmtKind === "int") return Math.round(value).toLocaleString();
+        if (fmtKind === "num3") return value.toLocaleString(undefined, { maximumFractionDigits: 3 });
+        return value.toLocaleString(undefined, { maximumFractionDigits: 1 });
+      }
+
+      function groupMetrics() {
+        const grouped = new Map();
+        METRICS.forEach((metric) => {
+          if (!grouped.has(metric.group)) grouped.set(metric.group, []);
+          grouped.get(metric.group).push(metric);
+        });
+        return grouped;
+      }
+
+      function populateMetricSelect(selectEl, selectedKey) {
+        const grouped = groupMetrics();
+        selectEl.innerHTML = "";
+
+        for (const [groupName, metrics] of grouped.entries()) {
+          const optGroup = document.createElement("optgroup");
+          optGroup.label = groupName;
+          metrics.forEach((metric) => {
+            const opt = document.createElement("option");
+            opt.value = metric.key;
+            opt.textContent = metric.label;
+            if (metric.key === selectedKey) opt.selected = true;
+            optGroup.appendChild(opt);
+          });
+          selectEl.appendChild(optGroup);
+        }
+      }
+
+      function populatePresets() {
+        presetSelect.innerHTML = "";
+        PRESETS.forEach((preset, idx) => {
+          const opt = document.createElement("option");
+          opt.value = String(idx);
+          opt.textContent = preset.label;
+          if (idx === 0) opt.selected = true;
+          presetSelect.appendChild(opt);
+        });
+      }
+
+      function quantile(sortedValues, q) {
+        if (!sortedValues.length) return null;
+        const pos = (sortedValues.length - 1) * q;
+        const base = Math.floor(pos);
+        const rest = pos - base;
+        if (sortedValues[base + 1] === undefined) return sortedValues[base];
+        return sortedValues[base] + rest * (sortedValues[base + 1] - sortedValues[base]);
+      }
+
+      function getThresholds(values, method) {
+        if (!values.length) return null;
+        const sorted = [...values].sort((a, b) => a - b);
+        if (method === "equal") {
+          const min = sorted[0];
+          const max = sorted[sorted.length - 1];
+          if (min === max) return { t1: min, t2: max, min, max };
+          const step = (max - min) / 3;
+          return { t1: min + step, t2: min + 2 * step, min, max };
+        }
+        return {
+          t1: quantile(sorted, 1 / 3),
+          t2: quantile(sorted, 2 / 3),
+          min: sorted[0],
+          max: sorted[sorted.length - 1]
+        };
+      }
+
+      function getBin(value, thresholds) {
+        if (!Number.isFinite(value) || !thresholds) return null;
+        if (thresholds.min === thresholds.max) return 1;
+        if (value <= thresholds.t1) return 0;
+        if (value <= thresholds.t2) return 1;
+        return 2;
+      }
+
+      function pearson(xs, ys) {
+        const n = xs.length;
+        if (n < 2) return null;
+
+        let sumX = 0;
+        let sumY = 0;
+        let sumXY = 0;
+        let sumX2 = 0;
+        let sumY2 = 0;
+
+        for (let i = 0; i < n; i += 1) {
+          const x = xs[i];
+          const y = ys[i];
+          sumX += x;
+          sumY += y;
+          sumXY += x * y;
+          sumX2 += x * x;
+          sumY2 += y * y;
+        }
+
+        const numerator = n * sumXY - sumX * sumY;
+        const denomX = n * sumX2 - sumX * sumX;
+        const denomY = n * sumY2 - sumY * sumY;
+        const denominator = Math.sqrt(denomX * denomY);
+        if (!Number.isFinite(denominator) || denominator === 0) return null;
+        return numerator / denominator;
+      }
+
+      function flattenColors() {
+        const out = [];
+        for (let y = 0; y < 3; y += 1) {
+          for (let x = 0; x < 3; x += 1) {
+            out.push(BIVARIATE_COLORS[y][x]);
+          }
+        }
+        return out;
+      }
+
+      function discreteColorscale(colors) {
+        if (colors.length === 1) return [[0, colors[0]], [1, colors[0]]];
+        const scale = [];
+        const maxIdx = colors.length - 1;
+        for (let i = 0; i < colors.length; i += 1) {
+          const start = i / maxIdx;
+          const end = i === maxIdx ? 1 : (i + 1) / maxIdx - 1e-6;
+          scale.push([start, colors[i]]);
+          scale.push([end, colors[i]]);
+        }
+        return scale;
+      }
+
+      function updateLegend(xMetric, yMetric, xThresholds, yThresholds) {
+        xAxisLabel.textContent = `X: ${xMetric.label}`;
+        yAxisLabel.textContent = `Y: ${yMetric.label}`;
+
+        legendCells.innerHTML = "";
+        for (let y = 2; y >= 0; y -= 1) {
+          for (let x = 0; x < 3; x += 1) {
+            const cell = document.createElement("div");
+            cell.className = "legend-cell";
+            cell.style.background = BIVARIATE_COLORS[y][x];
+            legendCells.appendChild(cell);
+          }
+        }
+
+        const xFmt = xMetric.fmt;
+        const yFmt = yMetric.fmt;
+        const xBreak = xThresholds ? `${fmt(xThresholds.t1, xFmt)} / ${fmt(xThresholds.t2, xFmt)}` : "N/A";
+        const yBreak = yThresholds ? `${fmt(yThresholds.t1, yFmt)} / ${fmt(yThresholds.t2, yFmt)}` : "N/A";
+
+        legendNote.textContent = `Bin cut points (low/medium/high): X = ${xBreak}; Y = ${yBreak}.`;
+      }
+
+      function updateTable(rows, xMetric, yMetric) {
+        tableXHeader.textContent = xMetric.label;
+        tableYHeader.textContent = yMetric.label;
+
+        const ordered = [...rows].sort((a, b) => {
+          const aClass = a.classIndex ?? -1;
+          const bClass = b.classIndex ?? -1;
+          if (aClass !== bClass) return bClass - aClass;
+          return a.stateName.localeCompare(b.stateName);
+        });
+
+        tableBody.innerHTML = "";
+        ordered.forEach((row) => {
+          const tr = document.createElement("tr");
+          const classText = row.hasData ? `${row.xBin + 1}-${row.yBin + 1}` : "No data";
+          tr.innerHTML = `
+            <td>${row.stateName} (${row.stateAbbr})</td>
+            <td>${fmt(row.xValue, xMetric.fmt)}</td>
+            <td>${fmt(row.yValue, yMetric.fmt)}</td>
+            <td>${classText}</td>
+          `;
+          tableBody.appendChild(tr);
+        });
+      }
+
+      function draw() {
+        if (!store.rows.length) {
+          setStatus("No rows loaded.");
+          return;
+        }
+
+        const xKey = xMetricSelect.value;
+        const yKey = yMetricSelect.value;
+        const binMethod = binningSelect.value;
+
+        if (!xKey || !yKey || xKey === yKey) {
+          setStatus("Select two different metrics.");
+          return;
+        }
+
+        const xMetric = store.metricByKey.get(xKey);
+        const yMetric = store.metricByKey.get(yKey);
+
+        const validRows = store.rows.filter((row) => Number.isFinite(row[xKey]) && Number.isFinite(row[yKey]));
+        const missingRows = store.rows.filter((row) => !Number.isFinite(row[xKey]) || !Number.isFinite(row[yKey]));
+
+        if (!validRows.length) {
+          setStatus("No states have data for the selected pair.");
+          updateLegend(xMetric, yMetric, null, null);
+          updateTable(
+            store.rows.map((row) => ({
+              ...row,
+              xValue: row[xKey],
+              yValue: row[yKey],
+              hasData: false,
+              classIndex: null,
+              xBin: null,
+              yBin: null
+            })),
+            xMetric,
+            yMetric
+          );
+          Plotly.react("map", [], { margin: { l: 0, r: 0, t: 0, b: 0 } }, { responsive: true, displayModeBar: false });
+          return;
+        }
+
+        const xValues = validRows.map((row) => row[xKey]);
+        const yValues = validRows.map((row) => row[yKey]);
+        const xThresholds = getThresholds(xValues, binMethod);
+        const yThresholds = getThresholds(yValues, binMethod);
+
+        const classifiedRows = store.rows.map((row) => {
+          const xValue = row[xKey];
+          const yValue = row[yKey];
+          const hasData = Number.isFinite(xValue) && Number.isFinite(yValue);
+          if (!hasData) {
+            return {
+              ...row,
+              xValue,
+              yValue,
+              hasData,
+              xBin: null,
+              yBin: null,
+              classIndex: null
+            };
+          }
+
+          const xBin = getBin(xValue, xThresholds);
+          const yBin = getBin(yValue, yThresholds);
+          const classIndex = yBin * 3 + xBin;
+          return {
+            ...row,
+            xValue,
+            yValue,
+            hasData,
+            xBin,
+            yBin,
+            classIndex
+          };
+        });
+
+        const rowsWithData = classifiedRows.filter((row) => row.hasData);
+        const rowsNoData = classifiedRows.filter((row) => !row.hasData);
+
+        const flatColors = flattenColors();
+        const dataTrace = {
+          type: "choropleth",
+          locationmode: "USA-states",
+          locations: rowsWithData.map((row) => row.stateAbbr),
+          z: rowsWithData.map((row) => row.classIndex),
+          zmin: 0,
+          zmax: 8,
+          colorscale: discreteColorscale(flatColors),
+          showscale: false,
+          marker: {
+            line: { color: "rgba(255,255,255,0.65)", width: 0.6 }
+          },
+          customdata: rowsWithData.map((row) => [
+            row.stateName,
+            row.stateAbbr,
+            fmt(row.xValue, xMetric.fmt),
+            fmt(row.yValue, yMetric.fmt),
+            row.census_region,
+            row.census_subregion,
+            `${row.xBin + 1}-${row.yBin + 1}`
+          ]),
+          hovertemplate:
+            "<b>%{customdata[0]} (%{customdata[1]})</b><br>" +
+            `${xMetric.label}: %{customdata[2]}<br>` +
+            `${yMetric.label}: %{customdata[3]}<br>` +
+            "Census Region: %{customdata[4]}<br>" +
+            "Census Subregion: %{customdata[5]}<br>" +
+            "Bivariate Class (X,Y): %{customdata[6]}<extra></extra>"
+        };
+
+        const missingTrace = {
+          type: "choropleth",
+          locationmode: "USA-states",
+          locations: rowsNoData.map((row) => row.stateAbbr),
+          z: rowsNoData.map(() => 0),
+          colorscale: [[0, "#d4d9e2"], [1, "#d4d9e2"]],
+          showscale: false,
+          marker: {
+            line: { color: "rgba(255,255,255,0.65)", width: 0.6 }
+          },
+          customdata: rowsNoData.map((row) => [row.stateName, row.stateAbbr]),
+          hovertemplate:
+            "<b>%{customdata[0]} (%{customdata[1]})</b><br>No data for selected metric pair<extra></extra>"
+        };
+
+        Plotly.react(
+          "map",
+          [missingTrace, dataTrace],
+          {
+            margin: { l: 0, r: 0, t: 0, b: 0 },
+            paper_bgcolor: "rgba(0,0,0,0)",
+            plot_bgcolor: "rgba(0,0,0,0)",
+            geo: {
+              scope: "usa",
+              projection: { type: "albers usa" },
+              showland: true,
+              landcolor: "#f8fafc",
+              bgcolor: "rgba(0,0,0,0)",
+              showlakes: false,
+              subunitcolor: "#ffffff"
+            }
+          },
+          { responsive: true, displayModeBar: false }
+        );
+
+        updateLegend(xMetric, yMetric, xThresholds, yThresholds);
+        updateTable(classifiedRows, xMetric, yMetric);
+
+        const r = pearson(rowsWithData.map((row) => row.xValue), rowsWithData.map((row) => row.yValue));
+        const rText = Number.isFinite(r) ? r.toFixed(3) : "N/A";
+        setStatus(
+          `Showing ${rowsWithData.length} states with complete data (${rowsNoData.length} missing). ` +
+            `Pearson r = ${rText}. Binning method: ${binMethod === "quantile" ? "Quantiles" : "Equal-width"}.`
+        );
+      }
+
+      function onPresetChange() {
+        const idx = Number(presetSelect.value);
+        const preset = PRESETS[idx];
+        if (!preset) return;
+
+        xMetricSelect.value = preset.x;
+        yMetricSelect.value = preset.y;
+        draw();
+      }
+
+      async function init() {
+        try {
+          const rawRows = await parseCsv(DATA_FILE);
+          const metricKeys = new Set(METRICS.map((metric) => metric.key));
+
+          store.rows = rawRows.map((row) => {
+            const parsed = {
+              stateAbbr: String(row.state_abbr || "").trim().toUpperCase(),
+              stateName: String(row.state_name || "").trim(),
+              census_region: String(row.census_region || "").trim(),
+              census_subregion: String(row.census_subregion || "").trim()
+            };
+
+            metricKeys.forEach((key) => {
+              parsed[key] = parseNum(row[key]);
+            });
+
+            return parsed;
+          });
+
+          populatePresets();
+          populateMetricSelect(xMetricSelect, PRESETS[0].x);
+          populateMetricSelect(yMetricSelect, PRESETS[0].y);
+
+          const metaRow = rawRows[0] || {};
+          const odDate = String(metaRow.od_synth_latest_date || "").trim() || "unknown";
+          const nflisYear = String(metaRow.nflis_latest_year || "").trim() || "unknown";
+          const cnxRecvYear = String(metaRow.cnx_recv_latest_year || "").trim() || "unknown";
+          const cnxSendYear = String(metaRow.cnx_send_latest_year || "").trim() || "unknown";
+
+          controlMeta.textContent =
+            `Rows loaded: ${store.rows.length} states. OD latest date: ${odDate}. NFLIS latest year: ${nflisYear}. ` +
+            `CNX receiver latest year: ${cnxRecvYear}; sender latest year: ${cnxSendYear}.`;
+
+          presetSelect.addEventListener("change", onPresetChange);
+          xMetricSelect.addEventListener("change", draw);
+          yMetricSelect.addEventListener("change", draw);
+          binningSelect.addEventListener("change", draw);
+
+          draw();
+        } catch (err) {
+          setStatus(`Failed to load dashboard data: ${err && err.message ? err.message : String(err)}`);
+          controlMeta.textContent = "Unable to load combined state metrics file.";
+        }
+      }
+
+      init();
+    </script>
+  </body>
+</html>
