@@ -433,6 +433,8 @@
         ["#b8d6be", "#90b2b3", "#567994"],
         ["#73ae80", "#5a9178", "#2a5a5b"]
       ];
+      const PARTIAL_NA_COLOR = "#b581c6";
+      const BOTH_NA_COLOR = "#d4d9e2";
 
       const METRICS = [
         { key: "od_synth_latest_month_count_year", label: "OD: Synthetic opioids latest monthly deaths (selected year)", group: "Overdose", fmt: "num1" },
@@ -779,7 +781,7 @@
         legendNote.textContent =
           `Colors show low/medium/high bins for ${yearLabel}. ` +
           `Bottom-left means lower values on both metrics; top-right means higher values on both. ` +
-          "Gray states indicate no data for at least one selected metric. " +
+          "Purple states indicate one missing metric (partial NA), gray states indicate both metrics missing. " +
           `${isRange ? "For ranges, each state value is averaged across selected years. " : ""}` +
           `Binning method: ${binMethod === "quantile" ? "Quantiles (terciles)" : "Equal-width intervals"}.`;
       }
@@ -798,7 +800,11 @@
         tableBody.innerHTML = "";
         ordered.forEach((row) => {
           const tr = document.createElement("tr");
-          const classText = row.hasData ? `${row.xBin + 1}-${row.yBin + 1}` : "No data";
+          const classText = row.hasData
+            ? `${row.xBin + 1}-${row.yBin + 1}`
+            : row.missingType === "partial"
+            ? "Partial NA (one metric missing)"
+            : "No data (both metrics missing)";
           tr.innerHTML = `
             <td>${row.stateName} (${row.stateAbbr})</td>
             <td>${fmt(row.xValue, xMetric.fmt)}</td>
@@ -831,26 +837,100 @@
         const xMetric = store.metricByKey.get(xKey);
         const yMetric = store.metricByKey.get(yKey);
 
-        const validRows = activeRows.filter((row) => Number.isFinite(row[xKey]) && Number.isFinite(row[yKey]));
-        const missingRows = activeRows.filter((row) => !Number.isFinite(row[xKey]) || !Number.isFinite(row[yKey]));
+        const preparedRows = activeRows.map((row) => {
+          const xValue = row[xKey];
+          const yValue = row[yKey];
+          const hasX = Number.isFinite(xValue);
+          const hasY = Number.isFinite(yValue);
+          const hasData = hasX && hasY;
+          const missingType = hasData ? null : hasX || hasY ? "partial" : "both";
+          return {
+            ...row,
+            xValue,
+            yValue,
+            hasX,
+            hasY,
+            hasData,
+            missingType,
+            xBin: null,
+            yBin: null,
+            classIndex: null
+          };
+        });
+
+        const validRows = preparedRows.filter((row) => row.hasData);
+        const rowsPartialNA = preparedRows.filter((row) => row.missingType === "partial");
+        const rowsBothMissing = preparedRows.filter((row) => row.missingType === "both");
 
         if (!validRows.length) {
-          setStatus(`No states have data for the selected metric pair in ${yearLabel}.`);
-          updateLegend(xMetric, yMetric, binMethod, yearLabel, isRange);
-          updateTable(
-            activeRows.map((row) => ({
-              ...row,
-              xValue: row[xKey],
-              yValue: row[yKey],
-              hasData: false,
-              classIndex: null,
-              xBin: null,
-              yBin: null
-            })),
-            xMetric,
-            yMetric
+          setStatus(
+            `No states have both metrics for ${yearLabel}. ` +
+              `${rowsPartialNA.length} states have one metric missing and ${rowsBothMissing.length} have both missing.`
           );
-          Plotly.react("map", [], { margin: { l: 0, r: 0, t: 0, b: 0 } }, { responsive: true, displayModeBar: false });
+          updateLegend(xMetric, yMetric, binMethod, yearLabel, isRange);
+          updateTable(preparedRows, xMetric, yMetric);
+
+          const traces = [];
+          if (rowsBothMissing.length) {
+            traces.push({
+              type: "choropleth",
+              locationmode: "USA-states",
+              locations: rowsBothMissing.map((row) => row.stateAbbr),
+              z: rowsBothMissing.map(() => 0),
+              colorscale: [[0, BOTH_NA_COLOR], [1, BOTH_NA_COLOR]],
+              showscale: false,
+              marker: { line: { color: "rgba(255,255,255,0.65)", width: 0.6 } },
+              customdata: rowsBothMissing.map((row) => [row.stateName, row.stateAbbr, row.yearLabel]),
+              hovertemplate:
+                "<b>%{customdata[0]} (%{customdata[1]})</b><br>" +
+                "Year: %{customdata[2]}<br>Both metrics missing (NA)<extra></extra>"
+            });
+          }
+
+          if (rowsPartialNA.length) {
+            traces.push({
+              type: "choropleth",
+              locationmode: "USA-states",
+              locations: rowsPartialNA.map((row) => row.stateAbbr),
+              z: rowsPartialNA.map(() => 0),
+              colorscale: [[0, PARTIAL_NA_COLOR], [1, PARTIAL_NA_COLOR]],
+              showscale: false,
+              marker: { line: { color: "rgba(255,255,255,0.65)", width: 0.6 } },
+              customdata: rowsPartialNA.map((row) => [
+                row.stateName,
+                row.stateAbbr,
+                row.yearLabel,
+                fmt(row.xValue, xMetric.fmt),
+                fmt(row.yValue, yMetric.fmt)
+              ]),
+              hovertemplate:
+                "<b>%{customdata[0]} (%{customdata[1]})</b><br>" +
+                "Year: %{customdata[2]}<br>" +
+                `${xMetric.label}: %{customdata[3]}<br>` +
+                `${yMetric.label}: %{customdata[4]}<br>` +
+                "Cannot compute bivariate class: one metric is missing (NA)<extra></extra>"
+            });
+          }
+
+          Plotly.react(
+            "map",
+            traces,
+            {
+              margin: { l: 0, r: 0, t: 0, b: 0 },
+              paper_bgcolor: "rgba(0,0,0,0)",
+              plot_bgcolor: "rgba(0,0,0,0)",
+              geo: {
+                scope: "usa",
+                projection: { type: "albers usa" },
+                showland: true,
+                landcolor: "#f8fafc",
+                bgcolor: "rgba(0,0,0,0)",
+                showlakes: false,
+                subunitcolor: "#ffffff"
+              }
+            },
+            { responsive: true, displayModeBar: false }
+          );
           return;
         }
 
@@ -859,21 +939,19 @@
         const xThresholds = getThresholds(xValues, binMethod);
         const yThresholds = getThresholds(yValues, binMethod);
 
-        const classifiedRows = activeRows.map((row) => {
-          const xValue = row[xKey];
-          const yValue = row[yKey];
-          const hasData = Number.isFinite(xValue) && Number.isFinite(yValue);
-          if (!hasData) {
-            return { ...row, xValue, yValue, hasData, xBin: null, yBin: null, classIndex: null };
-          }
+        const classifiedRows = preparedRows.map((row) => {
+          if (!row.hasData) return row;
+          const xValue = row.xValue;
+          const yValue = row.yValue;
           const xBin = getBin(xValue, xThresholds);
           const yBin = getBin(yValue, yThresholds);
           const classIndex = yBin * 3 + xBin;
-          return { ...row, xValue, yValue, hasData, xBin, yBin, classIndex };
+          return { ...row, xBin, yBin, classIndex };
         });
 
         const rowsWithData = classifiedRows.filter((row) => row.hasData);
-        const rowsNoData = classifiedRows.filter((row) => !row.hasData);
+        const rowsPartialNAClassified = classifiedRows.filter((row) => row.missingType === "partial");
+        const rowsBothMissingClassified = classifiedRows.filter((row) => row.missingType === "both");
 
         const flatColors = flattenColors();
         const dataTrace = {
@@ -906,21 +984,46 @@
             "Bivariate Class (X,Y): %{customdata[7]}<extra></extra>"
         };
 
-        const missingTrace = {
+        const bothMissingTrace = {
           type: "choropleth",
           locationmode: "USA-states",
-          locations: rowsNoData.map((row) => row.stateAbbr),
-          z: rowsNoData.map(() => 0),
-          colorscale: [[0, "#d4d9e2"], [1, "#d4d9e2"]],
+          locations: rowsBothMissingClassified.map((row) => row.stateAbbr),
+          z: rowsBothMissingClassified.map(() => 0),
+          colorscale: [[0, BOTH_NA_COLOR], [1, BOTH_NA_COLOR]],
           showscale: false,
           marker: { line: { color: "rgba(255,255,255,0.65)", width: 0.6 } },
-          customdata: rowsNoData.map((row) => [row.stateName, row.stateAbbr, row.yearLabel]),
-          hovertemplate: "<b>%{customdata[0]} (%{customdata[1]})</b><br>Year: %{customdata[2]}<br>No data for selected metric pair<extra></extra>"
+          customdata: rowsBothMissingClassified.map((row) => [row.stateName, row.stateAbbr, row.yearLabel]),
+          hovertemplate:
+            "<b>%{customdata[0]} (%{customdata[1]})</b><br>" +
+            "Year: %{customdata[2]}<br>Both metrics missing (NA)<extra></extra>"
+        };
+
+        const partialNATrace = {
+          type: "choropleth",
+          locationmode: "USA-states",
+          locations: rowsPartialNAClassified.map((row) => row.stateAbbr),
+          z: rowsPartialNAClassified.map(() => 0),
+          colorscale: [[0, PARTIAL_NA_COLOR], [1, PARTIAL_NA_COLOR]],
+          showscale: false,
+          marker: { line: { color: "rgba(255,255,255,0.65)", width: 0.6 } },
+          customdata: rowsPartialNAClassified.map((row) => [
+            row.stateName,
+            row.stateAbbr,
+            row.yearLabel,
+            fmt(row.xValue, xMetric.fmt),
+            fmt(row.yValue, yMetric.fmt)
+          ]),
+          hovertemplate:
+            "<b>%{customdata[0]} (%{customdata[1]})</b><br>" +
+            "Year: %{customdata[2]}<br>" +
+            `${xMetric.label}: %{customdata[3]}<br>` +
+            `${yMetric.label}: %{customdata[4]}<br>` +
+            "Cannot compute bivariate class: one metric is missing (NA)<extra></extra>"
         };
 
         Plotly.react(
           "map",
-          [missingTrace, dataTrace],
+          [bothMissingTrace, partialNATrace, dataTrace],
           {
             margin: { l: 0, r: 0, t: 0, b: 0 },
             paper_bgcolor: "rgba(0,0,0,0)",
@@ -944,8 +1047,10 @@
         const r = pearson(rowsWithData.map((row) => row.xValue), rowsWithData.map((row) => row.yValue));
         const rText = Number.isFinite(r) ? r.toFixed(3) : "N/A";
         setStatus(
-          `${isRange ? "Years" : "Year"} ${yearLabel}: ${rowsWithData.length} states with complete data (${rowsNoData.length} missing). ` +
-            `Pearson r = ${rText}. ${isRange ? "Values shown are averages across selected years." : ""}`
+          `${isRange ? "Years" : "Year"} ${yearLabel}: ${rowsWithData.length} complete states, ` +
+            `${rowsPartialNAClassified.length} partial-NA states, ${rowsBothMissingClassified.length} both-missing states. ` +
+            `Pearson r = ${rText} (computed on complete states only). ` +
+            `${isRange ? "Values shown are averages across selected years." : ""}`
         );
       }
 
