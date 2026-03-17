@@ -297,6 +297,11 @@
           </div>
 
           <div class="section">
+            <label class="label" for="yearSelect">Year</label>
+            <select id="yearSelect"></select>
+          </div>
+
+          <div class="section">
             <label class="label" for="xMetricSelect">X Axis Metric</label>
             <select id="xMetricSelect"></select>
           </div>
@@ -356,15 +361,15 @@
           </div>
 
           <div class="source-line">
-            Data source file: <code>docs/state_dashboard_combined_metrics.csv</code>. Combined from overdose estimates, Census population,
-            fentanyl-specific law counts, NFLIS, and CNX shipment aggregates.
+            Data source files: <code>docs/state_dashboard_combined_metrics.csv</code> and <code>docs/state_dashboard_combined_metrics_by_year.csv</code>.
+            Combined from overdose estimates, Census population, fentanyl-specific law counts, NFLIS, and CNX shipment aggregates.
           </div>
         </section>
       </div>
     </div>
 
     <script>
-      const DATA_FILE = "./state_dashboard_combined_metrics.csv";
+      const DATA_FILE_BY_YEAR = "./state_dashboard_combined_metrics_by_year.csv";
 
       const BIVARIATE_COLORS = [
         ["#e8e8e8", "#b5c0da", "#6c83b5"],
@@ -373,91 +378,62 @@
       ];
 
       const METRICS = [
-        { key: "od_synth_latest_month_count", label: "OD: Synthetic opioids latest monthly deaths", group: "Overdose", fmt: "num1" },
-        { key: "od_synth_latest_month_per100k", label: "OD: Synthetic opioids latest monthly deaths per 100k", group: "Overdose", fmt: "num3" },
-        { key: "od_synth_latest_12mo_count", label: "OD: Synthetic opioids latest 12-mo rolling deaths", group: "Overdose", fmt: "num1" },
-        { key: "od_synth_latest_12mo_per100k", label: "OD: Synthetic opioids latest 12-mo rolling deaths per 100k", group: "Overdose", fmt: "num3" },
-        { key: "od_all_latest_month_count", label: "OD: All opioids latest monthly deaths", group: "Overdose", fmt: "num1" },
-        { key: "od_all_latest_month_per100k", label: "OD: All opioids latest monthly deaths per 100k", group: "Overdose", fmt: "num3" },
-        { key: "od_all_latest_12mo_count", label: "OD: All opioids latest 12-mo rolling deaths", group: "Overdose", fmt: "num1" },
-        { key: "od_all_latest_12mo_per100k", label: "OD: All opioids latest 12-mo rolling deaths per 100k", group: "Overdose", fmt: "num3" },
+        { key: "od_synth_latest_month_count_year", label: "OD: Synthetic opioids latest monthly deaths (selected year)", group: "Overdose", fmt: "num1" },
+        { key: "od_synth_latest_month_per100k_year", label: "OD: Synthetic opioids latest monthly deaths per 100k (selected year)", group: "Overdose", fmt: "num3" },
+        { key: "od_synth_year_sum_count", label: "OD: Synthetic opioids annual summed deaths", group: "Overdose", fmt: "num1" },
+        { key: "od_synth_year_sum_per100k", label: "OD: Synthetic opioids annual summed deaths per 100k", group: "Overdose", fmt: "num3" },
+        { key: "od_synth_year_end_12mo_count", label: "OD: Synthetic opioids year-end 12-month rolling deaths", group: "Overdose", fmt: "num1" },
+        { key: "od_synth_year_end_12mo_per100k", label: "OD: Synthetic opioids year-end 12-month rolling deaths per 100k", group: "Overdose", fmt: "num3" },
+        { key: "od_all_latest_month_count_year", label: "OD: All opioids latest monthly deaths (selected year)", group: "Overdose", fmt: "num1" },
+        { key: "od_all_latest_month_per100k_year", label: "OD: All opioids latest monthly deaths per 100k (selected year)", group: "Overdose", fmt: "num3" },
+        { key: "od_all_year_sum_count", label: "OD: All opioids annual summed deaths", group: "Overdose", fmt: "num1" },
+        { key: "od_all_year_sum_per100k", label: "OD: All opioids annual summed deaths per 100k", group: "Overdose", fmt: "num3" },
+        { key: "od_all_year_end_12mo_count", label: "OD: All opioids year-end 12-month rolling deaths", group: "Overdose", fmt: "num1" },
+        { key: "od_all_year_end_12mo_per100k", label: "OD: All opioids year-end 12-month rolling deaths per 100k", group: "Overdose", fmt: "num3" },
 
         { key: "fentanyl_laws_total", label: "Policy: Fentanyl-specific law count (total)", group: "Policy", fmt: "int" },
         { key: "fentanyl_laws_possession", label: "Policy: Fentanyl-specific law count (possession)", group: "Policy", fmt: "int" },
-        {
-          key: "fentanyl_laws_distribution_delivery",
-          label: "Policy: Fentanyl-specific law count (distribution/delivery)",
-          group: "Policy",
-          fmt: "int"
-        },
+        { key: "fentanyl_laws_distribution_delivery", label: "Policy: Fentanyl-specific law count (distribution/delivery)", group: "Policy", fmt: "int" },
         { key: "fentanyl_laws_exposing_others", label: "Policy: Fentanyl-specific law count (exposing others)", group: "Policy", fmt: "int" },
         { key: "fentanyl_laws_other", label: "Policy: Fentanyl-specific law count (other)", group: "Policy", fmt: "int" },
         { key: "fentanyl_laws_sum_by_type", label: "Policy: Fentanyl-specific law count (sum by type)", group: "Policy", fmt: "int" },
 
-        { key: "nflis_reports_latest_year", label: "NFLIS: Fentanyl reports in latest year", group: "NFLIS", fmt: "num1" },
-        { key: "nflis_reports_all_years", label: "NFLIS: Fentanyl reports all years", group: "NFLIS", fmt: "num1" },
-        { key: "nflis_reports_annual_average", label: "NFLIS: Fentanyl reports annual average", group: "NFLIS", fmt: "num1" },
-        { key: "nflis_unique_substances_latest_year", label: "NFLIS: Unique fentanyl-related substances in latest year", group: "NFLIS", fmt: "int" },
-        { key: "nflis_unique_bases_latest_year", label: "NFLIS: Unique fentanyl-related base compounds in latest year", group: "NFLIS", fmt: "int" },
+        { key: "nflis_reports_year", label: "NFLIS: Fentanyl reports (selected year)", group: "NFLIS", fmt: "num1" },
+        { key: "nflis_unique_substances_year", label: "NFLIS: Unique fentanyl-related substances (selected year)", group: "NFLIS", fmt: "int" },
+        { key: "nflis_unique_bases_year", label: "NFLIS: Unique fentanyl-related base compounds (selected year)", group: "NFLIS", fmt: "int" },
 
-        { key: "cnx_recv_shipments_latest_year", label: "CNX Receiver: Shipment records latest year", group: "CNX Receiver", fmt: "num1" },
-        { key: "cnx_recv_shipments_all_years", label: "CNX Receiver: Shipment records all years", group: "CNX Receiver", fmt: "num1" },
-        { key: "cnx_recv_unique_hs6_latest_year", label: "CNX Receiver: Unique HS6 latest year", group: "CNX Receiver", fmt: "int" },
-        { key: "cnx_recv_unique_hs6_all_years", label: "CNX Receiver: Unique HS6 all years", group: "CNX Receiver", fmt: "int" },
-        { key: "cnx_recv_chem_shipments_latest_year", label: "CNX Receiver: Chemical-matched shipments latest year", group: "CNX Receiver" , fmt: "num1" },
-        { key: "cnx_recv_chem_shipments_all_years", label: "CNX Receiver: Chemical-matched shipments all years", group: "CNX Receiver", fmt: "num1" },
-        { key: "cnx_recv_chem_unique_chemicals_latest_year", label: "CNX Receiver: Unique matched chemicals latest year", group: "CNX Receiver", fmt: "int" },
-        { key: "cnx_recv_chem_unique_chemicals_all_years", label: "CNX Receiver: Unique matched chemicals all years", group: "CNX Receiver", fmt: "int" },
+        { key: "cnx_recv_shipments_year", label: "CNX Receiver: Shipment records (selected year)", group: "CNX Receiver", fmt: "num1" },
+        { key: "cnx_recv_quantity_kg_year", label: "CNX Receiver: Total quantity kg (selected year)", group: "CNX Receiver", fmt: "num1" },
+        { key: "cnx_recv_value_usd_year", label: "CNX Receiver: Total value USD (selected year)", group: "CNX Receiver", fmt: "num1" },
+        { key: "cnx_recv_unique_hs6_year", label: "CNX Receiver: Unique HS6 (selected year)", group: "CNX Receiver", fmt: "int" },
+        { key: "cnx_recv_chem_shipments_year", label: "CNX Receiver: Chemical-matched shipments (selected year)", group: "CNX Receiver", fmt: "num1" },
+        { key: "cnx_recv_chem_unique_chemicals_year", label: "CNX Receiver: Unique matched chemicals (selected year)", group: "CNX Receiver", fmt: "int" },
 
-        { key: "cnx_send_shipments_latest_year", label: "CNX Sender: Shipment records latest year", group: "CNX Sender", fmt: "num1" },
-        { key: "cnx_send_shipments_all_years", label: "CNX Sender: Shipment records all years", group: "CNX Sender", fmt: "num1" },
-        { key: "cnx_send_unique_hs6_latest_year", label: "CNX Sender: Unique HS6 latest year", group: "CNX Sender", fmt: "int" },
-        { key: "cnx_send_unique_hs6_all_years", label: "CNX Sender: Unique HS6 all years", group: "CNX Sender", fmt: "int" },
-        { key: "cnx_send_chem_shipments_latest_year", label: "CNX Sender: Chemical-matched shipments latest year", group: "CNX Sender", fmt: "num1" },
-        { key: "cnx_send_chem_shipments_all_years", label: "CNX Sender: Chemical-matched shipments all years", group: "CNX Sender", fmt: "num1" },
-        { key: "cnx_send_chem_unique_chemicals_latest_year", label: "CNX Sender: Unique matched chemicals latest year", group: "CNX Sender", fmt: "int" },
-        { key: "cnx_send_chem_unique_chemicals_all_years", label: "CNX Sender: Unique matched chemicals all years", group: "CNX Sender", fmt: "int" }
+        { key: "cnx_send_shipments_year", label: "CNX Sender: Shipment records (selected year)", group: "CNX Sender", fmt: "num1" },
+        { key: "cnx_send_quantity_kg_year", label: "CNX Sender: Total quantity kg (selected year)", group: "CNX Sender", fmt: "num1" },
+        { key: "cnx_send_value_usd_year", label: "CNX Sender: Total value USD (selected year)", group: "CNX Sender", fmt: "num1" },
+        { key: "cnx_send_unique_hs6_year", label: "CNX Sender: Unique HS6 (selected year)", group: "CNX Sender", fmt: "int" },
+        { key: "cnx_send_chem_shipments_year", label: "CNX Sender: Chemical-matched shipments (selected year)", group: "CNX Sender", fmt: "num1" },
+        { key: "cnx_send_chem_unique_chemicals_year", label: "CNX Sender: Unique matched chemicals (selected year)", group: "CNX Sender", fmt: "int" }
       ];
 
       const PRESETS = [
-        {
-          label: "OD (Synthetic monthly deaths) vs Fentanyl laws (total)",
-          x: "od_synth_latest_month_count",
-          y: "fentanyl_laws_total"
-        },
-        {
-          label: "OD (Synthetic monthly per 100k) vs Fentanyl laws (total)",
-          x: "od_synth_latest_month_per100k",
-          y: "fentanyl_laws_total"
-        },
-        {
-          label: "OD (Synthetic monthly deaths) vs NFLIS reports (latest year)",
-          x: "od_synth_latest_month_count",
-          y: "nflis_reports_latest_year"
-        },
-        {
-          label: "OD (Synthetic monthly deaths) vs CNX receiver chemical shipments", 
-          x: "od_synth_latest_month_count",
-          y: "cnx_recv_chem_shipments_all_years"
-        },
-        {
-          label: "Fentanyl laws (total) vs CNX receiver shipments", 
-          x: "fentanyl_laws_total",
-          y: "cnx_recv_shipments_all_years"
-        },
-        {
-          label: "Fentanyl laws (distribution/delivery) vs CNX sender shipments",
-          x: "fentanyl_laws_distribution_delivery",
-          y: "cnx_send_shipments_all_years"
-        }
+        { label: "OD (Synthetic monthly deaths) vs Fentanyl laws (total)", x: "od_synth_latest_month_count_year", y: "fentanyl_laws_total" },
+        { label: "OD (Synthetic monthly per 100k) vs Fentanyl laws (total)", x: "od_synth_latest_month_per100k_year", y: "fentanyl_laws_total" },
+        { label: "OD (Synthetic annual sum) vs NFLIS reports", x: "od_synth_year_sum_count", y: "nflis_reports_year" },
+        { label: "OD (Synthetic annual sum) vs CNX receiver chemical shipments", x: "od_synth_year_sum_count", y: "cnx_recv_chem_shipments_year" },
+        { label: "Fentanyl laws (total) vs CNX receiver shipments", x: "fentanyl_laws_total", y: "cnx_recv_shipments_year" },
+        { label: "Fentanyl laws (distribution/delivery) vs CNX sender shipments", x: "fentanyl_laws_distribution_delivery", y: "cnx_send_shipments_year" }
       ];
 
       const store = {
-        rows: [],
+        rowsByYear: new Map(),
+        years: [],
         metricByKey: new Map(METRICS.map((m) => [m.key, m]))
       };
 
       const presetSelect = document.getElementById("presetSelect");
+      const yearSelect = document.getElementById("yearSelect");
       const xMetricSelect = document.getElementById("xMetricSelect");
       const yMetricSelect = document.getElementById("yMetricSelect");
       const binningSelect = document.getElementById("binningSelect");
@@ -518,7 +494,6 @@
       function populateMetricSelect(selectEl, selectedKey) {
         const grouped = groupMetrics();
         selectEl.innerHTML = "";
-
         for (const [groupName, metrics] of grouped.entries()) {
           const optGroup = document.createElement("optgroup");
           optGroup.label = groupName;
@@ -544,6 +519,17 @@
         });
       }
 
+      function populateYears() {
+        yearSelect.innerHTML = "";
+        store.years.forEach((year, idx) => {
+          const opt = document.createElement("option");
+          opt.value = String(year);
+          opt.textContent = String(year);
+          if (idx === 0) opt.selected = true;
+          yearSelect.appendChild(opt);
+        });
+      }
+
       function quantile(sortedValues, q) {
         if (!sortedValues.length) return null;
         const pos = (sortedValues.length - 1) * q;
@@ -563,12 +549,7 @@
           const step = (max - min) / 3;
           return { t1: min + step, t2: min + 2 * step, min, max };
         }
-        return {
-          t1: quantile(sorted, 1 / 3),
-          t2: quantile(sorted, 2 / 3),
-          min: sorted[0],
-          max: sorted[sorted.length - 1]
-        };
+        return { t1: quantile(sorted, 1 / 3), t2: quantile(sorted, 2 / 3), min: sorted[0], max: sorted[sorted.length - 1] };
       }
 
       function getBin(value, thresholds) {
@@ -582,13 +563,11 @@
       function pearson(xs, ys) {
         const n = xs.length;
         if (n < 2) return null;
-
         let sumX = 0;
         let sumY = 0;
         let sumXY = 0;
         let sumX2 = 0;
         let sumY2 = 0;
-
         for (let i = 0; i < n; i += 1) {
           const x = xs[i];
           const y = ys[i];
@@ -598,7 +577,6 @@
           sumX2 += x * x;
           sumY2 += y * y;
         }
-
         const numerator = n * sumXY - sumX * sumY;
         const denomX = n * sumX2 - sumX * sumX;
         const denomY = n * sumY2 - sumY * sumY;
@@ -610,9 +588,7 @@
       function flattenColors() {
         const out = [];
         for (let y = 0; y < 3; y += 1) {
-          for (let x = 0; x < 3; x += 1) {
-            out.push(BIVARIATE_COLORS[y][x]);
-          }
+          for (let x = 0; x < 3; x += 1) out.push(BIVARIATE_COLORS[y][x]);
         }
         return out;
       }
@@ -630,7 +606,7 @@
         return scale;
       }
 
-      function updateLegend(xMetric, yMetric, xThresholds, yThresholds) {
+      function updateLegend(xMetric, yMetric, binMethod) {
         xAxisLabel.textContent = `X: ${xMetric.label}`;
         yAxisLabel.textContent = `Y: ${yMetric.label}`;
 
@@ -644,12 +620,10 @@
           }
         }
 
-        const xFmt = xMetric.fmt;
-        const yFmt = yMetric.fmt;
-        const xBreak = xThresholds ? `${fmt(xThresholds.t1, xFmt)} / ${fmt(xThresholds.t2, xFmt)}` : "N/A";
-        const yBreak = yThresholds ? `${fmt(yThresholds.t1, yFmt)} / ${fmt(yThresholds.t2, yFmt)}` : "N/A";
-
-        legendNote.textContent = `Bin cut points (low/medium/high): X = ${xBreak}; Y = ${yBreak}.`;
+        legendNote.textContent =
+          `Colors show low/medium/high bins for each metric in the selected year. ` +
+          `Bottom-left means lower values on both metrics; top-right means higher values on both. ` +
+          `Binning method: ${binMethod === "quantile" ? "Quantiles (terciles)" : "Equal-width intervals"}.`;
       }
 
       function updateTable(rows, xMetric, yMetric) {
@@ -678,15 +652,21 @@
       }
 
       function draw() {
-        if (!store.rows.length) {
-          setStatus("No rows loaded.");
+        const selectedYear = parseInt(yearSelect.value, 10);
+        if (!Number.isFinite(selectedYear)) {
+          setStatus("Select a year.");
+          return;
+        }
+
+        const activeRows = store.rowsByYear.get(selectedYear) || [];
+        if (!activeRows.length) {
+          setStatus(`No rows loaded for ${selectedYear}.`);
           return;
         }
 
         const xKey = xMetricSelect.value;
         const yKey = yMetricSelect.value;
         const binMethod = binningSelect.value;
-
         if (!xKey || !yKey || xKey === yKey) {
           setStatus("Select two different metrics.");
           return;
@@ -695,14 +675,14 @@
         const xMetric = store.metricByKey.get(xKey);
         const yMetric = store.metricByKey.get(yKey);
 
-        const validRows = store.rows.filter((row) => Number.isFinite(row[xKey]) && Number.isFinite(row[yKey]));
-        const missingRows = store.rows.filter((row) => !Number.isFinite(row[xKey]) || !Number.isFinite(row[yKey]));
+        const validRows = activeRows.filter((row) => Number.isFinite(row[xKey]) && Number.isFinite(row[yKey]));
+        const missingRows = activeRows.filter((row) => !Number.isFinite(row[xKey]) || !Number.isFinite(row[yKey]));
 
         if (!validRows.length) {
-          setStatus("No states have data for the selected pair.");
-          updateLegend(xMetric, yMetric, null, null);
+          setStatus(`No states have data for the selected metric pair in ${selectedYear}.`);
+          updateLegend(xMetric, yMetric, binMethod);
           updateTable(
-            store.rows.map((row) => ({
+            activeRows.map((row) => ({
               ...row,
               xValue: row[xKey],
               yValue: row[yKey],
@@ -723,34 +703,17 @@
         const xThresholds = getThresholds(xValues, binMethod);
         const yThresholds = getThresholds(yValues, binMethod);
 
-        const classifiedRows = store.rows.map((row) => {
+        const classifiedRows = activeRows.map((row) => {
           const xValue = row[xKey];
           const yValue = row[yKey];
           const hasData = Number.isFinite(xValue) && Number.isFinite(yValue);
           if (!hasData) {
-            return {
-              ...row,
-              xValue,
-              yValue,
-              hasData,
-              xBin: null,
-              yBin: null,
-              classIndex: null
-            };
+            return { ...row, xValue, yValue, hasData, xBin: null, yBin: null, classIndex: null };
           }
-
           const xBin = getBin(xValue, xThresholds);
           const yBin = getBin(yValue, yThresholds);
           const classIndex = yBin * 3 + xBin;
-          return {
-            ...row,
-            xValue,
-            yValue,
-            hasData,
-            xBin,
-            yBin,
-            classIndex
-          };
+          return { ...row, xValue, yValue, hasData, xBin, yBin, classIndex };
         });
 
         const rowsWithData = classifiedRows.filter((row) => row.hasData);
@@ -766,12 +729,11 @@
           zmax: 8,
           colorscale: discreteColorscale(flatColors),
           showscale: false,
-          marker: {
-            line: { color: "rgba(255,255,255,0.65)", width: 0.6 }
-          },
+          marker: { line: { color: "rgba(255,255,255,0.65)", width: 0.6 } },
           customdata: rowsWithData.map((row) => [
             row.stateName,
             row.stateAbbr,
+            row.year,
             fmt(row.xValue, xMetric.fmt),
             fmt(row.yValue, yMetric.fmt),
             row.census_region,
@@ -780,11 +742,12 @@
           ]),
           hovertemplate:
             "<b>%{customdata[0]} (%{customdata[1]})</b><br>" +
-            `${xMetric.label}: %{customdata[2]}<br>` +
-            `${yMetric.label}: %{customdata[3]}<br>` +
-            "Census Region: %{customdata[4]}<br>" +
-            "Census Subregion: %{customdata[5]}<br>" +
-            "Bivariate Class (X,Y): %{customdata[6]}<extra></extra>"
+            "Year: %{customdata[2]}<br>" +
+            `${xMetric.label}: %{customdata[3]}<br>` +
+            `${yMetric.label}: %{customdata[4]}<br>` +
+            "Census Region: %{customdata[5]}<br>" +
+            "Census Subregion: %{customdata[6]}<br>" +
+            "Bivariate Class (X,Y): %{customdata[7]}<extra></extra>"
         };
 
         const missingTrace = {
@@ -794,12 +757,9 @@
           z: rowsNoData.map(() => 0),
           colorscale: [[0, "#d4d9e2"], [1, "#d4d9e2"]],
           showscale: false,
-          marker: {
-            line: { color: "rgba(255,255,255,0.65)", width: 0.6 }
-          },
-          customdata: rowsNoData.map((row) => [row.stateName, row.stateAbbr]),
-          hovertemplate:
-            "<b>%{customdata[0]} (%{customdata[1]})</b><br>No data for selected metric pair<extra></extra>"
+          marker: { line: { color: "rgba(255,255,255,0.65)", width: 0.6 } },
+          customdata: rowsNoData.map((row) => [row.stateName, row.stateAbbr, row.year]),
+          hovertemplate: "<b>%{customdata[0]} (%{customdata[1]})</b><br>Year: %{customdata[2]}<br>No data for selected metric pair<extra></extra>"
         };
 
         Plotly.react(
@@ -822,14 +782,14 @@
           { responsive: true, displayModeBar: false }
         );
 
-        updateLegend(xMetric, yMetric, xThresholds, yThresholds);
+        updateLegend(xMetric, yMetric, binMethod);
         updateTable(classifiedRows, xMetric, yMetric);
 
         const r = pearson(rowsWithData.map((row) => row.xValue), rowsWithData.map((row) => row.yValue));
         const rText = Number.isFinite(r) ? r.toFixed(3) : "N/A";
         setStatus(
-          `Showing ${rowsWithData.length} states with complete data (${rowsNoData.length} missing). ` +
-            `Pearson r = ${rText}. Binning method: ${binMethod === "quantile" ? "Quantiles" : "Equal-width"}.`
+          `Year ${selectedYear}: ${rowsWithData.length} states with complete data (${rowsNoData.length} missing). ` +
+            `Pearson r = ${rText}.`
         );
       }
 
@@ -837,7 +797,6 @@
         const idx = Number(presetSelect.value);
         const preset = PRESETS[idx];
         if (!preset) return;
-
         xMetricSelect.value = preset.x;
         yMetricSelect.value = preset.y;
         draw();
@@ -845,39 +804,54 @@
 
       async function init() {
         try {
-          const rawRows = await parseCsv(DATA_FILE);
+          const rawRows = await parseCsv(DATA_FILE_BY_YEAR);
           const metricKeys = new Set(METRICS.map((metric) => metric.key));
+          const rowsByYear = new Map();
 
-          store.rows = rawRows.map((row) => {
+          rawRows.forEach((row) => {
+            const year = parseInt(String(row.year || "").trim(), 10);
+            const stateAbbr = String(row.state_abbr || "").trim().toUpperCase();
+            if (!Number.isFinite(year) || !stateAbbr) return;
+
             const parsed = {
-              stateAbbr: String(row.state_abbr || "").trim().toUpperCase(),
+              stateAbbr,
               stateName: String(row.state_name || "").trim(),
               census_region: String(row.census_region || "").trim(),
-              census_subregion: String(row.census_subregion || "").trim()
+              census_subregion: String(row.census_subregion || "").trim(),
+              year
             };
 
             metricKeys.forEach((key) => {
               parsed[key] = parseNum(row[key]);
             });
 
-            return parsed;
+            if (!rowsByYear.has(year)) rowsByYear.set(year, []);
+            rowsByYear.get(year).push(parsed);
           });
 
+          store.rowsByYear = rowsByYear;
+          store.years = [...rowsByYear.keys()].sort((a, b) => b - a);
+
+          if (!store.years.length) {
+            setStatus("No year rows loaded.");
+            controlMeta.textContent = "Unable to read state-year metrics rows.";
+            return;
+          }
+
           populatePresets();
+          populateYears();
           populateMetricSelect(xMetricSelect, PRESETS[0].x);
           populateMetricSelect(yMetricSelect, PRESETS[0].y);
 
-          const metaRow = rawRows[0] || {};
-          const odDate = String(metaRow.od_synth_latest_date || "").trim() || "unknown";
-          const nflisYear = String(metaRow.nflis_latest_year || "").trim() || "unknown";
-          const cnxRecvYear = String(metaRow.cnx_recv_latest_year || "").trim() || "unknown";
-          const cnxSendYear = String(metaRow.cnx_send_latest_year || "").trim() || "unknown";
-
+          const minYear = Math.min(...store.years);
+          const maxYear = Math.max(...store.years);
+          const totalRows = [...store.rowsByYear.values()].reduce((acc, rows) => acc + rows.length, 0);
           controlMeta.textContent =
-            `Rows loaded: ${store.rows.length} states. OD latest date: ${odDate}. NFLIS latest year: ${nflisYear}. ` +
-            `CNX receiver latest year: ${cnxRecvYear}; sender latest year: ${cnxSendYear}.`;
+            `Loaded ${totalRows} state-year rows across ${store.years.length} years (${minYear}-${maxYear}). ` +
+            `Use the Year filter to refresh all year-based metrics.`;
 
           presetSelect.addEventListener("change", onPresetChange);
+          yearSelect.addEventListener("change", draw);
           xMetricSelect.addEventListener("change", draw);
           yMetricSelect.addEventListener("change", draw);
           binningSelect.addEventListener("change", draw);
@@ -885,7 +859,7 @@
           draw();
         } catch (err) {
           setStatus(`Failed to load dashboard data: ${err && err.message ? err.message : String(err)}`);
-          controlMeta.textContent = "Unable to load combined state metrics file.";
+          controlMeta.textContent = "Unable to load state-year metrics file.";
         }
       }
 
